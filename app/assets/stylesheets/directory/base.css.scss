@@ -1001,6 +1001,7 @@ form.with-tags {
     padding:10px;
     background-color:#85D0F1;
     margin: 15px;
+    opacity: .9;
   }
   a.featurebtn:nth-child(2){
     background-color:#8581A1;
@@ -1487,3 +1488,59 @@ form.stripe-cc {
   width: 660px;
   margin-left: -330px;
 }
+
+//Team Page
+
+
+.team-section{
+  h1, h2, h3, p, a, ul {
+    font-family: "freight-text-pro", serif !important;
+    font-weight: 400;
+  }
+  h1{
+    color: #444;
+    font-size: 36px;
+    line-height: 44px;
+  }
+  p {
+    margin-bottom: 35px;
+    color: #7C7B81;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  border-bottom: 4px solid white;
+  margin-bottom: 2em;
+  .team_bio {
+    display: block;
+    position: relative;
+    width: 100%;
+    margin-bottom: 60px;
+    
+    img {
+      width: 18%;
+      border-radius: 50%;
+      position: absolute;
+      top: 25px;
+    }
+    h2, h2 a {
+      font-size: 24px;
+      color: #F25A4C;
+      line-height: 26px;
+      font-weight: 400;
+      text-decoration: none;
+    }
+    p, h2, h3 {
+      padding-left: 22%;
+    }
+    h3 {
+      font-size: 16px;
+      padding-bottom: 10px;
+      font-style: italic;
+      color: #444;
+      line-height: 0px;
+    }
+  }
+  .no_round img {
+  border-radius: 0;
+  }
+}  

@@ -54,26 +54,15 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       controller: "DashboardCtrl",
       title: "Get Started"
     })
-    .when('/search', {
-      templateUrl: "<%= asset_path 'search/results.html' %>",
-      controller: "SearchResultsCtrl",
-      reloadOnSearch: false,
-      title: "Search"
-    })
-    .when('/account', {
-      templateUrl: "<%= asset_path 'account/index.html' %>",
-      controller: "AccountCtrl",
-      title: "My Account"
-    })
     .when('/about', {
       templateUrl: "<%= asset_path 'dashboard/about.html' %>",
       controller: "DashboardCtrl",
       title: "About"
     })
-    .when('/imports/new', {
-      templateUrl: "<%= asset_path 'imports/new.html' %>",
-      controller: "ItemsCtrl",
-      title: "Start a CSV Import"
+    .when('/account', {
+      templateUrl: "<%= asset_path 'account/index.html' %>",
+      controller: "AccountCtrl",
+      title: "My Account"
     })
     .when('/collections', {
       templateUrl: "<%= asset_path 'collections/index.html' %>",
@@ -112,14 +101,19 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       controller:  "ItemCtrl",
       title: "Search &raquo; {{collection.title}} &raquo; {{item.getTitle()}}"
     })
+    .when('/contributors/:contributorName', {
+      templateUrl: "<%= asset_path 'search/index.html' %>",
+      controller: "SearchCtrl"
+    })
     .when('/imports', {
       templateUrl: "<%= asset_path 'imports/index.html' %>",
       controller: "ImportsCtrl",
       title: "My Imports"
     })
-    .when('/contributors/:contributorName', {
-      templateUrl: "<%= asset_path 'search/index.html' %>",
-      controller: "SearchCtrl"
+    .when('/imports/new', {
+      templateUrl: "<%= asset_path 'imports/new.html' %>",
+      controller: "ItemsCtrl",
+      title: "Start a CSV Import"
     })
     .when('/imports/:importId', {
       templateUrl: "<%= asset_path 'imports/show.html' %>",
@@ -129,6 +123,16 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       templateUrl: "<%= asset_path 'organizations/show.html' %>",
       controller:  "OrganizationCtrl",
       title: "Organization &raquo; {{organization.name}}"
+    })
+    .when('/search', {
+      templateUrl: "<%= asset_path 'search/results.html' %>",
+      controller: "SearchResultsCtrl",
+      reloadOnSearch: false,
+      title: "Search"
+    })
+    .when('/team', {
+      templateUrl: "<%= asset_path 'dashboard/team.html' %>",
+      title: "Team"
     })
     .otherwise({
       template: "<h1>404 - not found</h1>"
