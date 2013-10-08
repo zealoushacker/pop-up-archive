@@ -305,11 +305,9 @@
                   '<table class="table">' +
                     '<tr ng-repeat="text in transcript" ng-class="{current: transcriptStart==text.startTime}" >' +
                       '<td style="width: 8px; text-align:left;"><a ng-click="seekTo(text.startTime)"><i class="icon-play-circle"></i></a></td>' +
-                      '<td style="width: 16px; text-align:right" ng-show="showRange">{{text.startTime}}</td>' +
-                      '<td style="width: 8px;  text-align:center" ng-show="showRange">&ndash;</td>' +
-                      '<td style="width: 16px; text-align:left; padding-right:10px" ng-show="showRange">{{text.endTime}}</td>' +
+                      '<td style="width: 16px; text-align:left; padding: 0 0 0 10px" ng-show="showRange">{{toTimestamp(text.startTime)}}</td>' +
                       '<td ng-show="showStart">{{toTimestamp(text.startTime)}}</td>' +
-                      '<td ng-show="!editorEnabled"><div class="file-transcript-text" ng-bind-html-unsafe="text.text"></div></td>' +
+                      '<td ng-show="!editorEnabled"><a ng-click="seekTo(text.startTime)"><div class="file-transcript-text" ng-bind-html-unsafe="text.text"></div></a></td>' +
                       '<td ng-show="canShowEditor()" style="width: 8px; padding-right: 10px; text-align: right">'+
                         '<a href="#" ng-click="enableEditor()"><i class="icon-pencil"></i></a></td>' +
                       '<td ng-show="editorEnabled"><input ng-model="editableTranscript" ng-show="editorEnabled"></td>' +

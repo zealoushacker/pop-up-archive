@@ -614,12 +614,13 @@ h5.result-count {
   clear: right;
   width: 100%;
   
+  a {
+    color: #444;
+    text-decoration: none;
+  }
+  
   input {
     width: 100%;
-  }
-    
-  a {
-    padding: 0 3px;
   }
 
   .current {
@@ -630,6 +631,8 @@ h5.result-count {
     height: 22px;
     overflow: hidden;
     margin-left: 5px;
+    
+
   }
 
   td[ng-show="showStart"] {
