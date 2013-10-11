@@ -1,0 +1,18 @@
+.row
+  form name="myForm"
+    label Name:
+    input type="text" ng-model="form.name.firstname" required
+    input type="text" ng-model="form.name.lastname" required
+    
+    label Organization:
+    input type="text" ng-model="form.organization" 
+    
+    label Message:
+    input type="textarea" ng-model="form.message" rows="10" cols="50" required
+
+  button ng-click="cancel()" ng-disabled="isCancelDisabled()" Cancel
+  button ng-click="save()" ng-disabled="isSaveDisabled()" Save
+ 
+
+
+    
