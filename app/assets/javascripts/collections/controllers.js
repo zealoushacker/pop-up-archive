@@ -10,44 +10,28 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 
 		$scope.tour = {
 		  'welcome': {
-		    'content': 'Welcome to My Collections. This is your audio management home base.',
+		    'content': 'Get started by creating a collection below. Collections contain items. Each item can have one or more file.',
 		    'step': 0
+		  },
+		  'iapublic': { 
+				'content': 'Public collections are available for anyone to search, stream, or download. You can also back the files up for free at The Internet Archive.',
+        'step': 2
+		  },
+		  's3private': { 
+				'content': 'Private collections are visible only to you. You get two free hours of private storage.',
+        'step': 3
 		  },
 		  'upload': {
 		    'content': 'Ready to upload some sound? Click the upload button below.',
-		    'step': 1
+		    'step': 4
 		  },
 		  'collection1': {
-		    'content': 'Next, let\'s move your item to a collection so that you can see auto transcripts and tags and add info about your audio.',
-		    'step': 2
-		  },
-		  'collection2': {
-		    'content': 'Collections contain items. Each item can have one or more file.',
-		    'step': 3
-		  },
-		  'iapublic': { 
-				'content': 'Public collections will be<br/>stored at the Internet Archive.<br/>They will be available for anyone<br/>to search, stream, or download.',
-        'step': 4
-			},
-		  's3private': { 
-				'content': 'Private collections are visible only to you. Users automatically have two hours of private storage.',
-        'step': 5
-			},
-			'create_collection': {
-			  'content': 'Click Create a Collection below to create your first Private Collection.',
-			  'step': 6
-			},
-		  'move': {
-		    'content': 'Now, click your audio file below to move it to your new collection.',
-		    'step': 7
+		    'content': 'Then, move your item to a collection. Click the collection title to see your new item.',
+		    'step': 5
 		  },
 		  'view_item': {
-		    'content': 'To view your item, navigate to your collection and click on the item title. From there, use the Edit button to add tags and other information to your item.',
-		    'step': 8
-		  },
-		  'edit_item': {
-		    'content': 'To view your item, navigate to your collection and click on the item title. From there, use the Edit button to add tags and other information to your item.',
-		    'step': 9
+		    'content': 'Click the item title to see transcripts and edit your item.',
+		    'step': 6
 		  },
 		};
 
