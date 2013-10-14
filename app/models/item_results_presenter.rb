@@ -102,7 +102,7 @@ class ItemResultsPresenter < BasicObject
   end
 
   class HighlightedAudioFilePresenter
-    attr_reader :id, :url, :filename, :transcript_array
+    attr_reader :id, :url, :filename, :transcript_array, :tasks
     def initialize(audio_file)
       @id = audio_file.id
       @url = audio_file.url
