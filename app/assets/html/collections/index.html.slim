@@ -13,6 +13,8 @@
   .alert 
     |This is a temporary place for your audio. Select audio below to move it to your collections. Then: listen, see transcripts, and add tags! 
     a href="/collections/audio_guidelines" Audio Quality Guidelines.
+  .alert.alert-error ng-show="collections.length < 2 && selectedItems.length > 0"
+      | It looks like you haven't created any collections yet. Create a collection to get started.
   .holding-cell
     ul.inline.items.uploads
       li.add-item ng-click="uploadFile()"        
