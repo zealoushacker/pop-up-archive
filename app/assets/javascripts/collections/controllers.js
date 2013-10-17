@@ -15,23 +15,23 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 		  },
 		  'iapublic': { 
 				'content': 'Public collections are available for anyone to search, stream, or download. You can also back the files up for free at The Internet Archive.',
-        'step': 2
+        'step': 1
 		  },
 		  's3private': { 
 				'content': 'Private collections are visible only to you. You get two free hours of private storage.',
-        'step': 3
+        'step': 2
 		  },
 		  'upload': {
 		    'content': 'Ready to upload some sound? Click the upload button below.',
-		    'step': 4
+		    'step': 3
 		  },
 		  'collection1': {
 		    'content': 'Then, move your item to a collection. Click the collection title to see your new item.',
-		    'step': 5
+		    'step': 4
 		  },
 		  'view_item': {
 		    'content': 'Click the item title to see transcripts and edit your item.',
-		    'step': 6
+		    'step': 5
 		  },
 		};
 
