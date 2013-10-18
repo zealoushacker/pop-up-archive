@@ -8,6 +8,5 @@ FactoryGirl.define do
     factory :organization_user do
       association :organization, factory: :organization
     end
-
   end
 end

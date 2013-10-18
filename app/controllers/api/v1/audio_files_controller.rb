@@ -6,6 +6,7 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
   expose :audio_files, ancestor: :item
   expose :audio_file
   expose :upload_to_storage
+  expose :task
 
   def update
     if params[:task].present?
@@ -30,7 +31,7 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
 
   def destroy
     audio_file.destroy
-    respond_with :api, audio_file
+    render :api, audio_file
   end
 
   def transcript_text
@@ -42,23 +43,24 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
     authorize! :order_transcript, audio_file
     
     # make call to amara to create the video
-    logger.debug "Start transcript for audio_file: #{audio_file}"
-    audio_file.order_transcript(current_user)
-
-    respond_with :api, audio_file.item, audio_file
+    logger.debug "order_transcript for audio_file: #{audio_file}"
+    self.task = audio_file.order_transcript(current_user)
+    respond_with :api
   end
 
   def add_to_amara
-
     # make call to amara to create the video
-    logger.debug "add audio_file: #{audio_file}"
-    audio_file.add_to_amara(current_user)
-
-    respond_with :api, audio_file.item, audio_file
+    logger.debug "add_to_amara audio_file: #{audio_file}"
+    self.task = audio_file.add_to_amara(current_user)
+    respond_with :api
   end
 
   def upload_to
     respond_with :api
+  end
+
+  def latest_task
+    audio_file.tasks.last
   end
 
   def upload_to_storage

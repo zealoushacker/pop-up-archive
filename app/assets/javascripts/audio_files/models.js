@@ -81,10 +81,19 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
 
   AudioFile.prototype.orderTranscript = function () {
     var self = this;
-    return AudioFile.processResponse($http.put(self.$url() + '/order_transcript')).then(function (audioFile) {
-      console.log('orderTranscript result', audioFile, self);
-      angular.copy(audioFile, self);
-      return self;
+    return AudioFile.processResponse($http.post(self.$url() + '/order_transcript')).then(function (orderTranscriptTask) {
+      console.log('orderTranscript result', orderTranscriptTask, self);
+      self.tasks.push(orderTranscriptTask);
+      return orderTranscriptTask;
+    });
+  };
+
+  AudioFile.prototype.addToAmara = function () {
+    var self = this;
+    return AudioFile.processResponse($http.post(self.$url() + '/add_to_amara')).then(function (addToAmaraTask) {
+      console.log('addToAmara result', addToAmaraTask, self);
+      self.tasks.push(addToAmaraTask);
+      return addToAmaraTask;
     });
   };
 

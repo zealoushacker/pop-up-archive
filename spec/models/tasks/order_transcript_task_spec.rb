@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Tasks::OrderTranscriptTask do
+
   before { StripeMock.start }
   after { StripeMock.stop }
 

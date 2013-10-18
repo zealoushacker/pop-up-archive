@@ -29,7 +29,8 @@ PopUpArchive::Application.routes.draw do
           post '',                    action: 'update'
           get 'transcript_text',      action: 'transcript_text'  
           get 'upload_to',            action: 'upload_to'
-          put 'order_transcript',     action: 'order_transcript'
+          post 'order_transcript',    action: 'order_transcript'
+          post 'add_to_amara',        action: 'add_to_amara'
 
           # s3 upload actions
           get 'chunk_loaded',         action: 'chunk_loaded'

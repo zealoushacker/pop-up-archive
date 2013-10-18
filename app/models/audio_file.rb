@@ -29,6 +29,8 @@ class AudioFile < ActiveRecord::Base
 
   delegate :collection_title, to: :item
 
+  TRANSCRIBE_RATE_PER_MINUTE = 2.00;
+
   def collection
     instance.try(:item).try(:collection) || item.try(:collection)
   end
@@ -188,7 +190,20 @@ class AudioFile < ActiveRecord::Base
   end
 
   def order_transcript(user)
-    self.tasks << Tasks::OrderTranscriptTask.new(identifier: 'order_transcript', extras: { user_id: user.id })
+    raise 'cannot create transcript when duration is 0' if (duration.to_i <= 0)
+    task = Tasks::OrderTranscriptTask.new(
+      identifier: 'order_transcript',
+      extras: {
+        user_id: user.id,
+        amount: amount_for_transcript
+      }
+    )
+    self.tasks << task
+    task
+  end
+
+  def amount_for_transcript
+    (duration.to_i / 60.0).ceil * TRANSCRIBE_RATE_PER_MINUTE
   end
 
   def add_to_amara(user)
