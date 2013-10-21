@@ -41,15 +41,17 @@
   span tutorial-step="tour.edit_item" data-placement="right"
   .alert.alert-info 
 	  | Pop Up Archive collections can be private or shared publicly.
-  .collections.public-collections
+  .collections
     ul.inline.collections
       li.add-collection
         a ng-href="#" bs-modal="'#{asset_path 'collections/form_public.html'}'"
           i.icon-plus
           | Create a Collection
       li ng-repeat="collection in collections | notUploads"
-        a ng-href="/collections/{{collection.id}}" 
-          .collection-thumb ng-class="collection.getThumbClass()"
+        span ng-class="{'public-ribbon': collection.itemsVisibleByDefault}"
+        a ng-href="/collections/{{collection.id}}"
+          .box
+          .collection-thumb
           | {{collection.title}}
 
 / 

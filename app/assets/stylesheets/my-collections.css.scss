@@ -5,6 +5,7 @@ ul.collections {
   margin: 0;
 
   li {
+    position:relative;
     overflow: hidden;
     width: $collection-size;
     height: $collection-size;
@@ -26,14 +27,6 @@ ul.collections {
       width: $collection-size;
       font-size: $collection-size - 30px;
     }
-  }
-
-  li.add-collection {
-    border: 3px dashed #ddd;
-    background: transparent;
-
-    width: $collection-size - 6px;
-    height: $collection-size - 6px;
 
     a {
       color: #000;
@@ -46,6 +39,40 @@ ul.collections {
        color: #f2cfa5;
      }
     }
+
+    .box {
+      margin-top: 10px;
+      margin-left: 4px;
+      background: image-url('box.svg') no-repeat center;
+      margin-left:auto;
+      margin-right:auto;
+      display: block;
+      height: 75px;
+      width: 75px;
+    }
+
+    .public-ribbon {
+      background: image-url('public-collection-ribbon.png') no-repeat;
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 1000;
+      height: 54px;
+      width: 54px;
+      text-indent: -9000px;
+    }
+
+
+  }
+
+
+  li.add-collection {
+    border: 3px dashed #ddd;
+    background: transparent;
+
+    width: $collection-size - 6px;
+    height: $collection-size - 6px;
   }
   i.icon-plus {
     font-size: 136px;
