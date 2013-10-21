@@ -8,6 +8,13 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
       $scope.uploadsCollection.fetchItems();
     });
 
+    $scope.storageClass = function(collection) {
+      var s = angular.lowercase(collection.storage) || "aws";
+      return ('storage-' + s);
+    };
+
+
+
 		$scope.tour = {
 		  'welcome': {
 		    'content': 'Get started by creating a collection below. Collections contain items. Each item can have one or more file.',

@@ -1,8 +1,9 @@
 .row-fluid ng-tutorial="collectionsTour"
+  h1 My Collections
   .page-nav.pull-right
 		a.btn href="/imports/new"
 			i.icon-th-list Batch Upload
-  h3
+  h2
     span tutorial-step="tour.upload" data-placement="right" Unsorted Files
     span tutorial-step="tour.collection1" data-placement="right" 
     span tutorial-step="tour.collection" data-placement="right"
@@ -33,7 +34,7 @@
   .page-nav.pull-right
     a.btn href="/collections/edit" 
       i.icon-edit Batch Edit
-  h3 
+  h2
 	span tutorial-step="tour.iapublic" data-placement="right" Collections
   span tutorial-step="tour.s3private" data-placement="right"
   span tutorial-step="tour.create_collection" data-placement="right"
@@ -53,7 +54,7 @@
           .box
           .collection-thumb
           | {{collection.title}}
-
+          span.storage ng-class="storageClass(collection)"
 / 
 	a ng-href="#" bs-modal="'#{asset_path 'collections/tutorial1.html'}'"
 		|Tutorial 1

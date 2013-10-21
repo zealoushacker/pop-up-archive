@@ -85,6 +85,20 @@ ul.collections {
     display: block;
     clear: both;
   }
+
+  .storage {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    display: block;
+    height: 29px;
+    width: 29px;
+  }
+  .storage-aws { }
+  .storage-internetarchive { background: image-url('storage/ia.png') no-repeat center; }
+  .storage-soundcloud { background: image-url('storage/sc.png') no-repeat center; }
+  .storage-prx { background: image-url('storage/prx.png') no-repeat center; }
+
 }
 
 ul.items {
