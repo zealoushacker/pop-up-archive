@@ -76,7 +76,7 @@ gem 'sanitize'
 
 gem 'soundcloud'
 
-gem 'amara', "~> 0.1"
+gem 'amara', "~> 0.1.1"
 # gem 'amara', :path => '../amara'
 # gem 'amara', github: 'PRX/amara'
 
