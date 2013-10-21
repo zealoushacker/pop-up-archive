@@ -2,17 +2,13 @@
   .page-nav.pull-right
 		a.btn href="/imports/new"
 			i.icon-th-list Batch Upload
-			a.btn href="/collections/edit" 
-				i.icon-edit  Batch Edit
-  h3 tutorial-step="tour.welcome" data-placement="bottom" My Collections 
-  h4
-    span tutorial-step="tour.upload" data-placement="right" My Uploads
+  h3
+    span tutorial-step="tour.upload" data-placement="right" Unsorted Files
     span tutorial-step="tour.collection1" data-placement="right" 
     span tutorial-step="tour.collection" data-placement="right"
     span tutorial-step="tour.move" data-placement="right"
   .alert 
-    |This is a temporary place for your audio. Select audio below to move it to your collections. Then: listen, see transcripts, and add tags! 
-    a href="/collections/audio_guidelines" Audio Quality Guidelines.
+    | This is a temporary place for your audio. Select audio below to move it to your collections. Then: listen, see transcripts, and add tags! 
   .alert.alert-error ng-show="collections.length < 2 && selectedItems.length > 0"
       | It looks like you haven't created any collections yet. Create a collection to get started.
   .holding-cell
@@ -33,38 +29,26 @@
       button.btn ng-disabled="collections.length < 2" bs-modal="'#{asset_path 'collections/categorize_items.html'}'"
         i.icon-circle-arrow-down  Move to Collection
 
-  h4 
-	span tutorial-step="tour.iapublic" data-placement="right" Public Collections
-  .alert.alert-error 
-	| Media in public collections is stored on servers at the Internet Archive. Anyone can see or hear this media through Pop Up Archive’s website or download it from the 
-	a ng-href="http://archive.org" target="blank" Internet Archive. 
-	a ng-href="collections/privacy_faq" Learn more about privacy.
+.row-fluid
+  .page-nav.pull-right
+    a.btn href="/collections/edit" 
+      i.icon-edit Batch Edit
+  h3 
+	span tutorial-step="tour.iapublic" data-placement="right" Collections
+  span tutorial-step="tour.s3private" data-placement="right"
+  span tutorial-step="tour.create_collection" data-placement="right"
+  span tutorial-step="tour.view_item" data-placement="right"
+  span tutorial-step="tour.edit_item" data-placement="right"
+  .alert.alert-info 
+	  | Pop Up Archive collections can be private or shared publicly.
   .collections.public-collections
     ul.inline.collections
       li.add-collection
         a ng-href="#" bs-modal="'#{asset_path 'collections/form_public.html'}'"
           i.icon-plus
           | Create a Collection
-      li ng-repeat="collection in collections | publicCollections | notUploads"
+      li ng-repeat="collection in collections | notUploads"
         a ng-href="/collections/{{collection.id}}" 
-          .collection-thumb ng-class="collection.getThumbClass()"
-          | {{collection.title}}
-  h4 
-	span tutorial-step="tour.s3private" data-placement="right" Private Collections
-	span tutorial-step="tour.create_collection" data-placement="right"
-	span tutorial-step="tour.view_item" data-placement="right"
-	span tutorial-step="tour.edit_item" data-placement="right"
-  .alert.alert-info 
-	| Media added to your Private Collection will be stored at Pop Up Archive. It will only to be visible to you. 
-	a ng-href="collections/privacy_faq" Learn more about privacy.
-  .collections.private-collections
-    ul.inline.collections
-      li.add-collection
-        a ng-href="#" bs-modal="'#{asset_path 'collections/form_private.html'}'"
-          i.icon-plus
-          | Create a Collection
-      li ng-repeat="collection in collections | privateCollections | notUploads"
-        a ng-href="/collections/{{collection.id}}"
           .collection-thumb ng-class="collection.getThumbClass()"
           | {{collection.title}}
 
