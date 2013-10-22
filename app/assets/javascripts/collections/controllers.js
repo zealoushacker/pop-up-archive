@@ -76,7 +76,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
           $scope.selectedItems.push(item);
         }
       }
-    }
+    };
 
     $scope.selectAll = function (items) {
       angular.forEach(items, function (item) {
@@ -84,7 +84,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
           $scope.toggleItemSelection(item);
         }
       });
-    }
+    };
 
     $scope.deleteSelection = function () {
       if (confirm("Are you sure you would like to delete these " + $scope.selectedItems.length + " items from My Uploads?\n\nThis is permanent and cannot be undone.")) {
@@ -96,14 +96,14 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
         });
         $scope.selectedItems.length = 0;
       }
-    }
+    };
 
     $scope.clearSelection = function () {
       angular.forEach($scope.selectedItems, function (item) {
         item.selected = false;
       })
       $scope.selectedItems.length = 0;
-    }
+    };
 
     $scope.delete = function (index) {
       var confirmed = confirm("Delete collection and all items?");
@@ -116,7 +116,12 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
       collection.delete().then(function () {
         $scope.collections.splice(index, 1);
       });
-    }
+    };
+
+    $scope.newCollection = function () {
+      $modal({template: "/assets/collections/form.html", persist: false, show: true, scope: $scope});
+    };
+
   });
 }])
 .controller('CollectionCtrl', ['$scope', '$routeParams', 'Collection', 'Loader', 'Item', '$location', '$timeout', function CollectionCtrl($scope, $routeParams, Collection, Loader, Item, $location, $timeout) {
@@ -173,7 +178,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
       collection.create().then(function (data) {
         $scope.collections.push(collection);
         Me.authenticated(function (me) {
-          me.collectionIds.push(data.id);
+          me.collectionIds.push(collection.id);
         });
       });
     }

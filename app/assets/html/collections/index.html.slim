@@ -45,7 +45,7 @@
   .collections
     ul.inline.collections
       li.add-collection
-        a ng-href="#" bs-modal="'#{asset_path 'collections/form.html'}'"
+        a ng-href="#" ng-click="newCollection()"
           i.icon-plus
           | Create a Collection
       li ng-repeat="collection in collections | notUploads"
