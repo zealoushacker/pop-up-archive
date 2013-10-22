@@ -1,13 +1,15 @@
 class Tasks::AddToAmaraTask < Task
 
   state_machine :status do
+
+    event :finish do
+      transition all => :complete
+    end
+
     after_transition any => :complete do |task, transition|
-
       if task.owner && !Rails.env.test?
-        # process callback amara which will indicate that the transcript has been completed
-        # may be callback from amara, or maybe from mobileworks...
+        task.load_latest_subtitles
       end
-
     end
   end
 
@@ -76,8 +78,13 @@ class Tasks::AddToAmaraTask < Task
     options
   end
 
-  def get_transcript
-    r = amara_client.videos(t.video_id).languages(language).subtitles.get
+  def load_latest_subtitles
+    subtitles = get_latest_subtitles
+    load_subtitles(subtitles)
+  end
+
+  def get_latest_subtitles
+    r = amara_client.videos(video_id).languages(language).subtitles.get
     r.object
   end
 

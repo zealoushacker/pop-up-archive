@@ -1,16 +1,5 @@
 class Tasks::OrderTranscriptTask < Tasks::AddToAmaraTask
 
-  state_machine :status do
-    after_transition any => :complete do |task, transition|
-
-      if task.owner && !Rails.env.test?
-        # process callback amara which will indicate that the transcript has been completed
-        # may be callback from amara, or maybe from mobileworks...
-      end
-
-    end
-  end
-
   def order_transcript
     raise "No user specified" unless user
     raise "No card on file for user.customer specified" unless user.card
