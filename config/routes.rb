@@ -15,6 +15,8 @@ PopUpArchive::Application.routes.draw do
 
   get 'media/:token/:expires/:use/:class/:id/:name.:extension', controller: 'media', action: 'show'
 
+  post 'amara_callback', controller: 'callbacks', action: 'amara'
+
   namespace :api, defaults: { format: 'json' }, path: 'api' do
     scope module: :v1, constraints: ApiVersionConstraint.new(version: 1, default: true) do
       root to: 'status#info'
