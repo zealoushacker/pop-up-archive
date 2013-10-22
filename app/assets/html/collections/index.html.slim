@@ -3,11 +3,11 @@
   .page-nav.pull-right
 		a.btn href="/imports/new"
 			i.icon-th-list Batch Upload
-  h2
-    span tutorial-step="tour.upload" data-placement="right" Unsorted Files
-    span tutorial-step="tour.collection1" data-placement="right" 
-    span tutorial-step="tour.collection" data-placement="right"
-    span tutorial-step="tour.move" data-placement="right"
+
+  h3
+    span tutorial-step="tour.upload" data-placement="bottom"  Unsorted Files
+    span tutorial-step="tour.collection" data-placement="bottom" 
+
   .alert 
     | This is a temporary place for your audio. Select audio below to move it to your collections. Then: listen, see transcripts, and add tags! 
   .alert.alert-error ng-show="collections.length < 2 && selectedItems.length > 0"
@@ -34,12 +34,14 @@
   .page-nav.pull-right
     a.btn href="/collections/edit" 
       i.icon-edit Batch Edit
-  h2
-	span tutorial-step="tour.iapublic" data-placement="right" Collections
-  span tutorial-step="tour.s3private" data-placement="right"
-  span tutorial-step="tour.create_collection" data-placement="right"
-  span tutorial-step="tour.view_item" data-placement="right"
-  span tutorial-step="tour.edit_item" data-placement="right"
+
+  h3 
+  	span tutorial-step="tour.welcome" data-placement="right" Collections
+  	span tutorial-step="tour.privacy" data-placement="right"
+  	span tutorial-step="tour.privacy2" data-placement="right"
+  	span tutorial-step="tour.collection2" data-placement="right"
+    span tutorial-step="tour.view_item" data-placement="right" 
+
   .alert.alert-info 
 	  | Pop Up Archive collections can be private or shared publicly.
   .collections

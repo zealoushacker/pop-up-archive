@@ -1033,43 +1033,7 @@ form.with-tags {
 
 .featured-collection:nth-child(2){
   margin: 20px 20px;
-};
-
-//Tutorial
-.tutorial-step {
-  font-family: soleil, helvetica, sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-
-  .tutorial-navigation {
-    margin-top: 8px;
-  }
-}
-
-.big-modal {
-
-  .modal-body {
-    max-height: 1100px;
-    color: white;
-    text-align: center;
-  }
-
-  .dark {
-    background-color: rgba(0, 0, 0, 0.5);
-    border: none;
-    box-shadow: none;
-  }
-
-}
-
-@media (max-width: 460px) { 
-	div.big-modal{
-	  width: 460px;
-	  margin-left: -230px;}
-	img{
-		display: none;
-	}
-}	
+};	
 
 .metadata {
   word-wrap: break-word;

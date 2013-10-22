@@ -17,14 +17,14 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 
 		$scope.tour = {
 		  'welcome': {
-		    'content': 'Get started by creating a collection below. Collections contain items. Each item can have one or more file.',
+		    'content': 'First things first: create a collection below. <a href=""> Learn how to organize.</a>',
 		    'step': 0
 		  },
-		  'iapublic': { 
-				'content': 'Public collections are available for anyone to search, stream, or download. You can also back the files up for free at The Internet Archive.',
+		  'privacy': { 
+				'content': 'Public collections are available for anyone to search, stream, or download. ',
         'step': 1
 		  },
-		  's3private': { 
+		  'privacy2': { 
 				'content': 'Private collections are visible only to you. You get two free hours of private storage.',
         'step': 2
 		  },
@@ -32,13 +32,17 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 		    'content': 'Ready to upload some sound? Click the upload button below.',
 		    'step': 3
 		  },
-		  'collection1': {
-		    'content': 'Then, move your item to a collection. Click the collection title to see your new item.',
+		  'collection': {
+		    'content': 'Then, move your item to a collection.',
 		    'step': 4
+		  },
+		  'collection2': {
+		    'content': 'Click the collection title to see your new item.',
+		    'step': 5
 		  },
 		  'view_item': {
 		    'content': 'Click the item title to see transcripts and edit your item.',
-		    'step': 5
+		    'step': 6
 		  },
 		};
 
