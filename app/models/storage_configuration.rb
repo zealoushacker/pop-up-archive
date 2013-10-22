@@ -34,10 +34,6 @@ class StorageConfiguration < ActiveRecord::Base
     end
   end
 
-  def self.default_storage(is_public=false)
-    is_public ? public_storage : private_storage
-  end
-
   def direct_upload?
     # currently using aws for this
     case provider.downcase
@@ -64,7 +60,7 @@ class StorageConfiguration < ActiveRecord::Base
     end
   end
 
-  def self.public_storage
+  def self.archive_storage
     self.new({
       provider:  'InternetArchive',
       key:       ENV['IA_ACCESS_KEY_ID'],
@@ -73,7 +69,7 @@ class StorageConfiguration < ActiveRecord::Base
     })
   end
 
-  def self.private_storage
+  def self.popup_storage
     self.new({
       provider:  'AWS',
       key:       ENV['AWS_ACCESS_KEY_ID'],

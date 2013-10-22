@@ -77,7 +77,7 @@ describe AudioFile do
       audio_file.storage.id.should eq(audio_file.item.storage.id)
       audio_file.copy_to_item_storage.should == false
 
-      audio_file.storage_configuration = FactoryGirl.build :storage_configuration_private
+      audio_file.storage_configuration = FactoryGirl.build :storage_configuration_popup
 
       a_sid = audio_file.storage.id
       i_sid = audio_file.item.storage.id
@@ -88,7 +88,7 @@ describe AudioFile do
     it "should handle a remote url with query string" do
       audio_file = AudioFile.new
       audio_file.remote_file_url = "http://www.prx.org/test?query=string"
-      audio_file.storage_configuration = FactoryGirl.build :storage_configuration_public
+      audio_file.storage_configuration = FactoryGirl.build :storage_configuration_archive
       audio_file.destination_path.should == '/test'
     end
 
@@ -134,26 +134,26 @@ describe AudioFile do
   end
 
   describe '#metered?' do
-    let(:private_storage) { StorageConfiguration.private_storage.tap(&:save) }
-    let(:public_storage) { StorageConfiguration.public_storage.tap(&:save) }
+    let(:popup_storage) { StorageConfiguration.popup_storage.tap(&:save) }
+    let(:archive_storage) { StorageConfiguration.archive_storage.tap(&:save) }
     it 'is true when using the application s3 bucket for storage' do
-      audio_file = FactoryGirl.build :audio_file, storage_configuration: private_storage
+      audio_file = FactoryGirl.build :audio_file, storage_configuration: popup_storage
       audio_file.should be_metered
     end
     it 'is false when using public storage' do
-      audio_file = FactoryGirl.build :audio_file, storage_configuration: public_storage
+      audio_file = FactoryGirl.build :audio_file, storage_configuration: archive_storage
       audio_file.should_not be_metered
     end
     it 'is persisted' do
-      unmetered = FactoryGirl.create :audio_file, storage_configuration: public_storage
-      metered   = FactoryGirl.create :audio_file, storage_configuration: private_storage
+      unmetered = FactoryGirl.create :audio_file, storage_configuration: archive_storage
+      metered   = FactoryGirl.create :audio_file, storage_configuration: popup_storage
       AudioFile.where(metered: true).should include(metered)
       AudioFile.where(metered: false).should include(unmetered)
       AudioFile.where(metered: true).should_not include(unmetered)
       AudioFile.where(metered: false).should_not include(metered)
     end
     it 'does not call is_metered? when pulled from the database' do
-      unmetered = FactoryGirl.create :audio_file, storage_configuration: public_storage
+      unmetered = FactoryGirl.create :audio_file, storage_configuration: archive_storage
       def unmetered.is_metered?
         true
       end

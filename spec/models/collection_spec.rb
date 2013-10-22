@@ -4,17 +4,36 @@ describe Collection do
   before { StripeMock.start }
   after { StripeMock.stop }
 
-  it "should be valid with default attributes" do
-    @collection = FactoryGirl.build :collection
-    @collection.save.should be_true
+  describe "defaults" do
+
+    before(:each) {
+      @collection = Collection.new(title: 'test')
+    }
+
+    it "should be valid with default attributes" do
+      @collection.save.should be_true
+    end
+
+    it "should default to aws storage" do
+      @collection.set_storage
+      @collection.default_storage.provider.should eq 'AWS'
+    end
+
+    it "should assign storage configuration based on provider" do
+      @collection.storage = 'AWS'
+      @collection.default_storage.provider.should eq 'AWS'
+
+      @collection.storage = 'InternetArchive'
+      @collection.default_storage.provider.should eq 'InternetArchive'
+    end
+
   end
 
   it "should set storage" do
     @collection = FactoryGirl.build :collection
     @collection.upload_to.should_not be_nil
-    @collection.upload_storage.should_not be_nil
+    @collection.upload_storage.should be_nil
     @collection.default_storage.should_not be_nil
-    @collection.default_storage.should_not eq @collection.upload_storage
   end
 
   it "should set org based on creator" do

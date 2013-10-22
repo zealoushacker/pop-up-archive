@@ -1,13 +1,13 @@
 FactoryGirl.define do
   factory :storage_configuration do
-    initialize_with { StorageConfiguration.private_storage }
+    initialize_with { StorageConfiguration.popup_storage }
 
-    factory :storage_configuration_public do
-      initialize_with { StorageConfiguration.public_storage }
+    factory :storage_configuration_archive do
+      initialize_with { StorageConfiguration.archive_storage }
     end
 
-    factory :storage_configuration_private do
-      initialize_with { StorageConfiguration.private_storage }
+    factory :storage_configuration_popup do
+      initialize_with { StorageConfiguration.popup_storage }
     end
   end
 end

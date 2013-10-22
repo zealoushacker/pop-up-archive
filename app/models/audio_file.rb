@@ -430,6 +430,6 @@ class AudioFile < ActiveRecord::Base
   end
 
   def is_metered?
-    storage == StorageConfiguration.private_storage
+    storage == StorageConfiguration.popup_storage
   end
 end

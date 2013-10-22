@@ -8,7 +8,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
       $scope.uploadsCollection.fetchItems();
     });
 
-    $scope.storageClass = function(collection) {
+    $scope.storageClass = function (collection) {
       var s = angular.lowercase(collection.storage) || "aws";
       return ('storage-' + s);
     };
@@ -105,7 +105,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
       $scope.selectedItems.length = 0;
     }
 
-    $scope.delete = function(index) {
+    $scope.delete = function (index) {
       var confirmed = confirm("Delete collection and all items?");
       if (!confirmed) {
         return false;
@@ -113,7 +113,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 
       var collection = $scope.collections[index];
       collection.deleting = true;
-      collection.delete().then(function() {
+      collection.delete().then(function () {
         $scope.collections.splice(index, 1);
       });
     }
@@ -156,11 +156,13 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 }])
 .controller('CollectionFormCtrl', ['$scope', 'Collection', 'Me', function CollectionFormCtrl($scope, Collection, Me) {
 
+  $scope.collection = new Collection();
+
   $scope.edit = function (collection) {
     $scope.collection = collection;
   }
 
-  $scope.submit = function() {
+  $scope.submit = function () {
 
     // make sure this is a resource object.
     var collection = new Collection($scope.collection);
@@ -177,7 +179,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
     }
   }
 }])
-.controller('UploadCategorizationCtrl', ['$scope', function($scope) {
+.controller('UploadCategorizationCtrl', ['$scope', function ($scope) {
   var dismiss = $scope.dismiss;
 
   var currentCollection;
@@ -219,12 +221,6 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
     });
     $scope.dismiss();
   }
-}])
-.controller('NewPublicCollectionCtrl', ['$scope', 'Collection', function ($scope, Collection) {
-  $scope.collection = new Collection({itemsVisibleByDefault: true});
-}])
-.controller('NewPrivateCollectionCtrl', ['$scope', 'Collection', function ($scope, Collection) {
-  $scope.collection = new Collection({itemsVisibleByDefault: false});
 }])
 .controller('BatchEditCtrl', ['$scope', 'Loader', 'Collection', 'Me', function ($scope, Loader, Collection, Me) {
   Me.authenticated(function (currentUser) {

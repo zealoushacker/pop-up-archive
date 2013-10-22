@@ -21,7 +21,7 @@ describe Tasks::CopyTask do
   it "should update audio file on complete" do
 
     audio_file = FactoryGirl.create :audio_file
-    storage = FactoryGirl.create :storage_configuration_public
+    storage = FactoryGirl.create :storage_configuration_archive
     storage_id = storage.id
 
     task = Tasks::CopyTask.new(

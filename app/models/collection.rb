@@ -3,7 +3,7 @@ class Collection < ActiveRecord::Base
   acts_as_paranoid
 
   # include ActiveModel::ForbiddenAttributesProtection
-  attr_accessible :title, :description, :items_visible_by_default, :creator, :creator_id
+  attr_accessible :title, :description, :items_visible_by_default, :creator, :creator_id, :storage
 
   belongs_to :default_storage, class_name: "StorageConfiguration"
   belongs_to :upload_storage, class_name: "StorageConfiguration"
@@ -34,9 +34,20 @@ class Collection < ActiveRecord::Base
   #   end
   # end
 
+  def storage=(provider)
+    if (provider == 'InternetArchive') && (!default_storage || (default_storage.provider != 'InternetArchive'))
+      self.default_storage = StorageConfiguration.archive_storage
+    end
+    set_storage
+  end
+
+  def storage
+    default_storage.provider
+  end
+
   def validate_storage
     errors.add(:default_storage, "must be set") if !default_storage
-    errors.add(:upload_storage, "must be set when storage is public") if (!upload_storage && items_visible_by_default)
+    errors.add(:upload_storage, "must be set when default does not allow direct upload") if (!upload_storage && !default_storage.direct_upload?)
   end
 
   def upload_to
@@ -44,8 +55,12 @@ class Collection < ActiveRecord::Base
   end
 
   def set_storage
-    self.default_storage = StorageConfiguration.default_storage(items_visible_by_default) if !default_storage
-    self.upload_storage  = StorageConfiguration.private_storage if (!upload_storage && items_visible_by_default)
+    self.default_storage = StorageConfiguration.popup_storage if !default_storage
+    if default_storage.direct_upload?
+      self.upload_storage = nil
+    else
+      self.upload_storage = StorageConfiguration.popup_storage if !upload_storage
+    end
   end
 
   def set_defaults

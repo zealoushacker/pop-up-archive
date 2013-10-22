@@ -15,30 +15,29 @@ div ng-controller='CollectionFormCtrl'
           | Description
         .controls
           input ng-model="collection.description"
-      .control-group ng-show="collection.visibilityIsSet()"
-        label.control-label
-          | Privacy
-        .controls ng-show="collection.itemsVisibleByDefault"
-          b Public Collection:
-          |&nbsp;media is stored at the Internet Archive and is visible to all users.
-        .controls ng-hide="collection.itemsVisibleByDefault"
-          b Private Collection:
-          |&nbsp;media is stored privately and is only visible to you.
-
-      .control-group ng-hide="collection.visibilityIsSet()"
+      .control-group
         label.control-label
           | Privacy
         .controls
-          .alert
-            | Once you have created a collection, you can delete it, but you cannot change its privacy setting.
-          label.radio
-            input type="radio" ng-value="true" ng-model="collection.itemsVisibleByDefault"
-            b Make collection public:
-            |&nbsp;media in public collections is stored at the Internet Archive and will be visible to all users.
           label.radio
             input type="radio" ng-value="false" ng-model="collection.itemsVisibleByDefault"
-            b Make collection private:
-            |&nbsp;media in private collections is stored privately and will only be visible to you.
+            b Private:
+            |&nbsp;Collection is only visible to you.
+          label.radio
+            input type="radio" ng-value="true" ng-model="collection.itemsVisibleByDefault"
+            b Public:
+            |&nbsp;Collection is visible to everyone.
+          label.checkbox ng-show="collection.itemsVisibleByDefault" style="position:relative;"
+            input type="checkbox" ng-true-value="InternetArchive" ng-false-value="AWS" ng-model="collection.storage"
+            |&nbsp;I'd like to store my audio at the Internet Archive.
+            .storage.storage-option.storage-internetarchive
+          .alert.alert-warn ng-show="collection.itemsVisibleByDefault"
+            | All audio stored at the Internet Archive will be available to stream and download at 
+            a href='http://archive.org' target='_blank' archive.org
+            |  and will be visible to the world.
+
+
+
   .modal-footer
     button.btn type="button" ng-click="dismiss()" Close
     button.btn.btn-primary ng-click="submit();dismiss()" ng-hide="newCollection.title.$error.required" Save

@@ -45,7 +45,7 @@
   .collections
     ul.inline.collections
       li.add-collection
-        a ng-href="#" bs-modal="'#{asset_path 'collections/form_public.html'}'"
+        a ng-href="#" bs-modal="'#{asset_path 'collections/form.html'}'"
           i.icon-plus
           | Create a Collection
       li ng-repeat="collection in collections | notUploads"
@@ -54,7 +54,7 @@
           .box
           .collection-thumb
           | {{collection.title}}
-          span.storage ng-class="storageClass(collection)"
+          span.storage.lower-right ng-class="storageClass(collection)"
 / 
 	a ng-href="#" bs-modal="'#{asset_path 'collections/tutorial1.html'}'"
 		|Tutorial 1
