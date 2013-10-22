@@ -49,6 +49,8 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
   end
 
   def add_to_amara
+    authorize! :add_to_amara, audio_file
+
     # make call to amara to create the video
     logger.debug "add_to_amara audio_file: #{audio_file}"
     self.task = audio_file.add_to_amara(current_user)
