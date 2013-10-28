@@ -111,6 +111,17 @@ describe User do
       User.find(user.id).uploads_collection.should eq collection
     end
 
+    it 'handles situations where uploads collection is not there for some reason' do
+      user = FactoryGirl.create :user
+      user.uploads_collection.destroy
+      user.reload
+
+      collection = user.uploads_collection
+
+      user.uploads_collection.should eq collection
+      User.find(user.id).uploads_collection.should eq collection
+    end
+
   end
 
   context "in an organization" do

@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   after_destroy :delete_customer
 
   has_many :collection_grants, as: :collector
-  has_one  :uploads_collection_grant, class_name: 'CollectionGrant', as: :collector, conditions: {uploads_collection: true}
+  has_one  :uploads_collection_grant, class_name: 'CollectionGrant', as: :collector, conditions: {uploads_collection: true}, autosave: true
 
   has_one  :uploads_collection, through: :uploads_collection_grant, source: :collection
   has_many :collections, through: :collection_grants
@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   validates_presence_of :uploads_collection
 
   def self.find_for_oauth(auth, signed_in_resource=nil)
-    where(provider: auth.provider, uid: auth.uid).first || 
+    where(provider: auth.provider, uid: auth.uid).first ||
     find_invited(auth) ||
     create{|user| user.apply_oauth(auth)}
   end
@@ -176,6 +176,11 @@ class User < ActiveRecord::Base
 
   def add_uploads_collection
     uploads_collection_grant.collection = Collection.new(title: 'My Uploads', creator: self, items_visible_by_default: false)
+    if persisted?
+      uploads_collection_grant.collection.save
+      uploads_collection_grant.save
+    end
+    uploads_collection_grant.collection
   end
 
   def uploads_collection_grant
