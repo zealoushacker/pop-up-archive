@@ -102,6 +102,15 @@ describe User do
       user.uploads_collection.creator.should eq user
     end
 
+    it 'persists as the uploads collection' do
+      user = FactoryGirl.build :user
+      collection = user.uploads_collection
+
+      user.save
+
+      User.find(user.id).uploads_collection.should eq collection
+    end
+
   end
 
   context "in an organization" do
