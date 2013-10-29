@@ -121,7 +121,6 @@ describe User do
       user.uploads_collection.should eq collection
       User.find(user.id).uploads_collection.should eq collection
     end
-
   end
 
   context "in an organization" do

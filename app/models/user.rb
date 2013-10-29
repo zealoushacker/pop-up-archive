@@ -178,6 +178,10 @@ class User < ActiveRecord::Base
     uploads_collection_grant.collection = Collection.new(title: 'My Uploads', creator: self, items_visible_by_default: false)
     if persisted?
       uploads_collection_grant.collection.save
+      if grant = collection_grants.where(collection_id: uploads_collection_grant.collection.id).first
+        self.uploads_collection_grant = grant
+        grant.uploads_collection = true
+      end
       uploads_collection_grant.save
     end
     uploads_collection_grant.collection
