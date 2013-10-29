@@ -82,6 +82,8 @@ describe CsvImport do
     attr_reader :analyzed_import
 
     before :all do
+      Task::TranscodeTask.any_instance.stub(:create_job).and_return(12345)
+
       @analyzed_import = FactoryGirl.create :csv_import
       @analyzed_import.analyze!
     end
@@ -116,6 +118,7 @@ describe CsvImport do
     it "should map uncategorizable fields using a standard method" do
       analyzed_import.mappings.first.column.should eq "extra[record_type]"
     end
+
   end
 
   context "import" do
