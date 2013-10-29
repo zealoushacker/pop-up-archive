@@ -1,5 +1,8 @@
 ENV["RAILS_ENV"] ||= 'test'
 
+require 'simplecov'
+SimpleCov.start 'rails'
+
 # require 'webmock'
 # WebMock.disable_net_connect!(:allow_localhost => true)
 

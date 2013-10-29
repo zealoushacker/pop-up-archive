@@ -387,6 +387,10 @@ GEM
       json
       redis (>= 3.0)
       redis-namespace
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
     sinatra (1.4.3)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -528,6 +532,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   shoulda-matchers
   sidekiq
+  simplecov
   sinatra
   slim-rails (~> 1.0)
   soundcloud
