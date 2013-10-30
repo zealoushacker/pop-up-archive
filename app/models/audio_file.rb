@@ -123,7 +123,7 @@ class AudioFile < ActiveRecord::Base
     case result
     when 'created'    then logger.debug "task #{params['label']} created"
     when 'processing' then task.begin!
-    when 'complete'   then task.finish!
+    when 'complete'   then FinishTaskWorker.perform_async(task.id) unless Rails.env.test?
     when 'error'      then task.failure!
     else nil
     end
@@ -212,7 +212,7 @@ class AudioFile < ActiveRecord::Base
 
     # if the user is in an org, and that org has an amara team defined, set it here
     if user.organization && user.organization.amara_team
-      options[:amara_team] = user.organization.amara_team
+      options[:extras][:amara_team] = user.organization.amara_team
     end
 
     task = Tasks::AddToAmaraTask.new(options)
