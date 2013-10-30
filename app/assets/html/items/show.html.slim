@@ -62,7 +62,7 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
                 | Your transcript is being hand crafted
                 img src='#{asset_path("brain.svg")}'
             li ng-show="showSendToAmara()"
-              a class='amara' href="#"
+              a class='amara' href="#" ng-click='addToAmara()'
                 | Submit to Amara
                 img src='#{asset_path("amarasmall.png")}'
             li

@@ -45,7 +45,7 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
  
     if (!user.isAdmin()) return false;
 
-    if (user.plan && user.plan == 'community') return false;
+    if (!user.hasCard) return false;
 
     var t = self.taskForType('order_transcript');
     if (t) return false;
@@ -55,7 +55,8 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
 
   AudioFile.prototype.isTranscriptOrdered = function () {
     var self = this;
-    var t = self.taskForType('order_transcript');
+    var t = self.taskForType('order_transcript') || self.taskForType('add_to_amara');
+
     if (t && t.status != 'complete') {
       return true;
     }
@@ -65,10 +66,15 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
   AudioFile.prototype.canSendToAmara = function (user) {
     var self = this;
 
-    if (!self.canOrderTranscript(user)) return false;
+    if (!self.transcodedAt) return false;
+ 
+    if (!user.isAdmin()) return false;
 
     console.log('canSendToAmara', user.organization);
     if (!user.organization || !user.organization.amaraTeam) return false;
+
+    var t = self.taskForType('add_to_amara');
+    if (t) return false;
 
     return true;
   };
@@ -79,7 +85,7 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
     }
   };
 
-  AudioFile.prototype.orderTranscript = function () {
+  AudioFile.prototype.orderTranscript = function (user) {
     var self = this;
     return AudioFile.processResponse($http.post(self.$url() + '/order_transcript')).then(function (orderTranscriptTask) {
       console.log('orderTranscript result', orderTranscriptTask, self);
@@ -88,8 +94,9 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
     });
   };
 
-  AudioFile.prototype.addToAmara = function () {
+  AudioFile.prototype.addToAmara = function (user) {
     var self = this;
+    console.log('addToAmara', this);
     return AudioFile.processResponse($http.post(self.$url() + '/add_to_amara')).then(function (addToAmaraTask) {
       console.log('addToAmara result', addToAmaraTask, self);
       self.tasks.push(addToAmaraTask);

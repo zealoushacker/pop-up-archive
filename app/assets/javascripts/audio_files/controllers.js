@@ -66,7 +66,9 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
     };
 
     $scope.addToAmara = function () {
-      return (new AudioFile($scope.audioFile)).addToAmara(me);
+      $scope.audioFile = new AudioFile($scope.audioFile);
+      $scope.audioFile.itemId = $scope.item.id;
+      return $scope.audioFile.addToAmara(me);
     };
 
     $scope.showOrderTranscript = function () {
@@ -100,9 +102,9 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
     }
 
     $scope.submit = function () {
-      // $scope.audioFile = new AudioFile($scope.audioFile);
-      // $scope.audioFile.itemId = $scope.item.id;
-      // return $scope.audioFile.orderTranscript();
+      $scope.audioFile = new AudioFile($scope.audioFile);
+      $scope.audioFile.itemId = $scope.item.id;
+      $scope.audioFile.orderTranscript(me);
       $scope.close();
       return;
     }
