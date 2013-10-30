@@ -2,6 +2,7 @@ class SubscriptionPlan < ActiveRecord::Base
   attr_accessible :pop_up_hours, :name, :amount
 
   COMMUNITY_PLAN_HOURS = 2
+  ORGANIZATION_PLAN_HOURS = 100
 
   before_save :save_stripe_plan
   after_destroy :delete_stripe_plan
@@ -11,6 +12,14 @@ class SubscriptionPlan < ActiveRecord::Base
     find_or_create_by_stripe_plan_id('community') do |plan|
       plan.pop_up_hours = COMMUNITY_PLAN_HOURS
       plan.name = "Community"
+      plan.amount = 0
+    end
+  end
+
+  def self.organization
+    find_or_create_by_stripe_plan_id('organization') do |plan|
+      plan.pop_up_hours = 100
+      plan.name = "Organization"
       plan.amount = 0
     end
   end

@@ -19,4 +19,8 @@ class Organization < ActiveRecord::Base
     create_uploads_collection_grant collection: uploads_collection
   end
 
+  def plan
+    SubscriptionPlan.organization
+  end
+
 end
