@@ -136,7 +136,7 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
     result = {}
 
     if task = audio_file.tasks.incomplete.upload.where(identifier: upload_identifier).first
-      FinishTaskWorker.perform_async(task.id)
+      FinishTaskWorker.perform_async(task.id) unless Rails.env.test?
       result = task.extras
     end
 
