@@ -17,7 +17,7 @@ class Tasks::CopyTask < Task
   end
 
   def create_copy_job
-    j = MediaMonsterClient.create_job do |job|
+    j = create_job do |job|
       job.job_type    = 'audio'
       job.original    = original
       job.retry_delay = 3600 # 1 hour

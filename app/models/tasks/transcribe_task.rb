@@ -36,7 +36,7 @@ class Tasks::TranscribeTask < Task
 
   def create_transcribe_job
     if start_only?
-      j = MediaMonsterClient.create_job do |job|
+      j = create_job do |job|
         job.job_type    = 'audio'
         job.original    = original
         job.priority    = 2
@@ -54,7 +54,7 @@ class Tasks::TranscribeTask < Task
         end
       end
     else
-      j = MediaMonsterClient.create_job do |job|
+      j = create_job do |job|
         job.job_type = 'audio'
         job.original = original
         job.priority = 3

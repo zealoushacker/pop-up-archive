@@ -9,7 +9,7 @@ class Tasks::AnalyzeAudioTask < Task
   end
 
   def create_analyze_job
-    j = MediaMonsterClient.create_job do |job|
+    j = create_job do |job|
       job.job_type    = 'audio'
       job.original    = original
       job.retry_delay = 3600 # 1 hour

@@ -41,7 +41,7 @@ class Tasks::AnalyzeTask < Task
 
 
   def create_analyze_job
-    j = MediaMonsterClient.create_job do |job|
+    j = create_job do |job|
       job.job_type    = 'text'
       job.original    = original
       job.retry_delay = 3600 # 1 hour

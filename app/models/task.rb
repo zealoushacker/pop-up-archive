@@ -83,4 +83,26 @@ class Task < ActiveRecord::Base
     Utils.download_private_file(connection, uri)
   end
 
+  def create_job
+    return 1 if Rails.env.test?
+
+    job_id = nil
+
+    # puts "\n\ntranscode job: " + Thread.current.backtrace.join("\n")
+
+    begin
+      new_job = MediaMonsterClient.create_job do |job|
+        yield job
+      end
+      
+      logger.debug("create_job: created: #{new_job.inspect}")
+      job_id = new_job.id
+
+    rescue Object=>exception
+      logger.error "create_job: error: #{exception.class.name}: #{exception.message}\n\t#{exception.backtrace.join("\n\t")}"
+      job_id = 1
+    end
+    job_id
+  end
+
 end
