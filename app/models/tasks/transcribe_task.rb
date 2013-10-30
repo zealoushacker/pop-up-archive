@@ -11,11 +11,27 @@ class Tasks::TranscribeTask < Task
     new_trans  = process_transcript(transcript)
 
     # if new transcript resulted, then call analyze
-    audio_file.analyze_transcript if new_trans
+    if new_trans
+      audio_file.analyze_transcript
+      notify_user unless start_only?
+    end
+  end
+
+  def notify_user
+    return unless (user && audio_file && audio_file.item)
+    TranscriptCompleteMailer.new_auto_transcript(user, audio_file, audio_file.item).deliver
   end
 
   def audio_file
     owner
+  end
+
+  def user
+    User.find(user_id) if (user_id.to_i > 0)
+  end
+
+  def user_id
+    self.extras['user_id']
   end
 
   def create_transcribe_job

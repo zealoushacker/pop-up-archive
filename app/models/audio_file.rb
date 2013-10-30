@@ -10,6 +10,7 @@ class AudioFile < ActiveRecord::Base
   before_validation :set_metered
 
   belongs_to :item, :with_deleted => true
+  belongs_to :user
   belongs_to :instance
   has_many :tasks, as: :owner
   has_many :transcripts, order: 'created_at desc'
@@ -185,7 +186,7 @@ class AudioFile < ActiveRecord::Base
     return true
   end
 
-  def order_transcript(user)
+  def order_transcript(user=self.user)
     raise 'cannot create transcript when duration is 0' if (duration.to_i <= 0)
     task = Tasks::OrderTranscriptTask.new(
       identifier: 'order_transcript',
@@ -202,11 +203,11 @@ class AudioFile < ActiveRecord::Base
     (duration.to_i / 60.0).ceil * TRANSCRIBE_RATE_PER_MINUTE
   end
 
-  def add_to_amara(user)
+  def add_to_amara(user=self.user)
     options = {
       identifier: 'add_to_amara',
       extras: {
-        user_id: user.id
+        user_id: user.try(:id)
       }
     }
 
@@ -229,30 +230,45 @@ class AudioFile < ActiveRecord::Base
         identifier: dest,
         storage_id: stor.id,
         extras: {
+          user_id: user.try(:id),
           original:    orig,
           destination: dest
-        })
+        }
+      )
       self.tasks << task
     end
     task
   end
 
-  def transcribe_audio
+  def transcribe_audio(user=self.user)
     # see if there is a non-failed task for this audio file
     if task = tasks.transcribe.without_status(:failed).where(identifier: 'ts_start').last
       logger.debug "transcribe task ts_start #{task.id} already exists for audio_file #{self.id}"
     else
-      self.tasks << Tasks::TranscribeTask.new(identifier: 'ts_start', extras: { start_only: true, original: process_audio_url })
+      self.tasks << Tasks::TranscribeTask.new(
+        identifier: 'ts_start',
+        extras: {
+          start_only: true,
+          original:   process_audio_url,
+          user_id:    user.id
+        }
+      )
     end
 
     if task = tasks.transcribe.without_status(:failed).where(identifier: 'ts_all').last
       logger.debug "transcribe task ts_all #{task.id} already exists for audio_file #{self.id}"
     else
-      self.tasks << Tasks::TranscribeTask.new(identifier: 'ts_all', extras: { original: process_audio_url })
+      self.tasks << Tasks::TranscribeTask.new(
+        identifier: 'ts_all',
+        extras: {
+          original: process_audio_url,
+          user_id:  user.id
+        }
+      )
     end
   end
 
-  def transcode_audio
+  def transcode_audio(user=self.user)
     return if transcoded_at
 
     if storage.automatic_transcode?
@@ -260,13 +276,21 @@ class AudioFile < ActiveRecord::Base
         logger.debug "detect_derivatives task #{task.id} already exists for audio_file #{self.id}"
       else
         urls = AudioFileUploader.version_formats.keys.inject({}){|h, k| h[k] = { url: file.send(k).url, detected_at: nil }; h}
-        self.tasks << Tasks::DetectDerivativesTask.new(identifier: 'detect_derivatives', extras: { 'urls' => urls })
+        self.tasks << Tasks::DetectDerivativesTask.new(
+          identifier: 'detect_derivatives',
+          extras: {
+            urls: urls
+          }
+        )
       end
 
     else
       AudioFileUploader.version_formats.each do |label, info|
         next if (label == filename_extension) # skip this version if that is alreay the file's format
-        self.tasks << Tasks::TranscodeTask.new(identifier: "#{label}_transcode", extras: info)
+        self.tasks << Tasks::TranscodeTask.new(
+          identifier: "#{label}_transcode",
+          extras: info
+        )
       end
     end
   end
