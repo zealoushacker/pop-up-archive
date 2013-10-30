@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'tasks/transcode_task'
 
 describe CsvImport do
   before { StripeMock.start }
@@ -82,7 +83,7 @@ describe CsvImport do
     attr_reader :analyzed_import
 
     before :all do
-      Task::TranscodeTask.any_instance.stub(:create_job).and_return(12345)
+      Tasks::TranscodeTask.any_instance.stub(:create_job).and_return(12345)
 
       @analyzed_import = FactoryGirl.create :csv_import
       @analyzed_import.analyze!
