@@ -44,7 +44,7 @@ class Geolocation < ActiveRecord::Base
           longitude: -71.121172
           }, without_protection: true) if latitude.blank?
       else
-        GeocodeWorker.perform_async(id)
+        GeocodeWorker.perform_async(id) unless Rails.env.test?
       end
     end
   end
