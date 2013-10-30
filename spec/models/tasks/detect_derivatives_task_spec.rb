@@ -67,6 +67,8 @@ describe Tasks::DetectDerivativesTask do
   end
 
   it "should call a worker to check urls" do
+    @task.stub(:start_worker).and_return(1)
+
     job_ids = @task.start_detective
     job_ids.should_not be_nil
     job_ids.length.should eq 2

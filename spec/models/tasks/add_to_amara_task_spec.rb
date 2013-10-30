@@ -101,6 +101,12 @@ describe Tasks::AddToAmaraTask do
     tt.confidence.should eq 100
   end
 
+  it "should notify the user" do
+    @task.notify_user
+    mail = ActionMailer::Base.deliveries.last
+    mail.should_not be_nil
+  end
+
   def test_subtitles
     {
       "description"       => "test audio",

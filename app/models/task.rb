@@ -1,3 +1,5 @@
+require 'utils'
+
 class Task < ActiveRecord::Base
   serialize :extras, HstoreCoder
 
@@ -43,6 +45,13 @@ class Task < ActiveRecord::Base
       transition  all - [:failed] => :failed
     end
 
+    after_transition any => :complete do |task, transition|
+      task.finish_task
+    end
+
+  end
+
+  def finish_task
   end
 
   def shared_attributes
@@ -68,6 +77,10 @@ class Task < ActiveRecord::Base
     self.extras[name] ||= default if default
 
     self.extras[name]    
+  end
+
+  def download_file(connection, uri)
+    Utils.download_private_file(connection, uri)
   end
 
 end

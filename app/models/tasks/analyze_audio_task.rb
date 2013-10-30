@@ -2,12 +2,10 @@ class Tasks::AnalyzeAudioTask < Task
 
   after_commit :create_analyze_job, :on => :create
 
-  state_machine :status do
-    after_transition any => :complete do |task, transition|
-      if task.owner && !Rails.env.test?
-        task.owner.complete_analysis(task.params[:result_details][:info]) if task.owner.respond_to? :complete_analysis
-      end
-    end
+  def finish_task
+    return unless audio_file
+    analysis = params[:result_details][:info]
+    audio_file.update_attribute(:duration, analysis[:length].to_i)
   end
 
   def create_analyze_job
@@ -27,11 +25,15 @@ class Tasks::AnalyzeAudioTask < Task
   end
 
   def call_back_url
-    extras['call_back_url'] || owner.try(:call_back_url)
+    extras['call_back_url'] || audio_file.try(:call_back_url)
   end
 
   def original
-    extras['original'] || owner.try(:original)
+    extras['original'] || audio_file.try(:original)
+  end
+
+  def audio_file
+    self.owner
   end
 
 end

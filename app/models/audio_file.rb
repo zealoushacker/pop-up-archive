@@ -163,10 +163,6 @@ class AudioFile < ActiveRecord::Base
     end
   end
 
-  def complete_analysis(analysis)
-    update_attribute :duration, analysis[:length].to_i
-  end
-
   def copy_original
     return false unless (should_trigger_fixer_copy && item.collection.copy_media && original_file_url)
     create_copy_task(original_file_url, destination, storage)
@@ -207,7 +203,21 @@ class AudioFile < ActiveRecord::Base
   end
 
   def add_to_amara(user)
-    self.tasks << Tasks::AddToAmaraTask.new(identifier: 'add_to_amara', extras: { user_id: user.id })
+    options = {
+      identifier: 'add_to_amara',
+      extras: {
+        user_id: user.id
+      }
+    }
+
+    # if the user is in an org, and that org has an amara team defined, set it here
+    if user.organization && user.organization.amara_team
+      options[:amara_team] = user.organization.amara_team
+    end
+
+    task = Tasks::AddToAmaraTask.new(options)
+    self.tasks << task
+    task
   end
 
   def create_copy_task(orig, dest, stor)
@@ -299,42 +309,6 @@ class AudioFile < ActiveRecord::Base
 
   def timed_transcript(language='en-US')
     transcripts.detect{|t| t.language == language }
-  end
-
-  def process_transcript(json)
-    return nil if json.blank?
-
-    identifier = Digest::MD5.hexdigest(json)
-
-    if trans = transcripts.where(identifier: identifier).first
-      logger.debug "transcript #{trans.id} already exists for this json: #{json[0,50]}"
-      return false
-    end
-
-    trans_json = JSON.parse(json) if json.is_a?(String)
-    trans = transcripts.build(language: 'en-US', identifier: identifier, start_time: 0, end_time: 0)
-    sum = 0.0
-    count = 0.0
-    trans_json.each do |row|
-      tt = trans.timed_texts.build({
-        start_time: row['start_time'],
-        end_time:   row['end_time'],
-        confidence: row['confidence'],
-        text:       row['text']
-      })
-      trans.end_time = tt.end_time if tt.end_time > trans.end_time
-      trans.start_time = tt.start_time if tt.start_time < trans.start_time
-      sum = sum + tt.confidence.to_f
-      count = count + 1.0
-    end
-    trans.confidence = sum / count if count > 0
-    trans.save!
-
-    # delete trans which cover less time
-    partials_to_delete = transcripts.where("language = ? AND end_time < ?", trans.language, trans.end_time)
-    partials_to_delete.each{|t| t.destroy}
-
-    trans
   end
 
   def analyze_transcript

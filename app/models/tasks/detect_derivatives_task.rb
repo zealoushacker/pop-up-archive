@@ -1,21 +1,16 @@
 class Tasks::DetectDerivativesTask < Task
 
-  state_machine :status do
-    after_transition any => :complete do |task, transition|
-
-      if task.audio_file
-        # mark the audio_file as having processing complete?
-        task.audio_file.update_attribute(:transcoded_at, DateTime.now)
-      end
-
-    end
-  end
-
   after_commit :start_detective, on: :create
   after_commit :finish_if_all_detected, on: :update
 
   before_save do
     self.serialize_extra('urls')
+  end
+
+  def finish_task
+    return unless audio_file
+    # mark the audio_file as having processing complete?
+    audio_file.update_attribute(:transcoded_at, DateTime.now)
   end
 
   def urls
@@ -57,9 +52,13 @@ class Tasks::DetectDerivativesTask < Task
     job_ids = []
     versions.each do |version|
       info = version_info(version)
-      job_ids << CheckUrlWorker.perform_async(id, version, info['url'])
+      job_ids << start_worker(version, info['url'])
     end
     job_ids
+  end
+
+  def start_worker(version, url)
+    CheckUrlWorker.perform_async(id, version, url) unless Rails.env.test?
   end
 
 end

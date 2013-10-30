@@ -1,16 +1,11 @@
 class Tasks::TranscodeTask < Task
 
-  state_machine :status do
-    after_transition any => :complete do |task, transition|
-
-      if task.audio_file
-        task.audio_file.check_transcode_complete
-      end
-
-    end
-  end
-
   after_commit :create_transcode_job, :on => :create
+
+  def finish_task
+    return unless audio_file
+    audio_file.check_transcode_complete
+  end
 
   def audio_file
     self.owner
@@ -58,6 +53,8 @@ class Tasks::TranscodeTask < Task
 
   def create_job
     job_id = nil
+
+    # puts "\n\ntranscode job: " + Thread.current.backtrace.join("\n")
 
     begin
       new_job = MediaMonsterClient.create_job do |job|

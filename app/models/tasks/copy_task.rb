@@ -3,23 +3,18 @@ class Tasks::CopyTask < Task
   attr_accessor :should_process
   @should_process = false
 
-  state_machine :status do
-    after_transition any => :complete do |task, transition|
-
-      if task.owner
-        result_path = URI.parse(task.extras['destination']).path
-        new_storage_id = task.storage_id || task.extras['storage_id'].to_i
-
-        # set the file on the owner, and the storage as the upload_to
-        task.owner.update_file!(File.basename(result_path), new_storage_id)
-        task.should_process = true
-      end
-
-    end
-  end
-
   after_commit :create_copy_job, :on => :create
   after_commit :start_processing, :on => :update
+
+  def finish_task
+    return unless owner
+    result_path = URI.parse(extras['destination']).path
+    new_storage_id = storage_id || extras['storage_id'].to_i
+
+    # set the file on the owner, and the storage as the upload_to
+    owner.update_file!(File.basename(result_path), new_storage_id)
+    self.should_process = true
+  end
 
   def create_copy_job
     j = MediaMonsterClient.create_job do |job|

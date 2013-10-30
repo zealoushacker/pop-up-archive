@@ -2,13 +2,7 @@ require "digest/sha1"
 
 class Tasks::UploadTask < Task
 
-  state_machine :status do
-    after_transition any => :complete do |task, transition|
-      task.upload_complete
-    end
-  end
-
-  def upload_complete
+  def finish_task
     # logger.debug "Tasks::UploadTask: after_transition: any => :complete start !!!!"
 
     if self.owner.nil?

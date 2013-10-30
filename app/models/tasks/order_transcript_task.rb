@@ -33,7 +33,7 @@ class Tasks::OrderTranscriptTask < Tasks::AddToAmaraTask
   end
 
   def team
-    super || ENV['AMARA_TEAM_MOBILEWORKS']  # this should be an env constant perhaps?
+    super || ENV['AMARA_TEAM_PAID_TRANSCRIPTS']
   end
 
 end
