@@ -37,6 +37,25 @@ describe AudioFile do
 
   context "transcoding" do
 
+    it 'should have a nil file' do
+      audio_file = AudioFile.new
+      audio_file.file.path.should be_blank
+
+      audio_file = FactoryGirl.create :audio_file_private
+      audio_file.file.path.should_not be_blank
+    end
+
+    it 'should  have a process url' do
+      audio_file = FactoryGirl.create :audio_file_private
+      audio_file.file.should_not be_nil
+      audio_file.file.fog_credentials[:provider].downcase.should eq 'aws'
+      audio_file.destination.should_not be_nil
+      audio_file.destination.should end_with('.popuparchive.org/test.mp3')
+
+      audio_file.process_audio_url.should_not be_nil
+      audio_file.process_audio_url.should end_with('.popuparchive.org/test.mp3')
+    end
+
     it "should use the version label as the extension" do
       audio_file = FactoryGirl.create :audio_file
       File.basename(audio_file.file.mp3.url).should eq "test.mp3"
@@ -96,20 +115,35 @@ describe AudioFile do
 
   context "transcripts" do
 
+    before(:each) {
+      @audio_file = FactoryGirl.build :audio_file
+    }
+
+    it 'should order only 60 sec transcript' do
+      @audio_file.should_receive(:start_transcribe_job)
+      @audio_file.transcribe_audio
+      @audio_file.user.plan.should eq SubscriptionPlan.community
+    end
+
+    it 'should order 60 sec and all transcripts' do
+      @audio_file.user.organization = FactoryGirl.build :organization
+      @audio_file.should_receive(:start_transcribe_job)
+      @audio_file.should_receive(:start_transcribe_job)
+      @audio_file.transcribe_audio
+    end
+
     it "should return transcript for legacy transcript text" do
-      audio_file = FactoryGirl.build :audio_file
-      audio_file.transcript = '[{"start_time":0,"end_time":9,"text":"one","confidence":0.90355223},{"start_time":8,"end_time":17,"text":"two","confidence":0.8770266}]'
-      audio_file.transcript_text.should_not be_blank
-      audio_file.transcript_text.should eq "one\ntwo"
-      audio_file.transcript_array.count.should == 2
+      @audio_file.transcript = '[{"start_time":0,"end_time":9,"text":"one","confidence":0.90355223},{"start_time":8,"end_time":17,"text":"two","confidence":0.8770266}]'
+      @audio_file.transcript_text.should_not be_blank
+      @audio_file.transcript_text.should eq "one\ntwo"
+      @audio_file.transcript_array.count.should == 2
     end
 
     it "should return transcript for timed transcript instead of legacy" do
       json = '[{"start_time":0,"end_time":9,"text":"three","confidence":0.90355223},{"start_time":8,"end_time":17,"text":"four","confidence":0.8770266},{"start_time":16,"end_time":25,"text":"five","confidence":0.8770266}]'
-      audio_file = FactoryGirl.build :audio_file
-      audio_file.transcript = '[{"start_time":0,"end_time":9,"text":"one","confidence":0.90355223},{"start_time":8,"end_time":17,"text":"two","confidence":0.8770266}]'
+      @audio_file.transcript = '[{"start_time":0,"end_time":9,"text":"one","confidence":0.90355223},{"start_time":8,"end_time":17,"text":"two","confidence":0.8770266}]'
 
-      trans = audio_file.transcripts.build(language: 'en-US', identifier: "identifier", start_time: 0, end_time: 25)
+      trans = @audio_file.transcripts.build(language: 'en-US', identifier: "identifier", start_time: 0, end_time: 25)
       trans_json = JSON.parse(json)
       trans_json.each do |row|
         tt = trans.timed_texts.build({
@@ -120,10 +154,10 @@ describe AudioFile do
         })
       end
 
-      audio_file.transcript_text.should_not be_blank
-      audio_file.transcript_text.should eq "three\nfour\nfive"
-      audio_file.transcript_array.count.should == 3
-      audio_file.transcript_array.collect{|t|t['text']}.join("\n").should eq "three\nfour\nfive"
+      @audio_file.transcript_text.should_not be_blank
+      @audio_file.transcript_text.should eq "three\nfour\nfive"
+      @audio_file.transcript_array.count.should == 3
+      @audio_file.transcript_array.collect{|t|t['text']}.join("\n").should eq "three\nfour\nfive"
     end
 
   end

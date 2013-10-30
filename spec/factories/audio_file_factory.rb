@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :audio_file do
 
     association :item, factory: :item
+    association :user, factory: :user
 
     factory :audio_file_private do
       association :item, factory: :item_private

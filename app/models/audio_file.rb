@@ -17,7 +17,7 @@ class AudioFile < ActiveRecord::Base
 
   belongs_to :storage_configuration, class_name: "StorageConfiguration", foreign_key: :storage_id
 
-  attr_accessible :file, :storage_id
+  attr_accessible :storage_id
 
   mount_uploader :file, ::AudioFileUploader
 
@@ -36,8 +36,12 @@ class AudioFile < ActiveRecord::Base
     instance.try(:item).try(:collection) || item.try(:collection)
   end
 
+  def has_file?
+    !self.file.try(:path).nil?
+  end
+
   def filename(version=nil)
-    fn = if file.try(:path)
+    fn = if has_file?
       f = version ? file.send(version) : file
       File.basename(f.path)
     elsif !original_file_url.blank?
@@ -47,7 +51,7 @@ class AudioFile < ActiveRecord::Base
   end
 
   def url(*args)
-    file.try(:url, *args) || original_file_url
+    has_file? ? file.try(:url, *args) : original_file_url
   end
 
   def transcoded?
@@ -141,7 +145,7 @@ class AudioFile < ActiveRecord::Base
 
   def process_create_file
     # don't process file if no file to process yet (s3 upload)
-    return if file.blank? && original_file_url.blank?
+    return if !has_file? && original_file_url.blank?
 
     analyze_audio
 
@@ -230,7 +234,7 @@ class AudioFile < ActiveRecord::Base
         identifier: dest,
         storage_id: stor.id,
         extras: {
-          user_id: user.try(:id),
+          user_id:     user.try(:id),
           original:    orig,
           destination: dest
         }
@@ -241,29 +245,22 @@ class AudioFile < ActiveRecord::Base
   end
 
   def transcribe_audio(user=self.user)
-    # see if there is a non-failed task for this audio file
-    if task = tasks.transcribe.without_status(:failed).where(identifier: 'ts_start').last
-      logger.debug "transcribe task ts_start #{task.id} already exists for audio_file #{self.id}"
-    else
-      self.tasks << Tasks::TranscribeTask.new(
-        identifier: 'ts_start',
-        extras: {
-          start_only: true,
-          original:   process_audio_url,
-          user_id:    user.id
-        }
-      )
-    end
+    start_transcribe_job(user, 'ts_start', {start_only: true})
+    start_transcribe_job(user, 'ts_all') if (user && (user.plan != SubscriptionPlan.community))
+  end
 
-    if task = tasks.transcribe.without_status(:failed).where(identifier: 'ts_all').last
-      logger.debug "transcribe task ts_all #{task.id} already exists for audio_file #{self.id}"
+  def start_transcribe_job(user, identifier, options)
+    extras =  {
+      original: process_audio_url,
+      user_id:  user.try(:id)
+    }.merge(options)
+
+    if task = tasks.transcribe.without_status(:failed).where(identifier: identifier).last
+      logger.debug "transcribe task #{identifier} #{task.id} already exists for audio_file #{self.id}"
     else
       self.tasks << Tasks::TranscribeTask.new(
-        identifier: 'ts_all',
-        extras: {
-          original: process_audio_url,
-          user_id:  user.id
-        }
+        identifier: identifier,
+        extras: extras
       )
     end
   end
@@ -283,7 +280,6 @@ class AudioFile < ActiveRecord::Base
           }
         )
       end
-
     else
       AudioFileUploader.version_formats.each do |label, info|
         next if (label == filename_extension) # skip this version if that is alreay the file's format
@@ -349,8 +345,11 @@ class AudioFile < ActiveRecord::Base
   end
 
   def process_audio_url
-    if !file.blank?
+    # puts "process_audio_url start"
+    if has_file?
+      # puts "file not blank: #{file.inspect}"
       if file.fog_credentials[:provider].downcase == 'aws'
+        # puts "file.fog_credentials is aws: #{file.fog_credentials.inspect}"
         destination
       else
         file.url
