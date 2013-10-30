@@ -1,0 +1,15 @@
+.email-header
+  | Hello 
+  = @user.name
+  |,
+
+.email-body
+  p
+    | We've received word that there's a new completed transcript for the item '
+    = link_to @item.title, @item.url
+    |'.
+  p
+    | Check it out!
+
+.email-footer
+  = render('signature')

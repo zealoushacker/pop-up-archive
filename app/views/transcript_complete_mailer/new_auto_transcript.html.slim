@@ -1,0 +1,15 @@
+.email-header
+  | Hello 
+  = @user.name
+  |,
+
+.email-body
+  p
+    | The automatated speech-to-text has completed for item: '
+    = link_to @item.title, @item.url
+    |'.
+  p
+    | Check it out!
+
+.email-footer
+  = render('signature')
