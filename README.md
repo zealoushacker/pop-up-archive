@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/PRX/pop-up-archive.png?branch=master)](https://travis-ci.org/PRX/pop-up-archive)
 [![Dependency Status](https://gemnasium.com/PRX/pop-up-archive.png)](https://gemnasium.com/PRX/pop-up-archive)
 [![Coverage Status](https://coveralls.io/repos/PRX/pop-up-archive/badge.png)](https://coveralls.io/r/PRX/pop-up-archive)
+[![Code Climate](https://codeclimate.com/github/PRX/pop-up-archive.png)](https://codeclimate.com/github/PRX/pop-up-archive)
+
 <table>
   <tr>
     <th>
