@@ -18,4 +18,5 @@ if current_user
   node(:used_metered_storage) { current_user.used_metered_storage }
   node(:total_metered_storage) { current_user.pop_up_hours * 3600 }
   node(:plan) { current_user.plan_name }
+  node(:has_card) { !current_user.active_credit_card.nil? }
 end

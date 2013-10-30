@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ostruct'
 
 describe User do
 
@@ -11,10 +12,30 @@ describe User do
     user.uploads_collection.should_not be_nil
   end
 
+  context 'oauth' do
+
+    it 'applies oauth info' do
+      auth = OpenStruct.new(provider: 'foo', uid: 'bar', info: OpenStruct.new(name: 'test', email: 'test@popuparchive.org'))
+      user.apply_oauth(auth)
+      user.email.should eq 'test@popuparchive.org'
+    end
+  end
+
+  context 'storage' do
+    it 'meters storage' do
+      user.used_metered_storage.should eq 0
+      user.used_unmetered_storage.should eq 0
+    end
+  end
+
   context 'payment' do
     let (:plan) { free_plan }
     let (:free_plan) { FactoryGirl.create :subscription_plan, pop_up_hours: 80, amount: 0 }
     let (:paid_plan) { FactoryGirl.create :subscription_plan, pop_up_hours: 80, amount: 2000 }
+
+    it 'has an amount' do
+      user.plan_amount.should eq 0
+    end
 
     it 'has a #customer method that returns a Stripe::Customer' do
       user.customer.should be_a Stripe::Customer
@@ -22,6 +43,11 @@ describe User do
 
     it 'persists the customer' do
       user.customer.id.should eq User.find(user.id).customer.id
+    end
+
+    it 'deletes the customer' do
+      user.customer.should_receive(:delete).and_return(true)
+      user.send(:delete_customer)
     end
 
     it 'has the community plan if it is not subscribed' do
@@ -36,12 +62,25 @@ describe User do
       user.update_card!('void_card_token')
     end
 
+    it 'can get current card if there is one' do
+      user.active_credit_card.should be_nil
+      user.update_card!('void_card_token')
+      user.active_credit_card.should_not be_nil
+    end
+
+    it 'can get current card json ' do
+      user.update_card!('void_card_token')
+      cc = {"last4"=>"4242", "type"=>"Visa", "exp_month"=>4, "exp_year"=>2016}
+      user.active_credit_card_json['type'].should eq 'Visa'
+      user.active_credit_card_json.keys.sort.should eq ["exp_month", "exp_year", "last4", "type"]
+    end
+
     it 'can be subscribed to a plan' do
       user.subscribe! plan
       user.plan.should eq plan
     end
 
-    it 'wont subscribe to a paid plan when there is no card present' do
+    it 'won\'t subscribe to a paid plan when there is no card present' do
       expect { user.subscribe!(paid_plan) }.to raise_error Stripe::InvalidRequestError
     end
 
@@ -121,9 +160,21 @@ describe User do
       user.uploads_collection.should eq collection
       User.find(user.id).uploads_collection.should eq collection
     end
+
+    it 'is not listed as searchable' do
+      user.searchable_collection_ids.should_not be_include(user.uploads_collection.id)
+    end
   end
 
   context "in an organization" do
+
+    it "can be added to an organization" do
+      user.organization.should be_nil
+      user.should_not be_in_organization
+      user.organization = FactoryGirl.create :organization
+      user.should be_in_organization
+    end
+
     it "allows org admin to order transcript" do
       audio_file = AudioFile.new
 

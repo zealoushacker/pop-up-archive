@@ -106,15 +106,15 @@ class User < ActiveRecord::Base
     customer.save
   end
 
-  def card
-    customer.card
-  end
-
   def subscribe!(plan)
     customer.update_subscription(plan: plan.stripe_plan_id)
   end
 
   def plan
+    organization ? organization.plan : user_plan
+  end
+
+  def user_plan
     if stripe_subscription.present?
       SubscriptionPlan.where(stripe_plan_id: stripe_subscription.plan.id).first
     else
