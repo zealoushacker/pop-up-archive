@@ -127,8 +127,8 @@ group :test do
   gem 'poltergeist'
   gem 'shoulda-matchers'
   gem 'stripe-ruby-mock', require: 'stripe_mock'
-  gem 'simplecov', :require => false
-  # gem 'webmock'
+  gem 'simplecov'
+  gem 'coveralls'
 end
 
 group :development, :production, :staging do
