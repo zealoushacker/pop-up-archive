@@ -3,9 +3,8 @@ require 'digest/sha1'
 namespace :search do
   desc 're-index all items'
   task index: [:environment] do
-    Item.find_in_batches batch_size: 500 do |items|
-      Item.index.import items
-    end
+    Item.create_elasticsearch_index
+    import_all_items(Item.index)
   end
 
   desc 'stage a reindex of all items'
@@ -13,7 +12,7 @@ namespace :search do
     Tire.index('items_ip').delete
     Tire.index(items_index_name) do
       add_alias 'items_ip'
-      create mappings: Item.tire.mapping_to_hash
+      create mappings: Item.tire.mapping_to_hash,
       import_all_items self
       remove_alias 'items_ip'
       Tire.index('items_st') do
@@ -31,7 +30,7 @@ namespace :search do
     Tire.index 'items_st' do
       add_alias 'items'
       remove_alias 'items_st'
-    end 
+    end
     puts "promoted staging to items"
   end
 
