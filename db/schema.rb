@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131030214140) do
+ActiveRecord::Schema.define(:version => 20131031183045) do
 
   add_extension "hstore"
 
@@ -146,21 +146,21 @@ ActiveRecord::Schema.define(:version => 20131030214140) do
   end
 
   create_table "items", :force => true do |t|
-    t.string   "title"
-    t.string   "episode_title"
-    t.string   "series_title"
+    t.text     "title"
+    t.text     "episode_title"
+    t.text     "series_title"
     t.text     "description"
-    t.string   "identifier"
+    t.text     "identifier"
     t.date     "date_broadcast"
     t.date     "date_created"
-    t.string   "rights"
-    t.string   "physical_format"
-    t.string   "digital_format"
-    t.string   "physical_location"
-    t.string   "digital_location"
+    t.text     "rights"
+    t.text     "physical_format"
+    t.text     "digital_format"
+    t.text     "physical_location"
+    t.text     "digital_location"
     t.integer  "duration"
-    t.string   "music_sound_used"
-    t.string   "date_peg"
+    t.text     "music_sound_used"
+    t.text     "date_peg"
     t.text     "notes"
     t.string   "tags",                              :array => true
     t.integer  "geolocation_id"
