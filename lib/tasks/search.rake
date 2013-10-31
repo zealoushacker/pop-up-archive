@@ -12,7 +12,7 @@ namespace :search do
     Tire.index('items_ip').delete
     Tire.index(items_index_name) do
       add_alias 'items_ip'
-      create mappings: Item.tire.mapping_to_hash,
+      create mappings: Item.tire.mapping_to_hash
       import_all_items self
       remove_alias 'items_ip'
       Tire.index('items_st') do
