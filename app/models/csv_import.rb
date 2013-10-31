@@ -68,11 +68,12 @@ class CsvImport < ActiveRecord::Base
       collection = collection_with_build
       collection.save
       rows.find_each do |csv_row|
+        logger.debug "processing row: #{csv_row.inspect}"
         data = csv_row.values
         item = items.build do |item|
           item.collection_id = collection.id
           current_mappings.each do |mapping|
-            index = mapping.position - 1
+            index = mapping.position # - 1
             mapping.apply(data[index], item)
           end
         end
