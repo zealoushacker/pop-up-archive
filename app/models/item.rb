@@ -32,6 +32,7 @@ class Item < ActiveRecord::Base
   index_name { ENV['ITEMS_INDEX_NAME'] || 'items' }
 
   tire do
+    settings number_of_shards: 2, number_of_replicas: 1
     mapping do
       indexes :id, index: :not_analyzed
       indexes :is_public, index: :not_analyzed

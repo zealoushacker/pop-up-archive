@@ -9,7 +9,8 @@ class Person < ActiveRecord::Base
 
   index_name { ENV['PEOPLE_INDEX_NAME'] || 'people' }
 
-  settings  analysis: {
+  settings number_of_shards: 1,
+    analysis: {
               filter: {
                 ngram_filter: {
                   type: "edgeNGram",
