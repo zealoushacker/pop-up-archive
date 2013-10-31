@@ -7,6 +7,8 @@ class Person < ActiveRecord::Base
   include Tire::Model::Callbacks
   include Tire::Model::Search
 
+  index_name { ENV['PEOPLE_INDEX_NAME'] || 'people' }
+
   settings  analysis: {
               filter: {
                 ngram_filter: {

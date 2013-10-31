@@ -6,7 +6,7 @@ class Item < ActiveRecord::Base
   include Tire::Model::Search
 
   DEFAULT_INDEX_PARAMS = {except: [:transcription, :rights, :storage_id, :token, :geolocation_id, :csv_import_id, :deleted_at]}
-  
+
   STANDARD_ROLES = ['producer', 'interviewer', 'interviewee', 'creator', 'host']
 
   before_validation :set_defaults, if: :new_record?
@@ -28,6 +28,8 @@ class Item < ActiveRecord::Base
   def store_to_index
     self.index.store(self)
   end
+
+  index_name { ENV['ITEMS_INDEX_NAME'] || 'items' }
 
   tire do
     mapping do
@@ -51,7 +53,7 @@ class Item < ActiveRecord::Base
         indexes :confidence, type: 'float', index: 'not_analyzed'
         indexes :transcript, type: 'string', store: true, boost: 0.1
       end
-      
+
       indexes :duration,          type: 'long',    include_in_all: false
       indexes :location do
         indexes :name
@@ -63,7 +65,7 @@ class Item < ActiveRecord::Base
         indexes :category, type: 'string', include_in_all: false
       end
 
-      indexes :low_unconfirmed_entities do 
+      indexes :low_unconfirmed_entities do
         indexes :entity, type: 'string', boost: 0.2
         indexes :category, type: 'string', include_in_all: false
       end
@@ -84,7 +86,7 @@ class Item < ActiveRecord::Base
 
     end
   end
-  
+
   attr_accessible :date_broadcast, :date_created, :date_peg,
     :description, :digital_format, :digital_location, :duration,
     :episode_title, :extra, :identifier, :music_sound_used, :notes,
@@ -105,14 +107,14 @@ class Item < ActiveRecord::Base
 
   has_many   :contributions, dependent: :destroy
   has_many   :contributors, through: :contributions, source: :person
-  
+
   has_many   :entities, dependent: :destroy
   has_many   :confirmed_entities, class_name: 'Entity', conditions: {is_confirmed: true}
   has_many   :unconfirmed_entities, class_name: 'Entity', conditions: Entity.arel_table[:is_confirmed].eq(nil).or(Entity.arel_table[:is_confirmed].eq(false))
   has_many   :high_scoring_entities, class_name: 'Entity', conditions: Entity.arel_table[:is_confirmed].eq(nil).or(Entity.arel_table[:is_confirmed].eq(false)).and(Entity.arel_table[:score].gteq(0.95))
   has_many   :middle_scoring_entities, class_name: 'Entity', conditions: Entity.arel_table[:is_confirmed].eq(nil).or(Entity.arel_table[:is_confirmed].eq(false)).and(Entity.arel_table[:score].gt(0.75).and(Entity.arel_table[:score].lt(0.95)))
   has_many   :low_scoring_entities, class_name: 'Entity', conditions: Entity.arel_table[:is_confirmed].eq(nil).or(Entity.arel_table[:is_confirmed].eq(false)).and(Entity.arel_table[:score].lteq(0.75).or(Entity.arel_table[:score].eq(nil)))
-  
+
   STANDARD_ROLES.each do |role|
     has_many "#{role}_contributions".to_sym, class_name: "Contribution", conditions: {role: role}
     has_many role.pluralize.to_sym, through: "#{role}_contributions".to_sym, source: :person
@@ -221,7 +223,7 @@ class Item < ActiveRecord::Base
   def to_indexed_json(params={})
     as_json(params.reverse_merge(DEFAULT_INDEX_PARAMS)).tap do |json|
       ([:contributors] + STANDARD_ROLES.collect{|r| r.pluralize.to_sym}).each do |assoc|
-        json[assoc]      = send(assoc).map{|c| c.as_json } 
+        json[assoc]      = send(assoc).map{|c| c.as_json }
       end
       json[:tags]        = tags_for_index
       json[:location]    = geolocation.to_indexed_json if geolocation.present?
