@@ -65,6 +65,28 @@
   }
 }
 
+.number-circle {
+  padding: 0px;
+  margin: 0px 0px 0px 0px;
+  overflow: hidden;
+  display: block;
+  float: left;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  border-radius:50%;
+  -moz-border-radius:50%;
+  -webkit-border-radius:50%;
+  -khtml-border-radius: 50%;
+  background: #F25A4C;
+  font-family: "soleil", sans-serif !important;
+  text-shadow: none !important;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 18px;
+  line-height: 16px;
+}
+
 table.horizontal-scrolling {
   max-width: none;
 
