@@ -1,11 +1,11 @@
 ul.pager ng-show="nextItem || previousItem || searchResults.query"
   li.previous ng-class="{disabled: !previousItem}"
     a ng-href='{{previousItem.link()}}' &larr; Previous
-  li.centered
-    a ng-href='{{searchResults.link()}}' 
-      | Back to Search Results  
-      span ng-show="searchResults.query.queryString" for "{{searchResults.query.queryString}}"  
-      i.icon-level-up
+  / li.centered
+  /   a ng-href='{{searchResults.link()}}' 
+  /     | Back to Search Results  
+  /     span ng-show="searchResults.query.queryString" for "{{searchResults.query.queryString}}"  
+  /     i.icon-level-up
   li.next ng-class="{disabled: !nextItem}"
     a ng-href="{{nextItem.link()}}" Next &rarr;    
 .row-fluid.item-detail
