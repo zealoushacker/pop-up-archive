@@ -123,6 +123,27 @@ describe CsvImport do
   end
 
   context "import" do
+
+    let(:import_audio) { FactoryGirl.create :csv_import_audio }
+
+    before {
+      import_audio.analyze!
+    }
+
+    it 'should create items' do
+      import_audio.update_attribute(:state_index, 4)
+      import_audio.import!
+      import_audio.collection.items.count.should eq 4
+    end
+
+    it 'should set user on each item audio file' do
+      import_audio.update_attribute(:state_index, 4)
+      import_audio.import!
+      import_audio.collection.items.first.audio_files.count.should eq 1
+      af = import_audio.collection.items.first.audio_files.first
+      af.user_id.should_not be_nil
+    end
+
   end
 
   it "should extract the base file name" do
