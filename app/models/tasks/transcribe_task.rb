@@ -43,7 +43,7 @@ class Tasks::TranscribeTask < Task
         job.retry_delay = 3600 # 1 hour
         job.retry_max   = 24 # try for a whole day
         job.add_sequence do |seq|
-          seq.add_task({task_type: 'cut', options: {length: 60, fade: 0}})
+          seq.add_task({task_type: 'cut', options: {length: 120, fade: 0}})
           seq.add_task({
             task_type: 'transcribe',
             result:    destination,
