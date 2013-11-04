@@ -116,16 +116,24 @@ describe AudioFile do
   context "transcripts" do
 
     before(:each) {
-      @audio_file = FactoryGirl.build :audio_file
+      @audio_file = FactoryGirl.build :audio_file_private
     }
 
-    it 'should order only 60 sec transcript' do
+    it 'should order only start of transcript for free private audio' do
+      @audio_file.user.plan.should eq SubscriptionPlan.community
       @audio_file.should_receive(:start_transcribe_job)
       @audio_file.transcribe_audio
-      @audio_file.user.plan.should eq SubscriptionPlan.community
     end
 
-    it 'should order 60 sec and all transcripts' do
+    it 'should order start and all transcripts for internet archive audio' do
+      @audio_file = FactoryGirl.build :audio_file
+      @audio_file.user.plan.should eq SubscriptionPlan.community
+      @audio_file.should_receive(:start_transcribe_job)
+      @audio_file.should_receive(:start_transcribe_job)
+      @audio_file.transcribe_audio
+    end
+
+    it 'should order start and all transcripts for organizations' do
       @audio_file.user.organization = FactoryGirl.build :organization
       @audio_file.should_receive(:start_transcribe_job)
       @audio_file.should_receive(:start_transcribe_job)

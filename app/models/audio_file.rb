@@ -246,7 +246,10 @@ class AudioFile < ActiveRecord::Base
 
   def transcribe_audio(user=self.user)
     start_transcribe_job(user, 'ts_start', {start_only: true})
-    start_transcribe_job(user, 'ts_all') if (user && (user.plan != SubscriptionPlan.community))
+
+    if storage.at_internet_archive? || (user && (user.plan != SubscriptionPlan.community))
+      start_transcribe_job(user, 'ts_all')
+    end
   end
 
   def start_transcribe_job(user, identifier, options)
@@ -332,7 +335,6 @@ class AudioFile < ActiveRecord::Base
   end
 
   def analyze_transcript
-    # TODO add dupe check and force
     self.tasks << Tasks::AnalyzeTask.new(extras: { original: transcript_text_url })
   end
 
@@ -345,27 +347,18 @@ class AudioFile < ActiveRecord::Base
   end
 
   def process_audio_url
-    # puts "process_audio_url start"
-    if has_file?
-      # puts "file not blank: #{file.inspect}"
-      if file.fog_credentials[:provider].downcase == 'aws'
-        # puts "file.fog_credentials is aws: #{file.fog_credentials.inspect}"
-        destination
-      else
-        file.url
-      end
-    else
-      original_file_url
-    end
+    return original_file_url if !has_file?
+    return destination       if (file.fog_credentials[:provider].downcase == 'aws')
+    file.url
   end
 
   def destination_options(options={})
     stor = options[:storage] || storage
     dest_opts = options[:options] || {}
-    da = stor.attributes || {}
+    da = stor.provider_attributes || {}
     da.reverse_merge!(dest_opts)
 
-    if stor.provider == 'InternetArchive'
+    if stor.at_internet_archive?
       if Rails.env.production?
         da[:collections] = [] unless da.has_key?(:collections)
         da[:collections] << 'popuparchive' unless da[:collections].include?('popuparchive')
@@ -395,8 +388,8 @@ class AudioFile < ActiveRecord::Base
   end
 
   def destination(options={})
-    stor = options[:storage] || storage
-    suffix = options[:suffix] || ''
+    stor   = options[:storage] || storage
+    suffix = options[:suffix]  || ''
   
     scheme = case stor.provider.downcase
     when 'aws' then 's3'

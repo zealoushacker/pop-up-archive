@@ -8,7 +8,7 @@ class StorageConfiguration < ActiveRecord::Base
     [:bucket, :key, :provider, :secret, :is_public].inject(true){|equal, a| equal && (self.send(a) == acoll.send(a))}
   end
 
-  def attributes
+  def provider_attributes
     {}
   end
 
@@ -35,29 +35,23 @@ class StorageConfiguration < ActiveRecord::Base
   end
 
   def direct_upload?
-    # currently using aws for this
-    case provider.downcase
-    when 'aws' then true
-    when 'internetarchive' then false
-    else false
-    end
+    at_amazon?
   end
 
   def automatic_transcode?
-    # currently using aws for this
-    case provider.downcase
-    when 'aws' then false
-    when 'internetarchive' then true
-    else false
-    end
+    at_internet_archive?
   end
 
   def use_folders?
-    case provider.downcase
-    when 'aws' then true
-    when 'internetarchive' then false
-    else false
-    end
+    at_amazon?
+  end
+
+  def at_internet_archive?
+    provider.downcase == 'internetarchive'
+  end
+
+  def at_amazon?
+    provider.downcase == 'aws'
   end
 
   def self.archive_storage
