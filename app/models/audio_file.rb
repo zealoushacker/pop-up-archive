@@ -252,7 +252,7 @@ class AudioFile < ActiveRecord::Base
     end
   end
 
-  def start_transcribe_job(user, identifier, options)
+  def start_transcribe_job(user, identifier, options={})
     extras =  {
       original: process_audio_url,
       user_id:  user.try(:id)
