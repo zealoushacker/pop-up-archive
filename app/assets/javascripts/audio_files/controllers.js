@@ -47,13 +47,13 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
 
   Me.authenticated(function (me) {
 
-    // if (me.canEdit($scope.item)) {
-    //   $scope.downloadLinks.unshift({
-    //     text: 'Audio File',
-    //     target: '_self',
-    //     href: $scope.audioFile.urls[0];
-    //   });
-    // }
+    if (me.canEdit($scope.item)) {
+      $scope.downloadLinks.unshift({
+        text: 'Audio File',
+        target: '_self',
+        href: $scope.audioFile.original
+      });
+    }
 
     $scope.saveText = function(text) {
       var tt = new TimedText(text);
