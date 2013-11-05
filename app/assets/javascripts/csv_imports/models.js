@@ -145,6 +145,7 @@ angular.module('Directory.csvImports.models', ['RailsModel'])
     "date_peg":                        {type:"short_text",  display: "Date Peg"},
     "tags":                            {type:"array",       display: "Tags"},
     "geographic_location":             {type:"geolocation", display: "Geolocation"},
+    "notes":                           {type:"text",        display: "Notes"},
     "interviewers[]":                  {type:"person",      display: "Interviewer"},
     "interviewees[]":                  {type:"person",      display: "Interviewee"},
     "producers[]":                     {type:"person",      display: "Producer"},
