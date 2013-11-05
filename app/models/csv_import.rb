@@ -73,7 +73,7 @@ class CsvImport < ActiveRecord::Base
         item = items.build do |item|
           item.collection_id = collection.id
           current_mappings.each do |mapping|
-            index = mapping.position # - 1
+            index = mapping.position - 1
             mapping.apply(data[index], item)
           end
         end
@@ -110,11 +110,20 @@ class CsvImport < ActiveRecord::Base
     end
   end
 
-
   alias_method :mappings_attributes_set, :mappings_attributes=
   def mappings_attributes=(values)
     mappings.delete_all
     self.mappings_attributes_set values
+  end
+
+  def reset!
+    CsvImport.transaction do
+      self.state = 'new'
+      self.headers = nil
+      save!
+      mappings.delete_all
+      rows.delete_all
+    end
   end
 
   private
@@ -147,7 +156,7 @@ class CsvImport < ActiveRecord::Base
     headers.each_with_index do |header, index|
       header = header.blank? ? "Field #{index}" : header.downcase
       column, type = case header
-      when /identifier/ then ["identifier", "string"]
+      when /item id|identifier/ then ["identifier", "string"]
       when /episode/ then ['episode_title', 'string']
       when /series/ then ['series_title', 'string']
       when /piece|title/ then ["title", "string"]
@@ -166,7 +175,7 @@ class CsvImport < ActiveRecord::Base
       when /dig(.*)format/ then ['digital_format', 'short_text']
       when /digital|f(.*)m(.*)t(.*)/ then ['digital_format', 'short_text']
       when /phy(.*)location|hardcopy/ then ['physical_location', 'short_text']
-      when /(music|sound)(.*)used/ then ['music_sound_used', 'short_text']
+      when /(music|sound)(.*)used|music/ then ['music_sound_used', 'short_text']
       when /date(.*)peg/ then ['date_peg', 'short_text']
       when /tags/ then ['tags', 'arrya']
       when /geo|location/ then ['geographic_location', 'geolocation']
@@ -175,7 +184,7 @@ class CsvImport < ActiveRecord::Base
       end
 
       mappings.create(type:type, column:column) do |mapping|
-        mapping.position = index
+        mapping.position = index + 1
       end
     end
   end

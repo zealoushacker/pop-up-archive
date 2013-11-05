@@ -1,6 +1,6 @@
 angular.module('Directory.csvImports.models', ['RailsModel'])
 .factory('CsvImport', ['Model', 'Schema', function (Model, Schema) {
-  var CsvImport = Model({url:'/api/csv_imports', name: 'csv_import', only: ['mappingsAttributes', 'collectionId', 'commit']});
+  var CsvImport = Model({url:'/api/csv_imports', name: 'csv_import', nestedAttribute: ['mappings'], only: ['mappings', 'mappings_attributes', 'column', 'type', 'commit']});
 
   CsvImport.prototype.editButtonMessage = function () {
     return this.state == 'imported' ? 'Edit' : 'Continue';

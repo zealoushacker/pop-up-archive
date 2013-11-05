@@ -32,12 +32,17 @@ angular.module('RailsModel', ['rails'])
 
     options.requestTransformers = requestTransformers;
 
-    if (options.only) {
-      // console.log(options.name, 'only', options.only);
-      options.serializer = railsSerializer(function () {
+    // console.log(options.name, 'only', options.only);
+    options.serializer = railsSerializer(function () {
+
+      if (options.only) {
         this['only'].apply(this, options.only);
-      });
-    }
+      }
+      if (options.nestedAttribute) {
+        this['nestedAttribute'].apply(this, options.nestedAttribute);
+      }
+
+    });
 
     var factory = railsResourceFactory(options);
     var originalUpdate = factory.prototype.update;
