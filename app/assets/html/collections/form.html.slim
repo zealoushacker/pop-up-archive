@@ -20,11 +20,11 @@ div ng-controller='CollectionFormCtrl'
           | Privacy
         .controls
           label.radio
-            input type="radio" ng-value="false" ng-model="collection.itemsVisibleByDefault"
+            input type="radio" ng-value="false" ng-model="collection.itemsVisibleByDefault" ng-change="visibilityChange()"
             b Private:
             |&nbsp;Collection is only visible to you.
           label.radio
-            input type="radio" ng-value="true" ng-model="collection.itemsVisibleByDefault"
+            input type="radio" ng-value="true" ng-model="collection.itemsVisibleByDefault" ng-change="visibilityChange()"
             b Public:
             |&nbsp;Collection is visible to everyone.
           label.checkbox ng-show="collection.itemsVisibleByDefault" style="position:relative;"

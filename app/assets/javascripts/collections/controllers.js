@@ -13,8 +13,6 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
       return ('storage-' + s);
     };
 
-
-
 		$scope.tour = {
 		  'welcome': {
 		    'content': 'First things first: create a collection below. <a href=""> Learn how to organize.</a>',
@@ -166,6 +164,13 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 .controller('CollectionFormCtrl', ['$scope', 'Collection', 'Me', function CollectionFormCtrl($scope, Collection, Me) {
 
   $scope.collection = new Collection();
+
+
+  $scope.visibilityChange = function () {
+    if (!$scope.collection.itemsVisibleByDefault) {
+      $scope.collection.storage = 'AWS';
+    }
+  }
 
   $scope.edit = function (collection) {
     $scope.collection = collection;
