@@ -31,11 +31,11 @@ html
           - @accounts.each do |account|
             tr
               td = account.id
-              td = account.pop_up_hours_cache * 3600
+              td = account.pop_up_hours_cache.to_i * 3600
               td = account.used_metered_storage_cache
               td.important = account[:overage]
               td.important = (account[:overage].to_i * 100 / 3600) / 100.0
-              td.important = (account[:overage].to_i * 100 / (account.pop_up_hours_cache * 3600)) / 100.0
+              td.important = (account[:overage].to_i * 100 / (account.pop_up_hours_cache.to_i * 3600)) / 100.0
               td.empty
               td = account.name
               td = link_to account.email, "mailto:#{account.email}"
