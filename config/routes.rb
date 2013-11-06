@@ -11,6 +11,7 @@ PopUpArchive::Application.routes.draw do
   namespace :admin do
     resources :taskList
     resources :soundcloudCallback
+    resources :accounts
   end
 
   get 'media/:token/:expires/:use/:class/:id/:name.:extension', controller: 'media', action: 'show'
@@ -29,7 +30,7 @@ PopUpArchive::Application.routes.draw do
       resources :items do
         resources :audio_files do
           post '',                    action: 'update'
-          get 'transcript_text',      action: 'transcript_text'  
+          get 'transcript_text',      action: 'transcript_text'
           get 'upload_to',            action: 'upload_to'
           post 'order_transcript',    action: 'order_transcript'
           post 'add_to_amara',        action: 'add_to_amara'
@@ -53,7 +54,7 @@ PopUpArchive::Application.routes.draw do
       resources :timed_texts
 
       resources :organizations
-      
+
       resources :collections do
         collection do
           resources :public_collections, path: 'public', only: [:index]

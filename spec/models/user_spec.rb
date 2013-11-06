@@ -26,6 +26,43 @@ describe User do
       user.used_metered_storage.should eq 0
       user.used_unmetered_storage.should eq 0
     end
+
+    context 'reports' do
+      let(:user_slightly_over) { FactoryGirl.create :user, pop_up_hours_cache: 2, used_metered_storage_cache: 2.hours + 30.minutes }
+      let(:user_very_over) { FactoryGirl.create :user, pop_up_hours_cache: 2, used_metered_storage_cache: 31.hours }
+      let(:user_not_over) { FactoryGirl.create :user, pop_up_hours_cache: 2, used_metered_storage_cache: 1.hours + 21.minutes }
+
+      it 'gets over limit users using cached calculations' do
+        User.over_limits.should include(user_slightly_over)
+        User.over_limits.should include(user_very_over)
+      end
+
+      it 'orders from most to least egregious' do
+        user_very_over; user_slightly_over
+        User.over_limits.first.should eq user_very_over
+        User.over_limits.second.should eq user_slightly_over
+      end
+
+      it 'does not include users who have not crossed their limit' do
+        User.over_limits.should_not include(user_not_over)
+      end
+
+      it 'generates the cache values for a given user' do
+        user.stub(pop_up_hours: 25, used_metered_storage: 21.hours)
+
+        user.save
+
+        user.used_metered_storage_cache.should eq nil
+        user.pop_up_hours_cache.should eq nil
+
+        user.update_usage_report!
+
+        user_again = User.find(user.id)
+
+        user_again.used_metered_storage_cache.should eq 21.hours
+        user_again.pop_up_hours_cache.should eq 25
+      end
+    end
   end
 
   context 'payment' do

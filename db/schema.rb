@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131031183045) do
+ActiveRecord::Schema.define(:version => 20131106132744) do
 
   add_extension "hstore"
 
@@ -29,12 +29,13 @@ ActiveRecord::Schema.define(:version => 20131031183045) do
     t.integer  "storage_id"
     t.string   "path"
     t.time     "deleted_at"
-    t.datetime "transcoded_at"
     t.integer  "duration"
+    t.datetime "transcoded_at"
     t.boolean  "metered"
     t.integer  "user_id"
   end
 
+  add_index "audio_files", ["item_id", "deleted_at"], :name => "index_audio_files_on_item_id_and_deleted_at"
   add_index "audio_files", ["item_id"], :name => "index_audio_files_on_item_id"
 
   create_table "collection_grants", :force => true do |t|
@@ -162,6 +163,7 @@ ActiveRecord::Schema.define(:version => 20131031183045) do
     t.text     "music_sound_used"
     t.text     "date_peg"
     t.text     "notes"
+    t.text     "transcription"
     t.string   "tags",                              :array => true
     t.integer  "geolocation_id"
     t.hstore   "extra"
@@ -172,7 +174,6 @@ ActiveRecord::Schema.define(:version => 20131031183045) do
     t.string   "token"
     t.integer  "storage_id"
     t.boolean  "is_public"
-    t.text     "transcription"
     t.string   "language"
     t.datetime "deleted_at"
   end
@@ -335,6 +336,8 @@ ActiveRecord::Schema.define(:version => 20131031183045) do
     t.string   "invited_by_type"
     t.integer  "organization_id"
     t.string   "customer_id"
+    t.integer  "pop_up_hours_cache"
+    t.integer  "used_metered_storage_cache"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

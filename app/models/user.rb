@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
   validates_presence_of :name, if: :name_required?
   validates_presence_of :uploads_collection
 
+  OVERAGE_CALC = 'coalesce(used_metered_storage_cache - pop_up_hours_cache * 3600, 0)'
+
+  scope :over_limits, -> { select("users.*, #{OVERAGE_CALC} as overage").where("#{OVERAGE_CALC} > 0").order('overage DESC') }
+
   def self.find_for_oauth(auth, signed_in_resource=nil)
     where(provider: auth.provider, uid: auth.uid).first ||
     find_invited(auth) ||
@@ -158,6 +162,11 @@ class User < ActiveRecord::Base
 
   def active_credit_card
     customer.cards.data[0]
+  end
+
+  def update_usage_report!
+    update_attribute :used_metered_storage_cache, used_metered_storage
+    update_attribute :pop_up_hours_cache, pop_up_hours
   end
 
   private
