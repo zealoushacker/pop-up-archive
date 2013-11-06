@@ -1,0 +1,43 @@
+doctype html
+html
+  head
+    title Pop Up Archive Admin
+    css:
+      table { border-collapse:collapse; }
+      table, th, td { border: 1px solid black; }
+      th { min-width: 25px }
+      td, th { padding: 5px 10px}
+      .empty { background: #eee }
+      .important { background: #ECC }
+  body
+    h1 Over-limit Accounts
+    #content
+      p Showing all the Users over their limit (generated every 30 minutes)
+      == yield
+      - unless @accounts.empty?
+        table
+          thead
+            tr
+              th user id
+              th plan limit
+              th private storage used
+              th.important overage (s)
+              th.important overage (h)
+              th.important overage (%)
+              th.empty
+              th user name
+              th email
+          tbody
+          - @accounts.each do |account|
+            tr
+              td = account.id
+              td = account.pop_up_hours_cache * 3600
+              td = account.used_metered_storage_cache
+              td.important = account[:overage]
+              td.important = (account[:overage].to_i * 100 / 3600) / 100.0
+              td.important = (account[:overage].to_i * 100 / (account.pop_up_hours_cache * 3600)) / 100.0
+              td.empty
+              td = account.name
+              td = link_to account.email, "mailto:#{account.email}"
+      - else
+        p Everyone's being good.
