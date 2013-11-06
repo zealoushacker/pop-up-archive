@@ -20,3 +20,4 @@ db/seed/*
 #.idea is a rubymine folder
 .idea
 
+.powder
