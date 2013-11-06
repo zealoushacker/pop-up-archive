@@ -55,9 +55,19 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
 
   AudioFile.prototype.isTranscriptOrdered = function () {
     var self = this;
-    var t = self.taskForType('order_transcript') || self.taskForType('add_to_amara');
+    var t = self.taskForType('order_transcript');
 
     if (t && t.status != 'complete') {
+      return true;
+    }
+    return false;      
+  }
+
+  AudioFile.prototype.isOnAmara = function () {
+    var self = this;
+    var t = self.taskForType('add_to_amara');
+
+    if (t && t.status != 'error') {
       return true;
     }
     return false;      

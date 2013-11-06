@@ -10,6 +10,10 @@ class Tasks::AddToAmaraTask < Task
     order_transcript
   end
 
+  def shared_attributes
+    ['transcript_url', 'edit_transcript_url']
+  end
+
   def order_transcript
     return if video_id
     logger.debug("AddToAmaraTask #{self.id}: order_transcript start")
@@ -123,12 +127,17 @@ class Tasks::AddToAmaraTask < Task
     )
   end
 
-  def edit_video_transcript_url
-    raise 'no url possible unless video id present' if video_id.blank?
-    "http://#{ENV['AMARA_HOST']}/en/onsite_widget/?config=" + edit_video_transcript_url_options
+  def edit_transcript_url
+    return '' if video_id.blank?
+    "http://#{ENV['AMARA_HOST']}/en/onsite_widget/?config=" + edit_transcript_url_options
   end
 
-  def edit_video_transcript_url_options
+  def transcript_url
+    return '' if video_id.blank?
+    "http://#{ENV['AMARA_HOST']}/en/videos/#{video_id}"
+  end
+
+  def edit_transcript_url_options
     URI.encode({
       videoID:           video_id,
       videoURL:          video_url,

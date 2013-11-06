@@ -75,12 +75,20 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
       return (new AudioFile($scope.audioFile)).canOrderTranscript(me);
     };
 
-    $scope.showTranscriptInProgress = function () {
+    $scope.showTranscriptOrdered = function () {
       return (new AudioFile($scope.audioFile)).isTranscriptOrdered();
     };
 
     $scope.showSendToAmara = function () {
       return (new AudioFile($scope.audioFile)).canSendToAmara(me);
+    };
+
+    $scope.showOnAmara = function () {
+      return (new AudioFile($scope.audioFile)).isOnAmara();
+    };
+
+    $scope.addToAmaraTask = function () {
+      return (new AudioFile($scope.audioFile)).taskForType('add_to_amara');
     };
 
   });
