@@ -22,6 +22,8 @@ class Ability
 
       can :read, Admin::TaskList if (user && user.has_role?("super_admin"))
 
+      can :read, User if (user && user.has_role?("super_admin"))
+
       # can :order_transcript, AudioFile if (user && (user.organization_id.nil? || (!user.organization_id.nil? && user.has_role?("admin", user.organization))))
       can :manage, AudioFile, item: { collection: { id: (user ? user.collection_ids : []) }}
       can :order_transcript, AudioFile if (user && !user.organization_id.nil? && user.has_role?("admin", user.organization))

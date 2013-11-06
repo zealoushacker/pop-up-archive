@@ -1,7 +1,6 @@
 class Admin::AccountsController < Admin::BaseController
-
+  load_and_authorize_resource :class => "User"
   def index
-    @accounts = User.over_limits
+    @accounts = @accounts.over_limits
   end
-
 end
