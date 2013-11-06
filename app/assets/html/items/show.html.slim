@@ -73,7 +73,12 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
               a href="#" &nbsp;
 
           .transcript transcript-text="audioFile.transcript | highlightMatches:transcriptFilter" transcript-editable="currentUser.canEdit(item)" current-time="player.time" save-text="saveText(text)" file-url="fileUrl"
-      .alert ng-show="currentUser.canEdit(item) && item.audioFiles.length > 0 && item.audioFiles[0].transcript == 0" Your transcript is processing. The first 60 seconds should appear within a couple of minutes. Full transcripts are processed in real time. For instance, a 30&ndash;minute file will take at least 30 minutes to transcribe.
+      .alert.alert-info ng-show="currentUser.canEdit(item) && currentUser.plan == 'community' && item.audioFiles.length > 0 && item.audioFiles[0].transcript == 0" 
+        |TRANSCRIPT PROCESSING  &mdash; We're automatically transcribing the first two minutes of your audio. It should be ready momentarily. 
+        
+      .alert.alert-info ng-show="currentUser.canEdit(item) && currentUser.plan != 'community' && item.audioFiles.length > 0 && item.audioFiles[0].transcript == 0" 
+        |TRANSCRIPT PROCESSING  &mdash; The first two minutes of your transcription will be ready momentarily. The rest will process in real time (a 30-minute file will take at least 30 minutes.) We'll email you when it's ready.
+        
 .row-fluid.item-detail.metadata
   .span6
     h4 Metadata
