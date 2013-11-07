@@ -992,7 +992,7 @@ form.with-tags {
 #feature-image {
   background: #fff image-url("mlk_speech_women.jpg") no-repeat;
   width: 940px;
-  height: 413px;
+  height: 528px;
   text-align: center;
   position: relative;
   
@@ -1336,11 +1336,12 @@ form.stripe-cc {
   font-size:19px;
   line-height:28px;
   font-family: "freight-text-pro", serif;
+
   .background-container {
     background-color: #fff;
     padding:30px;
-    border-radius: 10px;
-    margin: 30px 0;
+    width: 880px;
+    height: 468px;
   }
   .background-container:nth-child(2){
     background-color: #aa027b;
@@ -1557,3 +1558,77 @@ form.stripe-cc {
 .storage-internetarchive { background: image-url('storage/ia.png') no-repeat center; }
 .storage-soundcloud { background: image-url('storage/sc.png') no-repeat center; }
 .storage-prx { background: image-url('storage/prx.png') no-repeat center; }
+
+#enterprise {
+  .strong {
+    font-weight: bold;
+    font-family: soleil, sans-serif !important;
+    padding-bottom: 5px;
+    color: white;
+  }
+  p, ul{
+    font-family: "freight-text-pro", serif !important;
+  }
+  #intro{
+    
+    float:left;
+    width: 357px;
+    h2 {
+      padding: 30px 15px 30px 0px;
+      margin: 0;
+      color: black;
+    }
+    p {
+      font-size: 19px;
+      line-height: 27px;
+      padding: 15px 20px 15px 0px;
+    }
+    img {
+      margin: 0;
+      padding: 0;
+    }
+    #slug{
+      font-family: soleil, sans-serif !important;
+      color: #2c677f;
+      font-size: 30px;
+      line-height: 39px;
+    }
+    .btn{
+      margin-left: 25px;
+    }
+  }
+  #services{
+    height: 929px;
+    float:left;
+    width: 310px;
+    background-color: #f25b4c ;
+    padding: 10px 45px 33px;
+    ul {
+      margin: 0;
+      padding-top: 30px;
+    }
+    li {
+      list-style: none;
+      margin-bottom: 15px;
+      padding: 5px 0;
+      margin: 0;
+      font-size: 16px;
+      line-height: 22px;
+    }
+  }
+  #logos{
+    float:left;
+    width: 183px;
+    img {
+      padding: 20px 22px;
+    }
+    p {
+      background-color: #3d3d3e;
+      color: white;
+      padding: 25px 5px 30px 15px;
+      font-family: soleil, sans-serif !important;
+      font-size: 19px;
+      line-height: 28px;
+    } 
+  }
+}

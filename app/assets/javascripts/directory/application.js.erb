@@ -109,6 +109,11 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       templateUrl: "<%= asset_path 'search/index.html' %>",
       controller: "SearchCtrl"
     })
+    .when('/enterprise', {
+      templateUrl: "<%= asset_path 'dashboard/enterprise.html' %>",
+      controller: "DashboardCtrl",
+      title: "Enterprise Services"
+    })
     .when('/imports', {
       templateUrl: "<%= asset_path 'imports/index.html' %>",
       controller: "ImportsCtrl",
