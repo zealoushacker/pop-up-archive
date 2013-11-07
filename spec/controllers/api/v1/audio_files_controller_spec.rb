@@ -40,6 +40,7 @@ describe Api::V1::AudioFilesController do
         response.should be_success
         response.should render_template "order_transcript"
       end
+
     end
 
   end

@@ -7,6 +7,7 @@ describe Tasks::AddToAmaraTask do
     @audio_file = FactoryGirl.create :audio_file
     @task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara', extras: { amara_team: 'prx-test-0', user_id: @user.id })
     @task.should_receive(:create_video).and_return(Hashie::Mash.new({id: 'NEWVIDEO'}))
+    @task.should_receive(:add_subtitles).and_return(Hashie::Mash.new())
     @task.save!
     @task.run_callbacks(:commit)
   end
@@ -14,6 +15,7 @@ describe Tasks::AddToAmaraTask do
   it "should be valid with defaults" do
     task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara', extras: { amara_team: 'prx-test-0', user_id: @user.id })
     task.should_receive(:create_video).and_return(Hashie::Mash.new({id: 'NEWVIDEO'}))
+    task.should_receive(:add_subtitles).and_return(Hashie::Mash.new())
     task.save!
     task.run_callbacks(:commit)
 
@@ -49,19 +51,20 @@ describe Tasks::AddToAmaraTask do
     @task.owner.should eq @task.audio_file
   end
 
-  it "should set amara_options" do
-    @task.amara_options.should_not be_nil
-    @task.amara_options.keys.sort.should eq [:primary_audio_language_code, :team, :title, :video_url]
-    @task.amara_options[:primary_audio_language_code].should eq 'en'
-    @task.amara_options[:team].should eq 'prx-test-0'
-    @task.amara_options[:title].should eq @audio_file.filename
-    @task.amara_options[:video_url].should eq @audio_file.public_url(extension: :ogg)
+  it "should set create_video_options" do
+    @task.create_video_options.should_not be_nil
+    @task.create_video_options.keys.sort.should eq [:primary_audio_language_code, :team, :title, :video_url]
+    @task.create_video_options[:primary_audio_language_code].should eq 'en'
+    @task.create_video_options[:team].should eq 'prx-test-0'
+    @task.create_video_options[:title].should eq @audio_file.filename
+    @task.create_video_options[:video_url].should eq @audio_file.public_url(extension: :ogg)
   end
 
   it "should order the transcript and add video id to task" do
     task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara')
     video = Hashie::Mash.new({id: 'NEWVIDEO'})
     task.should_receive(:create_video).and_return(video)
+    task.should_receive(:add_subtitles).and_return(Hashie::Mash.new())
     task.order_transcript
     task.video_id.should eq 'NEWVIDEO'
   end

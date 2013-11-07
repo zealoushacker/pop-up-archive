@@ -4,6 +4,7 @@ class Tasks::OrderTranscriptTask < Tasks::AddToAmaraTask
     raise "No user specified" unless user
     raise "No card on file for user.customer specified" unless user.card
 
+    self.extras[:omit_subtitles] = true
     super
 
     raise 'no video created, cannot continue ' unless video_id

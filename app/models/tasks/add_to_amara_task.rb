@@ -21,16 +21,24 @@ class Tasks::AddToAmaraTask < Task
     video = create_video
     # save the video_id, which is useful for crafting a url
     self.extras['video_id'] = video.id
+
+    add_subtitles
+
     self.save!
     self
   end
 
   def create_video
     logger.debug("AddToAmaraTask: create_video start")
-    response = amara_client.videos.create(amara_options)
-    video = response.object
+    video_response = amara_client.videos.create(create_video_options)
+    video = video_response.object
     logger.debug("amara video created: #{video.inspect}")
     video
+  end
+
+  def add_subtitles
+    return if self.extras[:omit_subtitles]
+    subs_response = amara_client.videos(video_id).languages(language).subtitles.create(create_subtitles_options)
   end
 
   def finish_task
@@ -105,7 +113,7 @@ class Tasks::AddToAmaraTask < Task
     self.extras['amara_team']
   end
 
-  def amara_options
+  def create_video_options
     options = {
       # duration: audio_file.duration, # don't have this, could get from fixer analysis perhaps?
       team:      team,
@@ -114,10 +122,26 @@ class Tasks::AddToAmaraTask < Task
       primary_audio_language_code: language
     }
 
-    logger.debug "amara options: #{options.inspect}"
+    logger.debug "create_video_options: #{options.inspect}"
 
     options
   end
+
+  def create_subtitles_options
+    full_language = (audio_file.item.language || 'en-US')
+    transcript = audio_file.timed_transcript(full_language)
+    srt = transcript.to_doc(:srt) if transcript
+
+    options = {
+      sub_format: 'srt',
+      subtitles:  srt
+    }
+    
+    logger.debug "create_subtitles_options: #{options.inspect}"
+
+    options    
+  end
+
 
   def amara_client
     @client ||= Amara::Client.new(

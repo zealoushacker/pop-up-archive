@@ -25,6 +25,18 @@ class Transcript < ActiveRecord::Base
   end
 
   def as_json(options={})
-    { sections: timed_texts } 
+    { sections: timed_texts }
   end
+
+  def to_doc(format=:srt)
+    action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
+    action_view.class_eval do 
+      include Rails.application.routes.url_helpers
+      include Api::BaseHelper
+      def protect_against_forgery?; false; end
+    end
+
+    action_view.render(template: 'api/v1/transcripts/show', formats: [format], locals: {transcript: self})
+  end
+
 end
