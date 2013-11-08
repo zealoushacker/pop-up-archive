@@ -15,7 +15,7 @@ form.form-inline ng-controller="ImportMappingCtrl"
   .well
     label for='collection-id'
       strong Please select which collection these items will be added to once they are imported:
-    select#collection-id.pull-right ng-model='csvImport.collectionId' ng-options="collection.id as collection.title for collection in collections"
+    select#collection-id.pull-right ng-model='csvImport.collectionId' ng-options="collection.id as collection.title group by collection.grouping for collection in collections"
     
 
   table.table.table-striped.table-bordered

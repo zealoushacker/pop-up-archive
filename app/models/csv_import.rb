@@ -41,6 +41,8 @@ class CsvImport < ActiveRecord::Base
       self.collection = Collection.new(title: file_name, creator: user)
     elsif collection_id == -1
       self.collection = Collection.new(title: file_name, creator: user, items_visible_by_default: true)
+    elsif collection_id == -2
+      self.collection = Collection.new(title: file_name, creator: user, items_visible_by_default: true, storage:'InternetArchive')
     else
       collection
     end

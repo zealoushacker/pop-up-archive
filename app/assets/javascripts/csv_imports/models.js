@@ -37,8 +37,6 @@ angular.module('Directory.csvImports.models', ['RailsModel'])
     return (this.state.match(/^queued/) || this.state == 'analyzing' || this.state == 'importing');
   }
 
-  // CsvImport.attrAccessible = ['mappingsAttributes', 'collectionId', 'commit'];
-
   CsvImport.prototype.alertSync = function () {
     return {
       'promise': [CsvImport, CsvImport.get, this.id],

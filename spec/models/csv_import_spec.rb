@@ -130,6 +130,29 @@ describe CsvImport do
       import_audio.analyze!
     }
 
+    it 'should determine new collection from fake id' do
+      import = FactoryGirl.create :csv_import
+      import.collection_id = -2
+      collection = import.collection_with_build
+      collection.should be_valid
+      collection.default_storage.provider.should eq 'InternetArchive'
+      collection.items_visible_by_default.should eq true
+
+      import = FactoryGirl.create :csv_import
+      import.collection_id = -1
+      collection = import.collection_with_build
+      collection.should be_valid
+      collection.default_storage.provider.should eq 'AWS'
+      collection.items_visible_by_default.should eq true
+
+      import = FactoryGirl.create :csv_import
+      import.collection_id = 0
+      collection = import.collection_with_build
+      collection.should be_valid
+      collection.default_storage.provider.should eq 'AWS'
+      collection.items_visible_by_default.should eq false
+    end
+
     it 'should create items' do
       import_audio.update_attribute(:state_index, 4)
       import_audio.import!

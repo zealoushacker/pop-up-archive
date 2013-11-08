@@ -2,7 +2,15 @@ angular.module('Directory.csvImport.controllers', ['fileButton', 'Directory.aler
 .controller("ImportCtrl", ['$scope', 'CsvImport', '$routeParams', 'Collection', 'Loader', function($scope, CsvImport, $routeParams, Collection, Loader) {
 
   Loader.page(CsvImport.get($routeParams.importId), Collection.query(), 'importEdit-'+$routeParams.importId, $scope).then(function (data) {
-    $scope.collections = [{id:0, title:"New Private Collection: " + $scope.csvImport.file}, {id:-1, title:"New Public Collection: " + $scope.csvImport.file}].concat($scope.collections);
+    var existingGroup = 'Or use an existing collection';
+    angular.forEach($scope.collections, function forEachHeader (c, index) { c.grouping = existingGroup; });
+
+    var newGroup = "Create a new '" + $scope.csvImport.file + "' collection";
+    $scope.collections = [
+      { id:  0, title: "New Private Collection",          grouping: newGroup },
+      { id: -1, title: "New Public Collection",           grouping: newGroup },
+      { id: -2, title: "New Internet Archive Collection", grouping: newGroup }
+    ].concat($scope.collections);
   });
 
   $scope.getNewPreviewRows = function getNewPreviewRows () {
