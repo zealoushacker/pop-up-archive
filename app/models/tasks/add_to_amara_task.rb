@@ -45,7 +45,10 @@ class Tasks::AddToAmaraTask < Task
     return unless self.owner
     subtitles = get_latest_subtitles
     transcript = load_subtitles(subtitles)
-    notify_user if transcript
+    if transcript
+      self.owner.analyze_audio(true)
+      notify_user
+    end
   end
 
   def notify_user
