@@ -4,7 +4,8 @@ class Tasks::AnalyzeAudioTask < Task
 
   def finish_task
     return unless audio_file
-    analysis = params[:result_details][:info]
+    analysis = self.results
+    raise "Analysis does not include length: #{self.id}, results: #{analysis.inspect}" unless analysis[:length]
     audio_file.update_attribute(:duration, analysis[:length].to_i)
   end
 

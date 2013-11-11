@@ -170,6 +170,24 @@ describe AudioFile do
 
   end
 
+  describe "#update_from_fixer" do
+
+    before(:each) {
+      @audio_file = FactoryGirl.create :audio_file
+    }
+
+    it 'updates job id and results' do
+      task = @audio_file.analyze_audio
+      fixer_result = {"call_back"=>"http://beta.popuparchive.org/api/items/6841/audio_files/9503", "id"=>171851, "label"=>task.id.to_s, "options"=>nil, "result"=>nil, "task_type"=>"analyze", "result_details"=>{"status"=>"complete", "message"=>"analysis complete", "info"=>{"size"=>517115014, "content_type"=>"audio/vnd.wave", "channel_mode"=>"Mono", "bit_rate"=>705, "length"=>5862, "sample_rate"=>44100}, "logged_at"=>"2013-11-11T15:34:21Z"}, "job"=>{"id"=>151217, "job_type"=>"audio", "original"=>"s3://production.popuparchive.prx.org/jack110413-lees4interview-wav.rzFZWG.popuparchive.org/JACK110413_Lees4interview.WAV", "status"=>"created"}}
+      @audio_file.update_from_fixer(fixer_result)
+      task.reload
+      task.extras['job_id'].should eq "151217"
+      task.results.should eq fixer_result['result_details']
+    end
+
+  end
+
+
   describe '#metered?' do
     let(:popup_storage) { StorageConfiguration.popup_storage.tap(&:save) }
     let(:archive_storage) { StorageConfiguration.archive_storage.tap(&:save) }

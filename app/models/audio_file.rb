@@ -21,7 +21,7 @@ class AudioFile < ActiveRecord::Base
 
   mount_uploader :file, ::AudioFileUploader
 
-  after_commit :process_create_file, on: :create
+  after_commit :process_file, on: :create
   after_commit :process_update_file, on: :update
 
   attr_accessor :should_trigger_fixer_copy
@@ -123,14 +123,19 @@ class AudioFile < ActiveRecord::Base
       task.save!
     end
 
-    task.params = params
-
     case result
-    when 'created'    then logger.debug "task #{params['label']} created"
-    when 'processing' then task.begin!
-    when 'complete'   then FinishTaskWorker.perform_async(task.id) unless Rails.env.test?
-    when 'error'      then task.failure!
-    else nil
+    when 'created'
+      logger.debug "task #{params['label']} created"
+    when 'processing'
+      task.begin!
+    when 'complete'
+      task.results = params['result_details']
+      task.save!
+      FinishTaskWorker.perform_async(task.id) unless Rails.env.test?
+    when 'error'
+      task.failure!
+    else
+      raise "task #{params['label']} unrecognized result: #{result}"
     end
 
   rescue Exception => e
@@ -143,7 +148,7 @@ class AudioFile < ActiveRecord::Base
     copy_to_item_storage
   end
 
-  def process_create_file
+  def process_file
     # don't process file if no file to process yet (s3 upload)
     return if !has_file? && original_file_url.blank?
 
@@ -161,11 +166,14 @@ class AudioFile < ActiveRecord::Base
   end
 
   def analyze_audio(force=false)
+    result = nil
     if !force && task = tasks.analyze_audio.without_status(:failed).last
       logger.debug "analyze task #{task.id} already exists for audio_file #{self.id}"
     else
-      self.tasks << Tasks::AnalyzeAudioTask.new(extras: { original: process_audio_url })
+      result = Tasks::AnalyzeAudioTask.new(extras: { original: process_audio_url })
+      self.tasks << result
     end
+    result
   end
 
   def copy_original
@@ -272,17 +280,7 @@ class AudioFile < ActiveRecord::Base
     return if transcoded_at
 
     if storage.automatic_transcode?
-      if task = tasks.detect_derivatives.without_status(:failed).where(identifier: 'detect_derivatives').last
-        logger.debug "detect_derivatives task #{task.id} already exists for audio_file #{self.id}"
-      else
-        urls = AudioFileUploader.version_formats.keys.inject({}){|h, k| h[k] = { url: file.send(k).url, detected_at: nil }; h}
-        self.tasks << Tasks::DetectDerivativesTask.new(
-          identifier: 'detect_derivatives',
-          extras: {
-            urls: urls
-          }
-        )
-      end
+      start_detect_derivative_job
     else
       AudioFileUploader.version_formats.each do |label, info|
         next if (label == filename_extension) # skip this version if that is alreay the file's format
@@ -292,6 +290,30 @@ class AudioFile < ActiveRecord::Base
         )
       end
     end
+  end
+
+  def start_detect_derivative_job
+    if !has_file?
+      logger.debug "detect_derivatives audio_file #{self.id} not yet saved to archive.org"
+      return
+    end
+
+    task = tasks.detect_derivatives.without_status(:failed).where(identifier: 'detect_derivatives').last
+    if task
+      logger.debug "detect_derivatives task #{task.id} already exists for audio_file #{self.id}"
+      return
+    end
+
+    self.tasks << Tasks::DetectDerivativesTask.new(
+      identifier: 'detect_derivatives',
+      extras: {
+        urls: detect_urls
+      }
+    )
+  end
+
+  def detect_urls
+    AudioFileUploader.version_formats.keys.inject({}){|h, k| h[k] = { url: file.send(k).url, detected_at: nil }; h}
   end
 
   def is_transcode_complete?

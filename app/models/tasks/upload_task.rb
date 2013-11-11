@@ -16,11 +16,9 @@ class Tasks::UploadTask < Task
       self.owner.update_file!(file_name, upload_id)
 
       # now copy it to the right place if it needs to be (e.g. s3 -> ia)
-      # or if it is in the right spot, transcribe it!
+      # or if it is in the right spot, process it!
       unless self.owner(true).copy_to_item_storage
-        self.owner(true).analyze_audio
-        self.owner(true).transcode_audio
-        self.owner(true).transcribe_audio
+        self.owner(true).process_file
       end
       # logger.debug "Tasks::UploadTask: after_transition: any => :complete file updates over"
     end

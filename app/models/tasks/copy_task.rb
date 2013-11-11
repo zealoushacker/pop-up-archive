@@ -35,9 +35,7 @@ class Tasks::CopyTask < Task
 
   def start_processing
     return unless should_process
-    self.owner(true).analyze_audio
-    self.owner(true).transcode_audio
-    self.owner(true).transcribe_audio
+    self.owner(true).process_file
     self.should_process = false
   end
 
