@@ -1,8 +1,10 @@
 class Admin::TaskList < Admin::Report
+
   attr_accessor :pending_tasks
+
   def initialize()
     @pending_tasks = []
-    tasks = Task.includes(:owner).where("tasks.status != 'complete'")
+    tasks = incomplete_tasks
     tasks.each do |task|
       line = Hash.new
       line[:id] = task.id
@@ -13,14 +15,14 @@ class Admin::TaskList < Admin::Report
         line[:owner_id] = task.owner_id
 
         # this is going to fail when we have collections owned by users and orgs - AK
-        extra = task.owner.class.joins(item: [collection: [collection_grants: :user]]).find(task.owner_id)
-        line[:user_email] = extra.collection.collection_grants.first.user.email
-        line[:user_id] = extra.collection.collection_grants.first.user.id
+        audio_file = task.owner.class.joins(item: :collection).find(task.owner_id)
+        line[:user_email] = audio_file.user.email
+        line[:user_id] = audio_file.user_id
 
-        line[:collection_title] = extra.collection.title
-        line[:collection_id] = extra.collection.id
-        line[:item_id] = extra.item.id
-        line[:item_title] = extra.item.title
+        line[:collection_title] = audio_file.item.collection.title
+        line[:collection_id] = audio_file.item.collection_id
+        line[:item_id] = audio_file.item_id
+        line[:item_title] = audio_file.item.title
       end
 
       line[:created_at] = task.created_at
@@ -29,4 +31,9 @@ class Admin::TaskList < Admin::Report
       @pending_tasks << line
     end
   end
+
+  def incomplete_tasks
+    Task.includes(:owner).where("tasks.status != 'complete'")
+  end
+
 end
