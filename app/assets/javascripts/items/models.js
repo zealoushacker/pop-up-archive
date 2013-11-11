@@ -118,7 +118,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     });
   }
 
-  Item.prototype.contributors = function(role) {
+  Item.prototype.contributors = function (role) {
     var result = [];
     angular.forEach(this.contributions, function (contribution) {
       if (contribution.role == role) {
@@ -133,7 +133,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     var options = options || {};
     var item = this;
     var audioFile = new AudioFile({itemId: item.id});
-    audioFile.create().then(function(){
+    audioFile.create().then( function () {
       audioFile.filename = audioFile.cleanFileName(file.name);
       item.audioFiles = item.audioFiles || [];
       item.audioFiles.push(audioFile);
