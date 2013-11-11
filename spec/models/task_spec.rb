@@ -31,5 +31,27 @@ describe Task do
     Tasks::GoodTestTask.new.type_name.should eq 'good_test'
   end
 
+  describe "manage results" do
+
+    before {
+      @task = FactoryGirl.create :task
+      @task.results = {"status"=>"complete", "message"=>"analysis complete", "info"=>{"services"=>["open_calais", "yahoo_content_analysis"], "stats"=>{"topics"=>0, "tags"=>0, "entities"=>7, "relations"=>0, "locations"=>2}}, "logged_at"=>"2013-11-11T15:38:19Z"}
+      @task.save!
+      @task.reload
+    }
+
+    it 'should save results' do
+      @task.results.keys.sort.should eq ["info", "logged_at", "message", "status"]
+      @task.results[:status].should eq "complete"
+    end
+
+    it 'should be able to access results as indifferent access' do
+      @task.results[:info][:stats][:locations].should eq 2
+      @task.results['info']['stats']['locations'].should eq 2
+    end
+
+  end
+ 
+
 end
 

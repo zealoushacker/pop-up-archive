@@ -4,7 +4,6 @@ class Task < ActiveRecord::Base
   serialize :extras, HstoreCoder
 
   attr_accessible :name, :extras, :owner_id, :owner_type, :status, :identifier, :type, :storage_id, :owner, :storage
-  attr_accessor :params
   belongs_to :owner, polymorphic: true
   belongs_to :storage, class_name: "StorageConfiguration", foreign_key: :storage_id
 
@@ -24,6 +23,10 @@ class Task < ActiveRecord::Base
   before_validation(on: :create) do
     self.extras = {} unless extras
     self.storage_id = owner.storage.id if (!storage_id && owner && owner.storage)
+  end
+
+  before_save do
+    self.serialize_extra('results')
   end
 
   state_machine :status, initial: :created do
@@ -77,6 +80,15 @@ class Task < ActiveRecord::Base
     self.extras[name] ||= default if default
 
     self.extras[name]    
+  end
+
+  def results
+    HashWithIndifferentAccess.new(deserialize_extra('results', {}))
+  end
+
+  def results=(rs)
+    self.extras = {} unless extras
+    self.extras['results'] = HashWithIndifferentAccess.new(rs)
   end
 
   def download_file(connection, uri)
