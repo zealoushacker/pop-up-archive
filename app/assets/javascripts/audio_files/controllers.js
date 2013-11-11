@@ -68,7 +68,20 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
     $scope.addToAmara = function () {
       $scope.audioFile = new AudioFile($scope.audioFile);
       $scope.audioFile.itemId = $scope.item.id;
-      return $scope.audioFile.addToAmara(me);
+      var filename = $scope.audioFile.filename;
+      return $scope.audioFile.addToAmara(me).then( function (task) {
+
+        var msg = '"' + filename + '" added. ' +
+        '<a data-dismiss="alert" data-target=":blank" ng-href="' + task.transcriptUrl + '">View</a> or ' + 
+        '<a data-dismiss="alert" data-target=":blank" ng-href="' + task.editTranscriptUrl + '">edit the transcript</a> on Amara.';
+
+        var alert = new Alert();
+        alert.category = 'add_to_amara';
+        alert.status   = 'Added';
+        alert.progress = 1;
+        alert.message  = msg;
+        alert.add();
+      });
     };
 
     $scope.showOrderTranscript = function () {
