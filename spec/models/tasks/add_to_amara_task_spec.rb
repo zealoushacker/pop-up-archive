@@ -7,7 +7,7 @@ describe Tasks::AddToAmaraTask do
     @audio_file = FactoryGirl.create :audio_file
     @task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara', extras: { amara_team: 'prx-test-0', user_id: @user.id })
     @task.should_receive(:create_video).and_return(Hashie::Mash.new({id: 'NEWVIDEO'}))
-    @task.should_receive(:add_subtitles).and_return(Hashie::Mash.new())
+    @task.should_receive(:start_add_subtitles_worker).and_return(Hashie::Mash.new())
     @task.save!
     @task.run_callbacks(:commit)
   end
@@ -15,7 +15,7 @@ describe Tasks::AddToAmaraTask do
   it "should be valid with defaults" do
     task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara', extras: { amara_team: 'prx-test-0', user_id: @user.id })
     task.should_receive(:create_video).and_return(Hashie::Mash.new({id: 'NEWVIDEO'}))
-    task.should_receive(:add_subtitles).and_return(Hashie::Mash.new())
+    task.should_receive(:start_add_subtitles_worker).and_return(Hashie::Mash.new())
     task.save!
     task.run_callbacks(:commit)
 
@@ -64,7 +64,7 @@ describe Tasks::AddToAmaraTask do
     task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara')
     video = Hashie::Mash.new({id: 'NEWVIDEO'})
     task.should_receive(:create_video).and_return(video)
-    task.should_receive(:add_subtitles).and_return(Hashie::Mash.new())
+    task.should_receive(:start_add_subtitles_worker).and_return(Hashie::Mash.new())
     task.order_transcript
     task.video_id.should eq 'NEWVIDEO'
   end

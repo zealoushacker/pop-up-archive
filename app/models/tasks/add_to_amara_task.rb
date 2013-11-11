@@ -21,10 +21,10 @@ class Tasks::AddToAmaraTask < Task
     video = create_video
     # save the video_id, which is useful for crafting a url
     self.extras['video_id'] = video.id
-
-    add_subtitles
-
     self.save!
+
+    start_add_subtitles_worker
+
     self
   end
 
@@ -32,13 +32,19 @@ class Tasks::AddToAmaraTask < Task
     logger.debug("AddToAmaraTask: create_video start")
     video_response = amara_client.videos.create(create_video_options)
     video = video_response.object
-    logger.debug("amara video created: #{video.inspect}")
+    logger.debug("AddToAmaraTask amara video created: #{video.inspect}")
     video
   end
 
+  def start_add_subtitles_worker
+    return if self.extras['omit_subtitles']
+    AddSubtitlesWorker.perform_async(self.id) unless Rails.env.test?
+  end
+
   def add_subtitles
-    return if self.extras[:omit_subtitles]
-    subs_response = amara_client.videos(video_id).languages(language).subtitles.create(create_subtitles_options)
+    logger.debug "AddToAmaraTask add_subtitles start"
+    amara_client.videos(video_id).languages(language).subtitles.create(create_subtitles_options)
+    logger.debug "AddToAmaraTask add_subtitles end"
   end
 
   def finish_task
@@ -125,7 +131,7 @@ class Tasks::AddToAmaraTask < Task
       primary_audio_language_code: language
     }
 
-    logger.debug "create_video_options: #{options.inspect}"
+    logger.debug "AddToAmaraTask create_video_options: #{options.inspect}"
 
     options
   end
@@ -140,11 +146,10 @@ class Tasks::AddToAmaraTask < Task
       subtitles:  srt
     }
     
-    logger.debug "create_subtitles_options: #{options.inspect}"
+    logger.debug "AddToAmaraTask create_subtitles_options: #{options.inspect}"
 
     options    
   end
-
 
   def amara_client
     @client ||= Amara::Client.new(
