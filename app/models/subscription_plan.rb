@@ -36,7 +36,7 @@ class SubscriptionPlan
 
   def self.create(options)
     plan_id = "#{options[:hours]||2}-#{SecureRandom.hex(8)}"
-    new(Stripe::Plan.create(id: plan_id, name: options[:name], amount: options[:amount])).tap do |plan|
+    new(Stripe::Plan.create(id: plan_id, name: options[:name], amount: options[:amount], currency: 'USD')).tap do |plan|
       Rails.cache.delete([:plans, :group, :all])
       Rails.cache.delete([:plans, :group, :ungrandfathered])
       Rails.cache.delete([:plans, :group, :community])
