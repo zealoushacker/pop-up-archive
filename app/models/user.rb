@@ -108,20 +108,20 @@ class User < ActiveRecord::Base
   end
 
   def update_card!(card_token)
-    cus = Stripe::Customer.retrieve(customer.id)
+    cus = customer.stripe_customer
     cus.card = card_token
     cus.save
     invalidate_cache
   end
 
   def subscribe!(plan)
-    cus = Stripe::Customer.retrieve(customer.id)
+    cus = customer.stripe_customer
     cus.update_subscription(plan: plan.id)
     invalidate_cache
   end
 
   def add_invoice_item!(invoice_item)
-    cus = Stripe::Customer.retrieve(customer.id)
+    cus = customer.stripe_customer
     cus.add_invoice_item(invoice_item)
   end
 
@@ -180,7 +180,7 @@ class User < ActiveRecord::Base
   private
 
   def delete_customer
-    Stripe::Customer.retrieve(customer.id).delete
+    customer.stripe_customer.delete
     invalidate_cache
   end
 
@@ -228,10 +228,14 @@ class User < ActiveRecord::Base
       customer.id == id
     end
 
+    def stripe_customer
+      Stripe::Customer.retrieve(id)
+    end
+
     alias :eql? :==
 
     def subscribe_to_community
-      Stripe::Customer.retrieve(customer.id).update_subscription(plan: SubscriptionPlan.community.id)
+      stripe_customer.update_subscription(plan: SubscriptionPlan.community.id)
       SubscriptionPlan.community
     end
   end
