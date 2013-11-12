@@ -41,7 +41,7 @@ PopUpArchive::Application.configure do
   config.logger = Logger.new(STDOUT)
 
   # Use a different cache store in production
-  config.cache_store = :redis_store
+  config.cache_store = :redis_store, ENV["REDISTOGO_URL"] || "redis://127.0.0.1:6379/0/popuparchive"
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"

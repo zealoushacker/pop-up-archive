@@ -24,7 +24,7 @@ class SubscriptionPlan
 
   def self.community
     Rails.cache.fetch([:plans, :group, :community], expires_in: 30.minutes) do
-      ungrandfathered.find { |p| p.amount == 0 } || create(id: '2_community', name: 'Community', amount: 0)
+      ungrandfathered.find { |p| p.amount == 0 && p != organization } || create(id: '2_community', name: 'Community', amount: 0)
     end
   end
 

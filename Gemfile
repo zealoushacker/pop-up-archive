@@ -85,6 +85,8 @@ gem 'language_list'
 
 gem 'stripe'
 
+gem 'redis-rails'
+
 group :assets do
   gem 'sprockets'
   gem 'sass-rails', '~> 3.2.3'
