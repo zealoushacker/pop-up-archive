@@ -20,14 +20,9 @@ class Task < ActiveRecord::Base
   end
 
   # we need to retain the storage used to kick off the process
-  before_validation(on: :create) do
-    self.extras = {} unless extras
-    self.storage_id = owner.storage.id if (!storage_id && owner && owner.storage)
-  end
+  before_validation :set_task_defaults, on: :create
 
-  before_save do
-    self.serialize_extra('results')
-  end
+  before_save :serialize_results
 
   state_machine :status, initial: :created do
 
@@ -52,6 +47,15 @@ class Task < ActiveRecord::Base
       task.finish_task
     end
 
+  end
+
+  def serialize_results
+    self.serialize_extra('results')
+  end
+
+  def set_task_defaults
+    self.extras = {} unless extras
+    self.storage_id = owner.storage.id if (!storage_id && owner && owner.storage)
   end
 
   def finish_task
