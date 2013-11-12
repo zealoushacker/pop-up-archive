@@ -15,7 +15,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 
 		$scope.tour = {
 		  'welcome': {
-		    'content': 'First things first: create a collection below. <a href=""> Learn how to organize.</a>',
+		    'content': 'Click "Create a collection" below. Your collection can be public or private. <a href="/how_to_organize"> Learn how to organize.</a>',
 		    'step': 0
 		  },
 		  'privacy': { 
@@ -23,7 +23,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
         'step': 1
 		  },
 		  'privacy2': { 
-				'content': 'Private collections are visible only to you. You get two free hours of private storage.',
+				'content': 'Private collections are visible only to you. You get two free hours of private storage. <a href="/privacy_faq"> Learn more aobut privacy.</a>',
         'step': 2
 		  },
 		  'upload': {
@@ -31,7 +31,7 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 		    'step': 3
 		  },
 		  'collection': {
-		    'content': 'Then, move your item to a collection.',
+		    'content': 'Then, click on the item and select "Move to a Collection".',
 		    'step': 4
 		  },
 		  'collection2': {
@@ -43,16 +43,6 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
 		    'step': 6
 		  },
 		};
-
-    // $scope.$on('tutorial-step-shown', function (event) {
-    //   if (event.targetScope.stepOptions) {
-    //     var step = event.targetScope.stepOptions.step;
-    //     switch (step) {
-    //       case 4: $modal({template: "/assets/collections/tutorial1.html", persist: false, show: true, backdrop: 'static', scope: $scope, modalClass: 'big-modal'}); break;
-    //       case 5: $modal({template: "/assets/collections/tutorial2.html", persist: false, show: true, backdrop: 'static', scope: $scope, modalClass: 'big-modal'}); break;
-    //     }
-    //   }
-    // });
 		
     $scope.selectedItems = [];
 

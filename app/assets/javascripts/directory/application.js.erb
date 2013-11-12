@@ -81,7 +81,7 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       controller: "PublicCollectionsCtrl",
       title: "Public Collections"
     })
-    .when('/collections/privacy_faq', {
+    .when('/privacy_faq', {
       templateUrl: "<%= asset_path 'collections/privacy_faq.html' %>",
       controller: "PrivacyFAQ",
       title: "Privacy FAQ"
@@ -113,6 +113,10 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       templateUrl: "<%= asset_path 'dashboard/enterprise.html' %>",
       controller: "DashboardCtrl",
       title: "Enterprise Services"
+    })
+    .when('/how_to_organize', {
+      templateUrl: "<%= asset_path 'collections/how_to_organize.html' %>",
+      title: "How To Organize"
     })
     .when('/imports', {
       templateUrl: "<%= asset_path 'imports/index.html' %>",
