@@ -30,7 +30,7 @@ class SubscriptionPlan
 
   def self.organization
     Rails.cache.fetch([:plans, :group, :organization], expires_in: 30.minutes) do
-      all.find { |p| p.id =~ /organization/ } || create(id: '100_organization', name: 'Organization', amount: 0)
+      all.find { |p| p.name == 'Organization' } || create(hours: 100, name: 'Organization', amount: 0)
     end
   end
 
