@@ -42,6 +42,7 @@ PopUpArchive::Application.configure do
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
+  config.cache_store = :redis_store, ENV["REDISTOGO_URL"] || "redis://127.0.0.1:6379/0/popuparchive"
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -60,7 +61,7 @@ PopUpArchive::Application.configure do
     :user_name            => ENV['EMAIL_USERNAME'],
     :password             => ENV['EMAIL_PASSWORD'],
     :authentication       => 'plain',
-    :enable_starttls_auto => true  
+    :enable_starttls_auto => true
   }
 
   # Enable threaded mode
@@ -78,7 +79,7 @@ PopUpArchive::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   config.action_mailer.default_url_options = { :host => 'pop-up-archive-staging.herokuapp.com' }
-  Rails.application.routes.default_url_options = { host: 'pop-up-archive-staging.herokuapp.com' } 
+  Rails.application.routes.default_url_options = { host: 'pop-up-archive-staging.herokuapp.com' }
 
   require 'autoscaler/sidekiq'
   require 'autoscaler/heroku_scaler'
