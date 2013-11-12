@@ -2,7 +2,7 @@ class SubscriptionPlan
 
   def self.all
     Rails.cache.fetch([:plans, :group, :all], expires_in: 30.minutes) do
-      Stripe::Plan.all(limit: 100).map {|p| new(p) }.tap do |plans|
+      Stripe::Plan.all(count: 100).map {|p| new(p) }.tap do |plans|
         plans.each do |plan|
           Rails.cache.write([:plans, :individual, plan.id], plan, expires_in: 30.minutes)
         end
