@@ -236,6 +236,7 @@ class User < ActiveRecord::Base
 
     def subscribe_to_community
       stripe_customer.update_subscription(plan: SubscriptionPlan.community.id)
+      Rails.cache.delete([:customer, :individual, id])
       SubscriptionPlan.community
     end
   end
