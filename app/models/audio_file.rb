@@ -155,7 +155,7 @@ class AudioFile < ActiveRecord::Base
     analyze_audio
 
     copy_original
-    
+
     transcribe_audio
 
     transcode_audio
@@ -254,7 +254,6 @@ class AudioFile < ActiveRecord::Base
 
   def transcribe_audio(user=self.user)
     start_transcribe_job(user, 'ts_start', {start_only: true})
-
     if storage.at_internet_archive? || (user && (user.plan != SubscriptionPlan.community))
       start_transcribe_job(user, 'ts_all')
     end
@@ -412,7 +411,7 @@ class AudioFile < ActiveRecord::Base
   def destination(options={})
     stor   = options[:storage] || storage
     suffix = options[:suffix]  || ''
-  
+
     scheme = case stor.provider.downcase
     when 'aws' then 's3'
     when 'internetarchive' then 'ia'

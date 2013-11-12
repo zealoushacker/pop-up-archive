@@ -63,7 +63,7 @@ describe AudioFile do
     end
 
     it "should know versions to look for" do
-      AudioFileUploader.version_formats.keys.sort.should eq ['mp3', 'ogg']      
+      AudioFileUploader.version_formats.keys.sort.should eq ['mp3', 'ogg']
     end
 
     it "should create detect task" do
@@ -135,8 +135,7 @@ describe AudioFile do
 
     it 'should order start and all transcripts for organizations' do
       @audio_file.user.organization = FactoryGirl.build :organization
-      @audio_file.should_receive(:start_transcribe_job)
-      @audio_file.should_receive(:start_transcribe_job)
+      @audio_file.should_receive(:start_transcribe_job).twice
       @audio_file.transcribe_audio
     end
 

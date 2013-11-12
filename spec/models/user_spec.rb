@@ -13,7 +13,6 @@ describe User do
   end
 
   context 'oauth' do
-
     it 'applies oauth info' do
       auth = OpenStruct.new(provider: 'foo', uid: 'bar', info: OpenStruct.new(name: 'test', email: 'test@popuparchive.org'))
       user.apply_oauth(auth)
@@ -67,24 +66,25 @@ describe User do
 
   context 'payment' do
     let (:plan) { free_plan }
-    let (:free_plan) { FactoryGirl.create :subscription_plan, pop_up_hours: 80, amount: 0 }
-    let (:paid_plan) { FactoryGirl.create :subscription_plan, pop_up_hours: 80, amount: 2000 }
+
+    before do
+      SubscriptionPlan.create hours: 2, amount: 0, name: 'community'
+      @other = SubscriptionPlan.create hours: 80, amount: 2000, name: 'big'
+    end
+
+    let (:free_plan) { SubscriptionPlan.community }
+    let (:paid_plan) { @other }
 
     it 'has an amount' do
       user.plan_amount.should eq 0
     end
 
-    it 'has a #customer method that returns a Stripe::Customer' do
-      user.customer.should be_a Stripe::Customer
+    it 'has a #customer method that returns a User::Customer' do
+      user.customer.should be_a User::Customer
     end
 
     it 'persists the customer' do
       user.customer.id.should eq User.find(user.id).customer.id
-    end
-
-    it 'deletes the customer' do
-      user.customer.should_receive(:delete).and_return(true)
-      user.send(:delete_customer)
     end
 
     it 'has the community plan if it is not subscribed' do
@@ -117,6 +117,12 @@ describe User do
       user.plan.should eq plan
     end
 
+    it 'has a json representation of the current plan' do
+      user.plan_json[:pop_up_hours].should eq user.pop_up_hours
+      user.plan_json[:amount].should eq user.plan_amount
+      user.plan_json[:id].should eq user.plan_id
+    end
+
     it 'won\'t subscribe to a paid plan when there is no card present' do
       expect { user.subscribe!(paid_plan) }.to raise_error Stripe::InvalidRequestError
     end
@@ -131,20 +137,11 @@ describe User do
     it 'has a number of pop up hours determined by the subscription' do
       user.subscribe!(plan)
 
-      user.pop_up_hours.should eq plan.pop_up_hours
+      user.pop_up_hours.should eq plan.hours
     end
 
     it 'has community plan number of hours when there is no subscription' do
-      user.pop_up_hours.should eq SubscriptionPlan::COMMUNITY_PLAN_HOURS
-    end
-
-    it 'updates amount of available hours when the plan is updated' do
-      user.subscribe!(plan)
-
-      plan.pop_up_hours = 21212121
-      plan.save
-
-      user.pop_up_hours.should eq 21212121
+      user.pop_up_hours.should eq 2
     end
   end
 

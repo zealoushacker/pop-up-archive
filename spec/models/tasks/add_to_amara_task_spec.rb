@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe Tasks::AddToAmaraTask do
 
-  before(:each) do 
+  before { StripeMock.start }
+  after { StripeMock.stop }
+
+  before(:each) do
     @user = FactoryGirl.create :user
     @audio_file = FactoryGirl.create :audio_file
     @task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara', extras: { amara_team: 'prx-test-0', user_id: @user.id })
