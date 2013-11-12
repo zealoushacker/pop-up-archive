@@ -221,7 +221,7 @@ class User < ActiveRecord::Base
     end
 
     def plan
-      SubscriptionPlan.find(plan_id) || SubscriptionPlan.community
+      SubscriptionPlan.find(plan_id) || subscribe_to_community
     end
 
     def eql?(customer)
@@ -229,5 +229,10 @@ class User < ActiveRecord::Base
     end
 
     alias :eql? :==
+
+    def subscribe_to_community
+      Stripe::Customer.retrieve(customer.id).update_subscription(plan: SubscriptionPlan.community.id)
+      SubscriptionPlan.community
+    end
   end
 end
