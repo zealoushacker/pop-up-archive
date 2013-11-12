@@ -4,63 +4,46 @@ describe SubscriptionPlan do
 
   before { StripeMock.start }
   after { StripeMock.stop }
-  
-  let(:plan) { FactoryGirl.create(:subscription_plan) }
 
-  it 'has a stripe plan' do
-    plan.stripe_plan.should be_a Stripe::Plan
+  before do
+    @stripe_plan = SubscriptionPlan.create name: 'Test Plan', amount: 10000, hours: 200
+    SubscriptionPlan.create name: "*test grandfathered", amount: 100, hours: 1
   end
 
-  it 'mirrors the name to the stripe plan name' do
-    plan.stripe_plan.name.should be plan.name
+  let (:plan) { SubscriptionPlan.all.first }
+
+  let (:stripe_plan) { @stripe_plan }
+
+  it 'can fetch all plans from the server' do
+    SubscriptionPlan.all.size.should eq 2
   end
 
-  it 'allows setting the stripe plan name through the object' do
-    plan.stripe_plan.name = 'dog'
-    plan.name = 'cat'
-    plan.stripe_plan.name.should eq 'cat'
+  it 'wraps all query results in a local object' do
+    plan.should be_a SubscriptionPlan
   end
 
-  it 'mirrors the amount to stripe' do
-    plan.stripe_plan.amount.should be plan.amount
+  it 'gets the name from the stripe object' do
+    plan.name.should eq stripe_plan.name
   end
 
-  it 'sets the amount on stripe when set on the object' do
-    plan.amount = 100
-    plan.stripe_plan.amount.should be 100
+  it 'gets the hours from the stripe ID (first number, separated by _ or -)' do
+    plan.hours.should eq 200
   end
 
-  it 'saves the stripe plan when the object itself is saved' do
-    plan.name = 'chunk'
-    plan.save
-    plan.stripe_plan.should_receive(:save).and_call_original
-    plan.save
+  it 'defaults to 2 hours as a minimum' do
+    plan = SubscriptionPlan.new(Stripe::Plan.create(name: 'Test Again Plan', amount: 0, id: 'malformed'))
+    plan.hours.should eq 2
   end
 
-  it 'fails to save when the stripe plan fails to save' do
-    custom_error = Stripe::InvalidRequestError.new("Failure", {})
-    StripeMock.prepare_error(custom_error, :new_plan)
-    plan = FactoryGirl.build :subscription_plan
-    plan.save.should be false
+  it 'gets the dollar amount from the stripe object' do
+    plan.amount.should eq 10000
   end
 
-  it 'persists the stripe id' do
-    stripe_id = plan.stripe_plan_id
-    SubscriptionPlan.find(plan.id).stripe_plan_id.should eq stripe_id
+  it 'is marshallable' do
+    Marshal.dump(plan)
   end
 
-  it 'persists the amount' do
-    plan.name = "Groald"
-    plan.amount = 2000
-    plan.save
-    SubscriptionPlan.find(plan.id).amount.should eq 2000
-  end
-
-  it 'has a community plan' do
-    SubscriptionPlan.community.should be_a SubscriptionPlan
-  end
-
-  it 'community plan has COMMUNITY_PLAN_HOURS hours' do
-    SubscriptionPlan.community.pop_up_hours.should be SubscriptionPlan::COMMUNITY_PLAN_HOURS
+  it 'can query for ungrandfathered plans without a * at the start of the name' do
+    SubscriptionPlan.ungrandfathered.size.should eq 1
   end
 end

@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :invitation_token
 
   belongs_to :organization
-  before_save :save_customer
 
+  after_validation :customer #ensure that a stripe customer has been created
   after_destroy :delete_customer
 
   has_many :collection_grants, as: :collector
@@ -31,6 +31,8 @@ class User < ActiveRecord::Base
   OVERAGE_CALC = 'coalesce(used_metered_storage_cache - pop_up_hours_cache * 3600, 0)'
 
   scope :over_limits, -> { select("users.*, #{OVERAGE_CALC} as overage").where("#{OVERAGE_CALC} > 0").order('overage DESC') }
+
+  delegate :name, :id, :amount, to: :plan, prefix: true
 
   def self.find_for_oauth(auth, signed_in_resource=nil)
     where(provider: auth.provider, uid: auth.uid).first ||
@@ -106,46 +108,51 @@ class User < ActiveRecord::Base
   end
 
   def update_card!(card_token)
-    customer.card = card_token
-    customer.save
+    cus = Stripe::Customer.retrieve(customer.id)
+    cus.card = card_token
+    cus.save
+    invalidate_cache
   end
 
   def subscribe!(plan)
-    customer.update_subscription(plan: plan.stripe_plan_id)
+    cus = Stripe::Customer.retrieve(customer.id)
+    cus.update_subscription(plan: plan.id)
+    invalidate_cache
+  end
+
+  def add_invoice_item!(invoice_item)
+    cus = Stripe::Customer.retrieve(customer.id)
+    cus.add_invoice_item(invoice_item)
   end
 
   def plan
-    organization ? organization.plan : user_plan
+    organization ? organization.plan : customer.plan
   end
 
-  def user_plan
-    if stripe_subscription.present?
-      SubscriptionPlan.where(stripe_plan_id: stripe_subscription.plan.id).first
-    else
-      SubscriptionPlan.community
-    end
-  end
-
-  def plan_name
-    plan.stripe_plan_id
-  end
-
-  def plan_amount
-    plan.amount
+  def plan_json
+      {
+        name: plan.name,
+        id: plan.id,
+        amount: plan.amount,
+        pop_up_hours: pop_up_hours
+      }
   end
 
   def customer
-    @customer ||= if customer_id.present?
-      Stripe::Customer.retrieve(customer_id)
+    if customer_id.present?
+      Rails.cache.fetch([:customer, :individual, customer_id], expires_in: 5.minutes) do
+        Customer.new(Stripe::Customer.retrieve(customer_id))
+      end
     else
-      Stripe::Customer.create(email: email, description: name).tap do |cus|
+      Customer.new(Stripe::Customer.create(email: email, description: name)).tap do |cus|
         self.customer_id = cus.id
+        Rails.cache.write([:customer, :individual, cus.id], cus, expires_in: 5.minutes)
       end
     end
   end
 
   def pop_up_hours
-    plan.pop_up_hours
+    plan.hours
   end
 
   def used_metered_storage
@@ -161,7 +168,7 @@ class User < ActiveRecord::Base
   end
 
   def active_credit_card
-    customer.cards.data[0]
+    customer.card
   end
 
   def update_usage_report!
@@ -171,16 +178,9 @@ class User < ActiveRecord::Base
 
   private
 
-  def save_customer
-    customer.save
-  end
-
   def delete_customer
-    customer.delete
-  end
-
-  def stripe_subscription
-    customer.subscription
+    Stripe::Customer.retrieve(customer.id).delete
+    invalidate_cache
   end
 
   def add_uploads_collection
@@ -198,5 +198,35 @@ class User < ActiveRecord::Base
 
   def uploads_collection_grant
     super or self.uploads_collection_grant = CollectionGrant.new(collector: self, uploads_collection: true)
+  end
+
+  def customer_cache_id
+    [:customer, :individual, customer_id]
+  end
+
+  def invalidate_cache
+    Rails.cache.delete(customer_cache_id)
+  end
+
+  class Customer
+    attr_reader :id, :plan_id, :card
+
+    def initialize(stripe_customer)
+      @id = stripe_customer.id
+      if stripe_customer.subscription.present?
+        @plan_id = stripe_customer.subscription.plan.id
+      end
+      @card = stripe_customer.cards.data[0].as_json.try(:slice, *%w(last4 type exp_month exp_year))
+    end
+
+    def plan
+      SubscriptionPlan.find(plan_id) || SubscriptionPlan.community
+    end
+
+    def eql?(customer)
+      customer.id == id
+    end
+
+    alias :eql? :==
   end
 end

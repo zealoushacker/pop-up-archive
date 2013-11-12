@@ -23,7 +23,7 @@ class Tasks::OrderTranscriptTask < Tasks::AddToAmaraTask
       description: "#{self.id}: transcript for #{audio_file.filename}"
     }
 
-    invoice_item = user.customer.add_invoice_item(invoice_item)
+    invoice_item = user.add_invoice_item!(invoice_item)
     extras['invoice_item_id'] = invoice_item.id
     save!
     invoice_item

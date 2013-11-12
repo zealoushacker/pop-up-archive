@@ -79,20 +79,20 @@ describe CsvImport do
       end
       headers
     end
-    
+
     attr_reader :analyzed_import
 
     before :all do
       Tasks::TranscodeTask.any_instance.stub(:create_job).and_return(12345)
 
       @analyzed_import = FactoryGirl.create :csv_import
-      @analyzed_import.analyze!
+      analyzed_import.analyze!
     end
 
     after :all do
-      @analyzed_import.user.collections.destroy
-      @analyzed_import.user.destroy
-      @analyzed_import.destroy
+      analyzed_import.user.collections.destroy
+      analyzed_import.user.destroy
+      analyzed_import.destroy
     end
 
     it "should start with no rows" do

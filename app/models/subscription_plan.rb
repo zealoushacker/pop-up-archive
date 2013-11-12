@@ -1,86 +1,72 @@
-class SubscriptionPlan < ActiveRecord::Base
-  attr_accessible :pop_up_hours, :name, :amount
+class SubscriptionPlan
 
-  COMMUNITY_PLAN_HOURS = 2
-  ORGANIZATION_PLAN_HOURS = 100
+  def self.all
+    Rails.cache.fetch([:plans, :group, :all], expires_in: 30.minutes) do
+      Stripe::Plan.all(limit: 100).map {|p| new(p) }.tap do |plans|
+        plans.each do |plan|
+          Rails.cache.write([:plans, :individual, plan.id], plan, expires_in: 30.minutes)
+        end
+      end
+    end
+  end
 
-  before_save :save_stripe_plan
-  after_destroy :delete_stripe_plan
-  delegate :name, :name=, :amount, to: :stripe_plan
+  def self.ungrandfathered
+    Rails.cache.fetch([:plans, :group, :ungrandfathered], expires_in: 30.minutes) do
+      all.select { |p| (p.name ||'')[0] != '*' }
+    end
+  end
+
+  def self.find(id)
+    Rails.cache.fetch([:plans, :individual, id], expires_in: 30.minutes) do
+      all.find { |p| p.id == id }
+    end
+  end
 
   def self.community
-    find_or_create_by_stripe_plan_id('community') do |plan|
-      plan.pop_up_hours = COMMUNITY_PLAN_HOURS
-      plan.name = "Community"
-      plan.amount = 0
+    Rails.cache.fetch([:plans, :group, :community], expires_in: 30.minutes) do
+      ungrandfathered.find { |p| p.amount == 0 } || create(id: '2_community', name: 'Community', amount: 0)
     end
   end
 
   def self.organization
-    find_or_create_by_stripe_plan_id('organization') do |plan|
-      plan.pop_up_hours = 100
-      plan.name = "Organization"
-      plan.amount = 0
+    Rails.cache.fetch([:plans, :group, :organization], expires_in: 30.minutes) do
+      all.find { |p| p.id =~ /organization/ } || create(id: '100_organization', name: 'Organization', amount: 0)
     end
   end
 
-  def stripe_plan
-    @stripe_plan ||= Stripe::Plan.retrieve(stripe_plan_id)
-  rescue Stripe::InvalidRequestError
-    @stripe_new_plan = true
-    @stripe_plan = Stripe::Plan.construct_from(id: stripe_plan_id,
-      currency: 'usd',
-      interval: 'month',
-      name: stripe_plan_id,
-      amount: 0)
-  end
-
-  def stripe_plan_id=(id)
-    super.tap do
-      @stripe_plan = nil
+  def self.create(options)
+    plan_id = "#{options[:hours]||2}-#{SecureRandom.hex(8)}"
+    new(Stripe::Plan.create(id: plan_id, name: options[:name], amount: options[:amount])).tap do |plan|
+      Rails.cache.delete([:plans, :group, :all])
+      Rails.cache.delete([:plans, :group, :ungrandfathered])
+      Rails.cache.delete([:plans, :group, :community])
+      Rails.cache.write([:plans, :individual, plan_id], plan, expires_in: 30.minutes)
     end
   end
 
-  def stripe_plan_id
-    super || self.stripe_plan_id = generate_stripe_plan_id
+  def initialize(plan)
+    @id = plan.id
+    @hours = calculate_plan_hours(plan.id)
+    @name = plan.name
+    @amount = plan.amount
   end
 
-  def stripe_persisted?
-    stripe_plan && !@stripe_new_plan
+  attr_reader :name, :amount, :hours, :id
+
+  def eql?(plan)
+    plan.id == id
   end
 
-  def amount=(new_amount)
-    if stripe_persisted?
-      @plan_to_delete = stripe_plan
-      self.stripe_plan_id = generate_stripe_plan_id
-      stripe_plan.name = @plan_to_delete.name
-    end
-    stripe_plan.amount = new_amount
-  end
+  alias_method :==, :eql?
 
   private
 
-  def delete_stripe_plan
-    @plan_to_delete.delete if @plan_to_delete.present?
-    if stripe_persisted?
-      stripe_plan.delete
-    end
-  end
-
-  def generate_stripe_plan_id
-    Digest::SHA1.hexdigest("#{object_id}-#{DateTime.now}")
-  end
-
-  def save_stripe_plan
-    if stripe_persisted?
-      stripe_plan.save
+  def calculate_plan_hours(id)
+    hours = id.split(/\-|_/)[0].to_i
+    if hours == 0
+      2
     else
-      @stripe_plan = Stripe::Plan.create(stripe_plan.to_hash.slice(:id, :amount, :currency, :interval, :name))
-      @plan_to_delete.delete and @plan_to_delete = nil if @plan_to_delete.present?
-      @stripe_new_plan =  false
-      true
+      hours
     end
-  rescue Stripe::InvalidRequestError => e
-    false
   end
 end
