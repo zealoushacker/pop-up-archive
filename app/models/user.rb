@@ -146,6 +146,7 @@ class User < ActiveRecord::Base
     else
       Customer.new(Stripe::Customer.create(email: email, description: name)).tap do |cus|
         self.customer_id = cus.id
+        update_attribute :customer_id, cus.id if persisted?
         Rails.cache.write([:customer, :individual, cus.id], cus, expires_in: 5.minutes)
       end
     end
