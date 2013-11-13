@@ -2,8 +2,10 @@ require 'spec_helper'
 require 'tasks/transcode_task'
 
 describe CsvImport do
+
   before { StripeMock.start }
   after { StripeMock.stop }
+
   let(:new_import) { FactoryGirl.build :csv_import }
   let(:import) { FactoryGirl.create :csv_import }
 
@@ -90,9 +92,11 @@ describe CsvImport do
     end
 
     after :all do
-      analyzed_import.user.collections.destroy
-      analyzed_import.user.destroy
-      analyzed_import.destroy
+      if analyzed_import
+        analyzed_import.user.collections.destroy
+        analyzed_import.user.destroy
+        analyzed_import.destroy
+      end
     end
 
     it "should start with no rows" do
