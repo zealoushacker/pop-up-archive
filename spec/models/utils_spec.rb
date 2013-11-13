@@ -17,7 +17,6 @@ describe Utils do
   end
 
   it "checks http resource and retries" do
-    Excon.should_receive(:new).exactly(2).and_call_original
     Utils.http_resource_exists?('http://www.prx.org/noway.txt', 2).should be_false
   end
 

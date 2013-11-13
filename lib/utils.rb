@@ -12,10 +12,9 @@ class Utils
       try_count = 0
       request_uri = uri.to_s
       while(!result && (try_count < retry_count)) do
-        connection = Excon.new(request_uri)
 
         # logger.debug "head: #{request_uri}"
-        response = connection.head(idempotent: true, retry_limit: retry_count)
+        response = new_connection(request_uri).head(idempotent: true, retry_limit: retry_count)
 
         # logger.debug "response: #{response.inspect}"
 
@@ -31,6 +30,10 @@ class Utils
       end
 
       result
+    end
+
+    def new_connection(uri)
+      Excon.new(uri)
     end
 
     def download_private_file(connection, uri, retry_count=10)
