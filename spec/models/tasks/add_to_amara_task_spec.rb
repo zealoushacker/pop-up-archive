@@ -5,7 +5,7 @@ describe Tasks::AddToAmaraTask do
   before { StripeMock.start }
   after { StripeMock.stop }
 
-  before(:each) do
+  before(:each) do 
     @user = FactoryGirl.create :user
     @audio_file = FactoryGirl.create :audio_file
     @task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara', extras: { amara_team: 'prx-test-0', user_id: @user.id })
@@ -26,6 +26,10 @@ describe Tasks::AddToAmaraTask do
     task.identifier.should eq 'add_to_amara'
     task.team.should eq 'prx-test-0'
     task.should be_valid
+  end
+
+  it 'has a list of attributes to include publicly' do
+    @task.shared_attributes.should eq ['transcript_url', 'edit_transcript_url']
   end
 
   it "should return the video_id" do
@@ -54,14 +58,23 @@ describe Tasks::AddToAmaraTask do
     @task.owner.should eq @task.audio_file
   end
 
-  it "should set create_video_options" do
-    @task.create_video_options.should_not be_nil
-    @task.create_video_options.keys.sort.should eq [:primary_audio_language_code, :team, :title, :video_url]
-    @task.create_video_options[:primary_audio_language_code].should eq 'en'
-    @task.create_video_options[:team].should eq 'prx-test-0'
-    @task.create_video_options[:title].should eq @audio_file.filename
-    @task.create_video_options[:video_url].should eq @audio_file.public_url(extension: :ogg)
+  it "should set new_video" do
+    @task.new_video.should_not be_nil
+    @task.new_video.keys.sort.should eq [:primary_audio_language_code, :team, :title, :video_url]
+    @task.new_video[:primary_audio_language_code].should eq 'en'
+    @task.new_video[:team].should eq 'prx-test-0'
+    @task.new_video[:title].should eq @audio_file.filename
+    @task.new_video[:video_url].should eq @audio_file.public_url(extension: :ogg)
   end
+
+  it 'should add subtitles' do
+    Amara::API.any_instance.stub(:request).and_return({})
+    @task.add_subtitles
+  end
+
+  # it 'should finish task' do
+  #   @task.finish_task
+  # end
 
   it "should order the transcript and add video id to task" do
     task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara')

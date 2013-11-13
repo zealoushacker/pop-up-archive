@@ -6,9 +6,7 @@ class Tasks::AddToAmaraTask < Task
     end
   end
 
-  after_commit(on: :create) do
-    order_transcript
-  end
+  after_commit :order_transcript, :on => :create
 
   def shared_attributes
     ['transcript_url', 'edit_transcript_url']
@@ -30,7 +28,7 @@ class Tasks::AddToAmaraTask < Task
 
   def create_video
     logger.debug("AddToAmaraTask: create_video start")
-    video_response = amara_client.videos.create(create_video_options)
+    video_response = amara_client.videos.create(new_video)
     video = video_response.object
     logger.debug("AddToAmaraTask amara video created: #{video.inspect}")
     video
@@ -43,16 +41,22 @@ class Tasks::AddToAmaraTask < Task
 
   def add_subtitles
     logger.debug "AddToAmaraTask add_subtitles start"
-    amara_client.videos(video_id).languages(language).subtitles.create(create_subtitles_options)
+
+    video_language = amara_client.videos(video_id).languages(language).get rescue nil
+
+    amara_client.videos(video_id).languages.create(language_code: language, is_original: true) unless video_language
+
+    amara_client.videos(video_id).languages(language).subtitles.create(new_subtitles)
+
     logger.debug "AddToAmaraTask add_subtitles end"
   end
 
   def finish_task
-    return unless self.owner
+    return unless audio_file
     subtitles = get_latest_subtitles
     transcript = load_subtitles(subtitles)
     if transcript
-      self.owner.analyze_audio(true)
+      audio_file.analyze_audio(true)
       notify_user
     end
   end
@@ -122,7 +126,7 @@ class Tasks::AddToAmaraTask < Task
     self.extras['amara_team']
   end
 
-  def create_video_options
+  def new_video
     options = {
       # duration: audio_file.duration, # don't have this, could get from fixer analysis perhaps?
       team:      team,
@@ -131,22 +135,22 @@ class Tasks::AddToAmaraTask < Task
       primary_audio_language_code: language
     }
 
-    logger.debug "AddToAmaraTask create_video_options: #{options.inspect}"
+    logger.debug "AddToAmaraTask new_video: #{options.inspect}"
 
     options
   end
 
-  def create_subtitles_options
+  def new_subtitles
     full_language = (audio_file.item.language || 'en-US')
     transcript = audio_file.timed_transcript(full_language)
-    srt = transcript.to_doc(:srt) if transcript
+    srt = transcript.to_srt if transcript
 
     options = {
       sub_format: 'srt',
       subtitles:  srt
     }
     
-    logger.debug "AddToAmaraTask create_subtitles_options: #{options.inspect}"
+    logger.debug "AddToAmaraTask new_subtitles: #{options.inspect}"
 
     options    
   end
