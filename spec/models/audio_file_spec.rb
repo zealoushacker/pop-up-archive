@@ -1,7 +1,11 @@
 require 'spec_helper'
 
 describe AudioFile do
-  before { StripeMock.start }
+
+  before {
+    SubscriptionPlan.reset_cache
+    StripeMock.start
+  }
   after { StripeMock.stop }
 
   context "basics" do

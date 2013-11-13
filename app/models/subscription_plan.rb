@@ -49,6 +49,12 @@ class SubscriptionPlan
     end
   end
 
+  def self.reset_cache
+    Rails.cache.delete([:plans, :group, :all])
+    Rails.cache.delete([:plans, :group, :ungrandfathered])
+    Rails.cache.delete([:plans, :group, :community])
+  end
+
   def initialize(plan)
     @id = plan.id
     @hours = calculate_plan_hours(plan.id)
