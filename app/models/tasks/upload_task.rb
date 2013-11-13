@@ -2,6 +2,8 @@ require "digest/sha1"
 
 class Tasks::UploadTask < Task
 
+  before_validation :set_upload_task_defaults, :on => :create
+
   def finish_task
     # logger.debug "Tasks::UploadTask: after_transition: any => :complete start !!!!"
 
@@ -30,16 +32,12 @@ class Tasks::UploadTask < Task
     logger.error e.backtrace.join("\n")
   end
 
-  before_validation(on: :create) do
+
+  def set_upload_task_defaults
     self.extras = {} unless extras
     self.extras['chunks_uploaded'] = [].to_csv unless self.extras.key?(:chunks_uploaded)
     self.identifier = Tasks::UploadTask.make_identifier(extras) unless identifier
   end
-
-  # after_commit do
-  #   return unless ((num_chunks > 0) && (num_chunks <= chunks_uploaded.size) && !complete?)
-  #   self.finish!
-  # end
 
   def num_chunks
     extras['num_chunks'].to_i
