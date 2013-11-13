@@ -28,15 +28,45 @@ class Transcript < ActiveRecord::Base
     { sections: timed_texts }
   end
 
-  def to_doc(format=:srt)
-    action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
-    action_view.class_eval do 
-      include Rails.application.routes.url_helpers
-      include Api::BaseHelper
-      def protect_against_forgery?; false; end
-    end
+  # def to_doc(format=:srt)
+  #   action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
+  #   action_view.class_eval do 
+  #     include Rails.application.routes.url_helpers
+  #     include Api::BaseHelper
+  #     def protect_against_forgery?; false; end
+  #   end
 
-    action_view.render(template: 'api/v1/transcripts/show', formats: [format], locals: {transcript: self})
+  #   action_view.render(template: 'api/v1/transcripts/show', formats: [format], locals: {transcript: self})
+  # end
+
+  def to_srt
+    srt = ""
+    timed_texts.each_with_index do |tt, index|
+
+      end_time = tt.end_time
+      end_mils = '000'
+
+      if (index + 1) < timed_texts.size
+        end_time_max = [(timed_texts[index + 1].start_time - 1), 0].max
+        end_time = [tt.end_time, end_time_max].min
+        end_mils = '999'
+      end
+
+      if (index > 0)
+        srt += "\r\n" 
+      end
+
+      srt += "#{index + 1}\n"
+      srt += "#{format_time(tt.start_time)},000 --> #{format_time(end_time)},#{end_mils}\n"
+      srt += tt.text + "\n"
+    end
+    srt
+  end
+
+  private
+
+  def format_time(seconds)
+    Time.at(seconds).getgm.strftime('%H:%M:%S')
   end
 
 end
