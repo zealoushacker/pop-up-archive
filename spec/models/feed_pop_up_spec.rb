@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe FeedPopUp do
+
   before { StripeMock.start }
   after { StripeMock.stop }
 
@@ -10,6 +11,9 @@ describe FeedPopUp do
   end
 
   it "should process a feed" do
+    # mock_feed = OpenStruct.new
+    # mock_feed.entries = []
+    # Feedzirra::Feed.stub(:fetch_and_parse).and_return(mock_feed)
     collection = FactoryGirl.create :collection_private
     url = 'http://radio.seti.org/index.xml'
     fpu = FeedPopUp.new(true)
