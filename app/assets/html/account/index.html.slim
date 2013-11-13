@@ -1,40 +1,42 @@
 .row-fluid
   .page-nav.pull-right
-    button.btn ng-click="changePlan()" Change Plan
-    button.btn.btn-danger ng-click="cancelAccount()" Cancel Account
-  h3 My Account
-  .well
-    dl.dl-horizontal
-      dt My Current Plan: 
-      dd Community
-      dt Price:
-      dd FREE
-      dt Archive.org Storage:
-      dd 25h / UNLIMITED
-      dt Pop Up Storage:
-      dd
-        | 1h12m / 2h (
-        a ng-click="changePlan()" upgrade
-        |)
+    a.btn href="/account/plan" Change Plan
+  h3
+    | My Account
 
-  form.stripe-cc.form-horizontal stripe-form="saveCC"
-    .control-group ng-class="{error: errors.number}"
-      label.control-label for="number" Credit Card
-      .controls
-        input type="text" size="20" name="number" data-stripe="number"
-        span.help-inline ng-show="errors.number" ng-bind="errors.number"
-    .control-group ng-class="{error: errors.cvc}"
-      label.control-label for="cvc" CVC
-      .controls
-        input type="text" size="4" name="cvc" data-stripe="cvc"
-        span.help-inline ng-show="errors.cvc" ng-bind="errors.cvc"
-    .control-group ng-class="{error: errors.exp_month || errors.exp_year }"
-      label.control-label for="exp-month" Exp. (MM/YYYY)
-      .controls
-        input type="text" size="2" name="exp-month" data-stripe="exp-month"
-        |   /  
-        input type="text" size="4" name="exp-year" data-stripe="exp-year"
-        span.help-inline ng-show="errors.exp_month + errors.exp_year" ng-bind="errors.exp_month + errors.exp_year"
-    .control-group
-      .controls
-        button.btn.btn-primary type="submit" class="btnGreen" Save
+.row-fluid ng-show="me.plan.amount"
+  .well
+    .credit-card.pull-right ng-show="me.hasCreditCard"
+      img ng-src="/assets/{{me.creditCard.type.toLowerCase()}}.png" ng-show="me.creditCard.type"
+      |  xxx-{{me.creditCard.last4}}
+      small
+        span ng-show="me.trialDays" trial, {{me.trialDays}} days left
+        | {{me.creditCard.expMonth}}/{{me.creditCard.expYear}}&nbsp;
+        a ng-click="changeCreditCard()" (update)
+    .credit-card.pull-right ng-hide="me.creditCard"
+      p Free Trial
+      small
+        | ({{me.trialDays}} days left)
+        a ng-click="changeCreditCard()"  Add a Credit Card
+    .plan-pricing
+      | {{me.totalMeteredStorage | timeCode: 'words'}} - {{me.planAmount / 100 | currency }}/mo
+      small
+        a href="/account/plan" Get More!
+
+.row-fluid ng-hide="me.planAmount"
+  .well
+    h6.pull-right
+      a href="/account/plan" Find out more &raquo;
+    h4
+      | Need more room?&nbsp;
+      a href="/account/plan" Upgrade to a paid plan!
+.row-fluid
+  dl.dl-horizontal
+    dt My Plan:
+    dd {{ me.plan.name | titleize }}
+    dd ng-show="!currentPlanAmount" FREE
+    dt Uploaded Audio:
+    dd {{me.usedUnmeteredStorage | timeCode: 'words'}} / UNLIMITED
+    dt Pop Up Storage:
+    dd
+      | {{me.usedMeteredStorage | timeCode: 'words'}} / {{me.totalMeteredStorage | timeCode: 'words'}}

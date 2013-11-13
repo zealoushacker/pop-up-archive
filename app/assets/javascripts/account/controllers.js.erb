@@ -3,6 +3,9 @@ angular.module('Directory.account.controllers', ['stripe'])
   Stripe.setPublishableKey('<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>');
 })
 .controller('AccountCtrl', ['$scope', 'Me', function ($scope, Me) {
+  Me.authenticated(function (me) {
+    $scope.me = me;
+  });
 
   $scope.errors = {};
 
