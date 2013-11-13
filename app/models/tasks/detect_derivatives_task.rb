@@ -2,8 +2,8 @@ class Tasks::DetectDerivativesTask < Task
 
   before_save :serialize_urls
 
-  after_commit :start_detective, on: :create
-  after_commit :finish_if_all_detected, on: :update
+  after_commit :start_detective, :on => :create
+  after_commit :finish_if_all_detected, :on => :update
 
   def serialize_urls
     self.serialize_extra('urls')
