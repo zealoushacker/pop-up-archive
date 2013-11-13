@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe Admin::TaskList do
 
+  before { StripeMock.start }
+  after { StripeMock.stop }
+
   before {
     @task = FactoryGirl.create :analyze_task
     Admin::TaskList.any_instance.stub(:incomplete_tasks).and_return([@task])
