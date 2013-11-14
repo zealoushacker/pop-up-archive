@@ -205,9 +205,14 @@ button.pua-pill {
 .player {
 
   background: #fff;
-  padding: 20px;
+  padding: 20px 0 20px 20px;
   border-radius: 20px;
+  .timecodes {
+    float: left;
+    padding: 20px 0 10px 35px;
+  }
   .player-button {
+    float: left;
     color: #fff;
     border: 5px solid #ccc;
     background: transparent;
@@ -235,11 +240,11 @@ button.pua-pill {
     }
   }
 
-  width: 700px;
+  width: 875px;
   .scrubber {
     height: 60px;
     overflow: hidden;
-    float: right;
+    float: left;
     width: 550px;
 
     canvas {
@@ -1263,7 +1268,7 @@ form.with-tags {
 
 .transcript-options {
   position: absolute;
-  margin-top: -30px;
+  margin-top: -10px;
   margin-right: 95px;
   right: 0;
 

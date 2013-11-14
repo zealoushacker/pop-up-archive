@@ -41,7 +41,9 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
             i.icon-pause
           .scrubber
             .bar ng-show="isLoaded()" ng-style="{width:player.time*100/player.duration+'%'}"
-            .timecodes ng-show="isLoaded() && player.duration" {{player.time | timeCode }} / {{player.duration | timeCode }}
+          .timecodes ng-show="isLoaded() && player.duration" {{player.time | timeCode }} / {{player.duration | timeCode }}
+          .clearfix
+
 
 
         .transcript-options ng-show="audioFile.transcript.length"
