@@ -90,7 +90,10 @@ describe Tasks::AddToAmaraTask do
     response = Hashie::Mash.new({body: video, status: 200})
     amara_response = Amara::Response.new(response)
     task = Tasks::AddToAmaraTask.new(owner: @audio_file, identifier: 'add_to_amara')
-    task.amara_client.videos.should_receive(:create).and_return(amara_response)
+
+    client = task.amara_client
+    task.should_receive(:amara_client).and_return(client)
+    client.videos.should_receive(:create).and_return(amara_response)
     task.create_video.should eq video
   end
 

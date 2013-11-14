@@ -165,7 +165,7 @@ class Tasks::AddToAmaraTask < Task
   end
 
   def amara_client
-    @client ||= Amara::Client.new(
+    Amara::Client.new(
       api_key:      ENV['AMARA_KEY'],
       api_username: ENV['AMARA_USERNAME'],
       endpoint:     "https://#{ENV['AMARA_HOST']}/api2/partners"
