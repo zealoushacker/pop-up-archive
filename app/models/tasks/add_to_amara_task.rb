@@ -46,10 +46,14 @@ class Tasks::AddToAmaraTask < Task
     begin
       video_language = amara_client.videos(video_id).languages(language).get
     rescue Exception => exception
-      logger.error "AddToAmaraTask add_subtitles create language: error: #{exception.class.name}: #{exception.message}\n\t#{exception.backtrace.join("\n\t")}"
+      logger.error "AddToAmaraTask add_subtitles get languages: error: #{exception.class.name}: #{exception.message}\n\t#{exception.backtrace.join("\n\t")}"
     end
 
-    amara_client.videos(video_id).languages.create(language_code: language, is_original: true) unless video_language
+    begin
+      amara_client.videos(video_id).languages.create(language_code: language, is_original: true) unless video_language
+    rescue Exception => exception
+      logger.error "AddToAmaraTask add_subtitles create language: error: #{exception.class.name}: #{exception.message}\n\t#{exception.backtrace.join("\n\t")}"
+    end
 
     amara_client.videos(video_id).languages(language).subtitles.create(new_subtitles)
 
