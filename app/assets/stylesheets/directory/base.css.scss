@@ -1670,7 +1670,7 @@ form.stripe-cc {
     -ms-filter: blur(5px) saturate(40%);
   }
   .layer {
-      background-color: rgba(133, 129, 161, 0.4);
+      background-color: rgba(255, 255, 255, 0.4);
       position: absolute;
       top: 0;
       left: 0;
@@ -1694,7 +1694,7 @@ form.stripe-cc {
   }
   h1 {
     width: 700px;
-    color: black;
+    color: #2c677f;
     position: relative;
     z-index: 4;
     margin: -465px auto 0;
