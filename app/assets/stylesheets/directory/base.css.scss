@@ -209,7 +209,7 @@ button.pua-pill {
   border-radius: 20px;
   .timecodes {
     float: left;
-    padding: 20px 0 10px 35px;
+    padding: 20px 0 10px 25px;
   }
   .player-button {
     float: left;
@@ -246,6 +246,7 @@ button.pua-pill {
     overflow: hidden;
     float: left;
     width: 550px;
+    padding-left: 10px;
 
     canvas {
       width: 100%;
@@ -1650,6 +1651,150 @@ form.stripe-cc {
       font-size: 19px;
       line-height: 28px;
     } 
+  }
+}
+
+.slider {
+  position: relative;
+  width: 940px;
+  height: 528px;
+  margin: 20px 0;
+  img {
+    position: relative;
+    z-index: 1;
+    height: 528px;
+    filter: blur(5px) saturate(40%);
+    -webkit-filter: blur(5px) saturate(40%);
+    -moz-filter: blur(5px) saturate(40%);
+    -o-filter: blur(5px) saturate(40%);
+    -ms-filter: blur(5px) saturate(40%);
+  }
+  .layer {
+      background-color: rgba(133, 129, 161, 0.4);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      filter: blur(5px);
+      -webkit-filter: blur(5px);
+      -moz-filter: blur(5px);
+      -o-filter: blur(5px);
+      -ms-filter: blur(5px);
+  }
+  p {
+    width: 700px;
+    position: relative;
+    z-index: 3;
+    margin: 25px auto;
+    padding: 20px;
+    font-weight: 800;
+    font-size: 20px;
+  }
+  h1 {
+    width: 700px;
+    color: black;
+    position: relative;
+    z-index: 4;
+    margin: -465px auto 0;
+    padding: 20px;  
+  }
+  li {
+    position: relative;
+    z-index: 5;
+  }
+   
+  .arrow {
+      position: absolute;
+      z-index: 1002;
+      display: block;
+      top: 50%;
+      margin-top: -35px;
+      width: 36px;
+      height: 71px;
+      outline: none;
+      cursor: pointer;
+  }
+
+  .arrow.prev {
+      padding: 10px;
+      font-size: 2em;
+      color: white;
+      opacity: 0.2;
+      left: 20px;
+      transition: 0.2s linear all;
+  }
+
+  .arrow.next {
+      padding: 10px;
+      font-size: 2em;
+      color: white;
+      opacity: 0.2;
+      right: 20px;
+      transition: 0.2s linear all;
+  }
+
+  .arrow.prev:hover {
+      opacity: 1;
+      text-decoration: none;
+  }
+
+  .arrow.next:hover {
+      opacity: 1;
+      text-decoration: none;
+  }
+  
+  .wrapper {
+    text-align: center;
+    width: 940;
+  }
+  
+  .nav ul {
+      position: absolute;
+      bottom:0;
+      margin: 0 auto;
+      width: 100%;
+  }
+
+  .nav .dot, .nav .dot a {
+      display: inline-block;
+      zoom: 1;
+  }
+
+  .dots .dot {
+      position: relative;
+      margin: 0 8px;
+      width: 12px;
+      height: 12px;
+  }
+
+  .dots .dot a {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 12px;
+      height: 12px;
+      text-indent: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      background: #FFF;
+      border: 1px solid transparent;
+      outline: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      -webkit-transition: background-color 0.25s, border-color 0.25s;
+      -moz-transition: background-color 0.25s, border-color 0.25s;
+      transition: background-color 0.25s, border-color 0.25s;
+  }
+
+  .dots .dot a.active {
+      border-color: #FFF;
+      background-color: transparent;
   }
 }
 
