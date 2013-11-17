@@ -32,7 +32,7 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
 
   def destroy
     audio_file.destroy
-    render :api, audio_file
+    respond_with :api, audio_file
   end
 
   def transcript_text
@@ -62,9 +62,9 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
     respond_with :api
   end
 
-  def latest_task
-    audio_file.tasks.last
-  end
+  # def latest_task
+  #   audio_file.tasks.last
+  # end
 
   def upload_to_storage
     audio_file.upload_to
