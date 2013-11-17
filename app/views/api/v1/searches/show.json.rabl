@@ -16,6 +16,7 @@ child @search.results do
   attribute :date_created, if:  ->(o) { o.date_created.present? }
   attribute :identifier, if: ->(o) { o.identifier.present? }
   attribute :collection_id, if: ->(o) { o.collection_id.present? }
+  attribute :collection_title, if: ->(o) { o.collection_title.present? }
   attribute :episode_title, if: ->(o) { o.episode_title.present? }
   attribute :series_title, if: ->(o) { o.series_title.present? }
   attribute :date_broadcast, if: ->(o) { o.date_broadcast.present? }

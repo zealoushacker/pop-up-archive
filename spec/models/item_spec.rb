@@ -16,6 +16,12 @@ describe Item do
     end
   end
 
+  it 'has the collection title' do
+    item = FactoryGirl.create :item
+    item.collection_title.should eq "test collection"
+
+  end
+
   it "can be deleted" do
     item = FactoryGirl.create :item
     item.should_receive(:remove_from_index).and_return(true)
@@ -51,7 +57,7 @@ describe Item do
     item.token.should start_with('test.')
   end
 
-  it "should change visibility when collection changes" do    
+  it "should change visibility to false when collection changes" do    
     item = FactoryGirl.create :item
     item.set_defaults
     item.is_public.should == true
@@ -61,5 +67,32 @@ describe Item do
     item.save!
     item.is_public.should == false
   end
+
+  it "should change visibility to true when collection changes" do    
+    item = FactoryGirl.create :item_private
+    item.set_defaults
+    item.is_public.should == false
+    collection = FactoryGirl.create :collection_public
+    item.collection_id = collection.id
+    item.collection = collection
+    item.save!
+    item.is_public.should == true
+  end
+
+  it 'should have an upload collection' do
+    item = FactoryGirl.create :item
+    item.upload_to.should eq item.collection.upload_to
+
+    item = FactoryGirl.create :item_private
+    item.upload_to.should eq item.storage
+  end
+
+  it 'tags_for_index' do
+    item = FactoryGirl.create :item
+    item.tags = ['x/a', 'y/b', 'x/c']
+    item.send(:tags_for_index).should eq ['x', 'x/a', 'x/c', 'y', 'y/b']
+  end
+
+
 
 end

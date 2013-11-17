@@ -148,14 +148,14 @@ class Item < ActiveRecord::Base
     "#{Rails.application.routes.url_helpers.root_url}collections/#{collection_id}/items/#{id}"
   end
 
-  def dedupe_entities
-    groups =  self.entities.group_by(&:name)
-    groups.each do |k,v|
-      next if k.blank?
-      keep = v.detect{|e| e.is_confirmed?} || v.first
-      v.each{|v| v.destroy unless v == keep}
-    end
-  end
+  # def dedupe_entities
+  #   groups =  self.entities.group_by(&:name)
+  #   groups.each do |k,v|
+  #     next if k.blank?
+  #     keep = v.detect{|e| e.is_confirmed?} || v.first
+  #     v.each{|v| v.destroy unless v == keep}
+  #   end
+  # end
 
   @@instance_lock = Mutex.new
   def update_token
@@ -219,6 +219,10 @@ class Item < ActiveRecord::Base
 
   def transcript_text
     audio_files.collect{|af| af.transcript_text}.join("\n")
+  end
+
+  def collection_title
+    collection.try(:title)
   end
 
   def to_indexed_json(params={})
@@ -306,7 +310,7 @@ class Item < ActiveRecord::Base
           tfi.push(parts[0...number].join('/'))
         end
       end
-    end
+    end.sort.uniq
   end
 
   def transcripts_for_index
