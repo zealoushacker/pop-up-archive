@@ -29,21 +29,21 @@ PopUpArchive::Application.routes.draw do
       resource :search
       resources :items do
         resources :audio_files do
-          post '',                    action: 'update'
-          get 'transcript_text',      action: 'transcript_text'
-          get 'upload_to',            action: 'upload_to'
-          post 'order_transcript',    action: 'order_transcript'
-          post 'add_to_amara',        action: 'add_to_amara'
+          post '',                     action: 'update'
+          get  'transcript_text',      action: 'transcript_text'
+          get  'upload_to',            action: 'upload_to'
+          post 'order_transcript',     action: 'order_transcript'
+          post 'add_to_amara',         action: 'add_to_amara'
 
           # s3 upload actions
-          get 'chunk_loaded',         action: 'chunk_loaded'
-          get 'get_init_signature',   action: 'init_signature'
-          get 'get_chunk_signature',  action: 'chunk_signature'
-          get 'get_end_signature',    action: 'end_signature'
-          get 'get_list_signature',   action: 'list_signature'
-          get 'get_delete_signature', action: 'delete_signature'
-          get 'get_all_signatures',   action: 'all_signatures'
-          get 'upload_finished',      action: 'upload_finished'
+          get  'chunk_loaded',         action: 'chunk_loaded'
+          get  'get_init_signature',   action: 'init_signature'
+          get  'get_chunk_signature',  action: 'chunk_signature'
+          get  'get_end_signature',    action: 'end_signature'
+          get  'get_list_signature',   action: 'list_signature'
+          get  'get_delete_signature', action: 'delete_signature'
+          get  'get_all_signatures',   action: 'all_signatures'
+          get  'upload_finished',      action: 'upload_finished'
 
           resource :transcript
         end
