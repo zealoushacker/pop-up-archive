@@ -60,7 +60,7 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
                 | Perfect your transcript
                 img src='#{asset_path("brain.svg")}'
             li ng-show="showTranscriptOrdered()"
-              a class='crafted' href="#"
+              a class='crafted' ng-href='' target="blank"
                 | Your transcript is being hand crafted
                 img src='#{asset_path("brain.svg")}'
             li ng-show="showSendToAmara()"
