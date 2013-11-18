@@ -1,11 +1,20 @@
 #about.container.slider
-   .slide.slide-animation ng-repeat="slide in slides" ng-hide="!isCurrentSlideIndex($index)"
-    .layer
-    img ng-src="#{asset_path('{{slide.image}}')}"
+  nav.text-nav
     .wrapper
-      h1 {{slide.headline}}
-    p {{slide.text}}
-  
+      ul
+        li ng-repeat="slide in slides"
+          a href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);" {{slide.headline}}
+
+  .slide.slide-animation ng-repeat="slide in slides" ng-hide="!isCurrentSlideIndex($index)" 
+    .background
+      .layer
+      img ng-src="#{asset_path('{{slide.image}}')}"
+    .wrapper
+      iframe ng-show="slide.video" src="{{slide.video}}" width="700" height="393" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
+    .wrapper ng-show="slide.headline"
+      h1 {{slide.teaser}}  
+    p ng-show="slide.text" {{slide.text}}
+
     a.arrow.next href="#" ng-click="prevSlide()"
       i.icon-circle-arrow-right
     a.arrow.prev href="#" ng-click="nextSlide()"
