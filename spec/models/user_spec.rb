@@ -145,6 +145,18 @@ describe User do
     end
   end
 
+  context '#add_default_collection' do
+    it 'is a collection' do
+      user = FactoryGirl.create :user
+      user.collections.count.should eq 1
+      c = user.send(:add_default_collection)
+      c.run_callbacks(:commit)
+      c.should_not be_items_visible_by_default
+      c.title.should eq "#{c.creator.name}'s Collection"
+      user.collections.count.should eq 2
+    end
+  end
+
   context '#uploads_collection' do
     it 'is a collection' do
       user.uploads_collection.should be_a Collection

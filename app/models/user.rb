@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
 
   after_validation :customer #ensure that a stripe customer has been created
   after_destroy :delete_customer
+  after_commit :add_default_collection
 
   has_many :collection_grants, as: :collector
   has_one  :uploads_collection_grant, class_name: 'CollectionGrant', as: :collector, conditions: {uploads_collection: true}, autosave: true
@@ -207,6 +208,13 @@ class User < ActiveRecord::Base
 
   def invalidate_cache
     Rails.cache.delete(customer_cache_id)
+  end
+
+  def add_default_collection
+    title = "#{name}'s Collection"
+    collection = Collection.new(title: title, creator: self, items_visible_by_default: false)
+    collection.save!
+    collection
   end
 
   class Customer
