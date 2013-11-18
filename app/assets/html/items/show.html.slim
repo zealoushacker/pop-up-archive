@@ -128,7 +128,7 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
       h5 Tags
       ul
         li ng-repeat="tag in item.tags"
-          button.btn ng-click="searchTags(tag)" {{tag}}
+          a.btn ng-href='/search?query=tag:%22{{tag}}%22' {{tag}}
 
 .row-fluid.item-detail
   .span12
