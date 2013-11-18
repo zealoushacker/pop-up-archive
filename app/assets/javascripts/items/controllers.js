@@ -12,7 +12,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   }
 
 }])
-.controller('ItemCtrl', ['$scope', 'Item', 'Loader', 'Me', '$routeParams', 'Collection', 'Entity', '$location', 'SearchResults', function ItemCtrl($scope, Item, Loader, Me, $routeParams, Collection, Entity, $location, SearchResults) {
+.controller('ItemCtrl', ['$scope', '$timeout','Item', 'Loader', 'Me', '$routeParams', 'Collection', 'Entity', '$location', 'SearchResults', function ItemCtrl($scope, $timeout, Item, Loader, Me, $routeParams, Collection, Entity, $location, SearchResults) {
 
   $scope.canEdit = false;
 
@@ -65,8 +65,8 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   $scope.deleteItem = function () {
     if (confirm("Are you sure you want to delete the item " + $scope.item.title +"? \n\n This cannot be undone." )){
       $scope.item.delete().then(function () {
-        $location.path('/collections/' + $scope.collection.id); 
-        $timeout(function(){ $scope.$broadcast('datasetChanged')}, 750);
+        $timeout(function(){ $scope.$broadcast('datasetChanged')}, 100);
+        $location.path('/collections/' + $scope.collection.id);
       })
     }
   }
