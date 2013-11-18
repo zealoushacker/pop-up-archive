@@ -15,16 +15,16 @@ section ng-controller="OrderTranscriptFormCtrl"
         |, a charge of 
         b {{ price() | currency:"$" }}
         |  will be added to your monthly bill.
-      .control-group
-        label.control-label
-          | Speakers' Names
-        .controls
-          input.text.input-xlarge#speakerNames type='text' ng-model='order.speakerNames' placeholder="Comma separated speakers' names."
-      .control-group
-        label.control-label
-          | Notes
-        .controls
-          textarea.span5 ng-model='order.notes' rows="3" placeholder="Any notes to pass on to the transcribers? You may want to include the title of your show, useful websites, unusual words, keywords, acronyms, and difficult to spell words or jargon"
+      / .control-group
+      /   label.control-label
+      /     | Speakers' Names
+      /   .controls
+      /     input.text.input-xlarge#speakerNames type='text' ng-model='order.speakerNames' placeholder="Comma separated speakers' names."
+      / .control-group
+      /   label.control-label
+      /     | Notes
+      /   .controls
+      /     textarea.span5 ng-model='order.notes' rows="3" placeholder="Any notes to pass on to the transcribers? You may want to include the title of your show, useful websites, unusual words, keywords, acronyms, and difficult to spell words or jargon"
 
   .modal-footer
     button.btn type="button" ng-click="clear()" Close
