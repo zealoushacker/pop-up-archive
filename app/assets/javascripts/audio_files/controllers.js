@@ -61,6 +61,8 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
     };
 
     $scope.orderTranscript = function () {
+      $scope.audioFile = new AudioFile($scope.audioFile);
+      $scope.audioFile.itemId = $scope.item.id;
       $scope.orderTranscriptModal = $modal({template: "/assets/audio_files/order_transcript.html", persist: false, show: true, backdrop: 'static', scope: $scope, modalClass: 'order-transcript-modal'});
       return;
     };
@@ -123,10 +125,8 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
     }
 
     $scope.submit = function () {
-      $scope.audioFile = new AudioFile($scope.audioFile);
-      $scope.audioFile.itemId = $scope.item.id;
       $scope.audioFile.orderTranscript(me);
-      $scope.close();
+      $scope.clear();
       return;
     }
 

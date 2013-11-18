@@ -41,14 +41,16 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
  
   AudioFile.prototype.canOrderTranscript = function (user) {
     var self = this;
+
+    if (self.duration <= 0) return false;
+
     if (!self.transcodedAt) return false;
  
     if (!user.isAdmin()) return false;
 
-    if (!user.hasCard) return false;
+    // if (!user.hasCard) return false;
 
-    var t = self.taskForType('order_transcript');
-    if (t) return false;
+    if (self.isTranscriptOrdered()) return false;
 
     return true;
   };
@@ -57,11 +59,28 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
     var self = this;
     var t = self.taskForType('order_transcript');
 
-    if (t && t.status != 'complete') {
+    if (t && t.status != 'error') {
       return true;
     }
     return false;      
   }
+
+  AudioFile.prototype.canSendToAmara = function (user) {
+    var self = this;
+
+    if (self.duration <= 0) return false;
+
+    if (!self.transcodedAt) return false;
+ 
+    if (!user.isAdmin()) return false;
+
+    // console.log('canSendToAmara', user.organization);
+    if (!user.organization || !user.organization.amaraTeam) return false;
+
+    if (self.isOnAmara()) return false;
+
+    return true;
+  };
 
   AudioFile.prototype.isOnAmara = function () {
     var self = this;
@@ -73,22 +92,6 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
     return false;      
   }
 
-  AudioFile.prototype.canSendToAmara = function (user) {
-    var self = this;
-
-    if (!self.transcodedAt) return false;
- 
-    if (!user.isAdmin()) return false;
-
-    console.log('canSendToAmara', user.organization);
-    if (!user.organization || !user.organization.amaraTeam) return false;
-
-    var t = self.taskForType('add_to_amara');
-    if (t) return false;
-
-    return true;
-  };
-
   AudioFile.prototype.taskForType = function (t) {
     for(var i = 0; i < this.tasks.length; i++) {
       if (this.tasks[i].type == t) { return this.tasks[i]; }
@@ -97,6 +100,7 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
 
   AudioFile.prototype.orderTranscript = function (user) {
     var self = this;
+    // console.log('orderTranscript', this);
     return AudioFile.processResponse($http.post(self.$url() + '/order_transcript')).then(function (orderTranscriptTask) {
       console.log('orderTranscript result', orderTranscriptTask, self);
       self.tasks.push(orderTranscriptTask);
@@ -106,7 +110,7 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
 
   AudioFile.prototype.addToAmara = function (user) {
     var self = this;
-    console.log('addToAmara', this);
+    // console.log('addToAmara', this);
     return AudioFile.processResponse($http.post(self.$url() + '/add_to_amara')).then(function (addToAmaraTask) {
       console.log('addToAmara result', addToAmaraTask, self);
       self.tasks.push(addToAmaraTask);
