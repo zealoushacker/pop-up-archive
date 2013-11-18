@@ -1,7 +1,15 @@
 angular.module("Directory.searches.filters", [])
-.filter('withoutFieldname', function() {
+.filter('queryPartHumanReadable', function() {
   return function (text) {
-    return text.replace(/\w+:/,'');
+
+    var val = text;
+    if (val.match(/(.+_id):\"(\d+)-(.*)\"/)) {
+      val = val.replace(/(.+)_id:\"(\d+)-(.*)\"/,"\"$3\"");
+    } else {
+      val = val.replace(/\w+:/,'');
+    }
+
+    return val;
   }
 })
 .filter('highlightMatches', function() {

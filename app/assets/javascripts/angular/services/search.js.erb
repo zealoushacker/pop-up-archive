@@ -40,7 +40,7 @@
       if (Results.query) {
 
         if (Results.query.queryParts.length) {
-          params.push("query=" + Results.query.queryParts.join(','));
+          params.push("query=" + Results.query.toSearchQueryParam());
         }
 
         var page = Math.ceil((Results.currentIndex + 1)/ <%= RESULTS_PER_PAGE %>);

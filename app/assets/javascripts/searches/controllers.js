@@ -39,9 +39,8 @@ angular.module('Directory.searches.controllers', ['Directory.loader', 'Directory
     fetchPage();
   }
 
-
   $scope.addSearchFilter = function (filter) {
-    $scope.query.add(filter.field+":"+'"'+filter.name+'"');
+    $scope.query.add(filter.field+":"+'"'+filter.valueForQuerying()+'"');
   }
 
   function fetchPage () {

@@ -49,6 +49,10 @@ angular.module('Directory.searches.models', ['RailsModel', 'Directory.items.mode
     return this.name;
   }
 
+  FacetEntry.prototype.valueForQuerying = function () {
+    return this.name;
+  }
+
   function DateTimeFacetEntry(name, count, field) {
     this.name = name;
     this.count = count;
@@ -85,6 +89,10 @@ angular.module('Directory.searches.models', ['RailsModel', 'Directory.items.mode
 
   ReferenceFacetEntry.prototype.nameForPresenting = function () {
     return this.model.title;
+  }
+
+  ReferenceFacetEntry.prototype.valueForQuerying = function () {
+    return this.name + "-" + this.nameForPresenting();
   }
 
   function Facet(name, options) {
@@ -234,8 +242,28 @@ angular.module('Directory.searches.models', ['RailsModel', 'Directory.items.mode
       $location.search('query', this.queryString);
   }
 
+  Query.prototype.partsForQuery = function () {
+    var parts = [];
+    angular.forEach(this.queryParts, function (part) {
+      var val = part;
+      if (part.match(/(.+_id):\"(\d+)-(.*)\"/)) {
+        val = part.replace(/(.+_id):\"(\d+)-(.*)\"/,"$1:\"$2\"");
+      }
+      parts.push(val);
+    });
+    return parts;
+  };
+
   Query.prototype.toSearchQuery = function () {
-    var string = this.queryParts.join(" AND ");
+    var string = this.partsForQuery().join(" AND ");
+    if (string == '') {
+      return null;
+    }
+    return string;
+  }
+
+  Query.prototype.toSearchQueryParam = function () {
+    var string = this.partsForQuery().join(',');
     if (string == '') {
       return null;
     }

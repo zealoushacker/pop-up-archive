@@ -8,7 +8,7 @@ ul.pager
         button.btn type='submit' go
       ul.inline.tags
         li.label ng-repeat="part in query.queryParts"
-          | {{part | withoutFieldname }}  
+          | {{part | queryPartHumanReadable }}
           i.icon-remove-sign ng-click="query.remove(part)"
   li.next ng-class="{disabled:!search.hasMoreResults()}"
     a ng-click="!search.hasMoreResults() || nextPage()" href="#" Next &rarr;
