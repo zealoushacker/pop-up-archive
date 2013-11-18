@@ -204,7 +204,7 @@ class AudioFile < ActiveRecord::Base
       identifier: 'order_transcript',
       extras: {
         user_id: user.id,
-        amount: amount_for_transcript
+        amount:  amount_for_transcript
       }
     )
     self.tasks << task
