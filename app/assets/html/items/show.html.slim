@@ -14,6 +14,8 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
     .well
       button.btn.btn-item.pull-right ng-show="currentUser.canEdit(item)" ng-click="deleteItem()" Delete
       button.btn.btn-item.pull-right ng-show="currentUser.canEdit(item)" ng-click="uploadFile()" Edit
+      a.lower-right ng-show="currentUser.canEdit(item)" ng-click="itemStorage()"
+        span.storage ng-class="storageClass(item)"
       
       p
         a ng-href='/collections' Pop Up Archive

@@ -12,7 +12,9 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   }
 
 }])
-.controller('ItemCtrl', ['$scope', '$timeout','Item', 'Loader', 'Me', '$routeParams', 'Collection', 'Entity', '$location', 'SearchResults', function ItemCtrl($scope, $timeout, Item, Loader, Me, $routeParams, Collection, Entity, $location, SearchResults) {
+.controller('ItemCtrl', ['$scope', '$timeout', '$q', '$modal', 'Item', 'Loader', 'Me', '$routeParams', 'Collection', 'Entity', '$location', 'SearchResults', function ItemCtrl($scope, $timeout, $q, $modal, Item, Loader, Me, $routeParams, Collection, Entity, $location, SearchResults) {
+
+  $scope.storageModal = $modal({template: '/assets/items/storage.html', persist: false, show: false, backdrop: 'static', scope: $scope});
 
   $scope.canEdit = false;
 
@@ -33,17 +35,31 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
 
   $scope.transcriptExpanded = false;
 
+  $scope.storageClass = function (item) {
+    if (!item) {
+      return '';
+    }
+
+    var s = angular.lowercase(item.storage) || "aws";
+    return ('storage-' + s);
+  };
+
   $scope.toggleTranscript = function () {
     $scope.transcriptExpanded = !$scope.transcriptExpanded;
-  }
+  };
 
   $scope.transcriptClass = function () {
     if ($scope.transcriptExpanded) {
       return "expanded";
     }
     return "collapsed";
-  }
+  };
 
+  $scope.itemStorage = function() {
+    $q.when($scope.storageModal).then( function (modalEl) {
+      modalEl.modal('show');
+    });
+  };
 
   $scope.deleteEntity = function(entity) {
     var e = new Entity(entity);
@@ -52,7 +68,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     e.delete().then(function() {
       $scope.item.entities.splice($scope.item.entities.indexOf(entity), 1);
     });
-  }
+  };
 
   $scope.confirmEntity = function(entity) {
     // console.log('confirmEntity', entity);
@@ -60,7 +76,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     entity.isConfirmed = true;
     var entity = new Entity(entity);
     entity.update();
-  }
+  };
     
   $scope.deleteItem = function () {
     if (confirm("Are you sure you want to delete the item " + $scope.item.title +"? \n\n This cannot be undone." )){
@@ -69,7 +85,24 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
         $location.path('/collections/' + $scope.collection.id);
       })
     }
+  };
+
+}])
+.controller('ItemStorageCtrl', [ '$scope', 'Item', 'Loader', 'Me', function ItemsCtrl($scope, Item, Loader, Me) {
+
+function pad(number) {
+  if (number < 10) {
+    return "0" + number;
   }
+  return number;
+}
+
+$scope.durationString = function (secs) {
+  var d = new Date(secs * 1000);
+
+  return pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes()) + ":" + pad(d.getUTCSeconds());
+};
+
 
 }])
 .controller('ItemFormCtrl', ['$scope', '$routeParams', 'Schema', 'Item', 'Contribution', function ($scope, $routeParams, Schema, Item, Contribution) {

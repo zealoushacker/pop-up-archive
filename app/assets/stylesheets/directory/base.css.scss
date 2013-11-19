@@ -1504,6 +1504,14 @@ form.stripe-cc {
   right: 4px;  
 }
 
+.well {
+  .lower-right {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;  
+  }
+}
+
 .storage-option {
   position:absolute;
   top:-5px;

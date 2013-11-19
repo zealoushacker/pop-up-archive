@@ -4,6 +4,10 @@ Item::STANDARD_ROLES.each{|r| attribute r.pluralize.to_sym}
 
 attribute created_at: :date_added
 
+node (:storage) do |i|
+  i.storage.provider
+end
+
 child :audio_files do |af|
   extends 'api/v1/audio_files/audio_file'
 end

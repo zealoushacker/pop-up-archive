@@ -4,6 +4,8 @@ FactoryGirl.define do
     association :item, factory: :item
     association :user, factory: :user
 
+    duration 60
+
     factory :audio_file_private do
       association :item, factory: :item_private
     end

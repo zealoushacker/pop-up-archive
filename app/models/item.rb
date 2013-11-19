@@ -125,24 +125,17 @@ class Item < ActiveRecord::Base
     has_many role.pluralize.to_sym, through: "#{role}_contributions".to_sym, source: :person
   end
 
-  #default_scope includes(:contributors, :interviewees, :interviewers, :hosts, :creators, :producers, :geolocation)
-
   scope :publicly_visible, where(is_public: true)
-
-  # def self.visible_to_user(user)
-  #   if user.present?
-  #     grants = CollectionGrant.arel_table
-  #     joins(collection: :collection_grants).where(grants[:user_id].eq(user.id).or(arel_table[:is_public].eq(true)))
-  #   else
-  #     publicly_visible
-  #   end
-  # end
 
   serialize :extra, HstoreCoder
 
   delegate :title, to: :collection, prefix: true
 
   accepts_nested_attributes_for :contributions
+
+  def duration
+    read_attribute(:duration) || audio_files.inject(0){|s,a| s + a.duration.to_i}
+  end
 
   def token
     read_attribute(:token) || update_token
@@ -151,15 +144,6 @@ class Item < ActiveRecord::Base
   def url
     "#{Rails.application.routes.url_helpers.root_url}collections/#{collection_id}/items/#{id}"
   end
-
-  # def dedupe_entities
-  #   groups =  self.entities.group_by(&:name)
-  #   groups.each do |k,v|
-  #     next if k.blank?
-  #     keep = v.detect{|e| e.is_confirmed?} || v.first
-  #     v.each{|v| v.destroy unless v == keep}
-  #   end
-  # end
 
   @@instance_lock = Mutex.new
   def update_token

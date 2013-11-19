@@ -16,10 +16,16 @@ describe Item do
     end
   end
 
+  it 'calculates a duration' do
+    item = FactoryGirl.create :item_with_audio
+    item.audio_files(true).inspect
+    item.read_attribute(:duration).should be_nil
+    item.duration.should eq 60
+  end
+
   it 'has the collection title' do
     item = FactoryGirl.create :item
     item.collection_title.should eq "test collection"
-
   end
 
   it "can be deleted" do
