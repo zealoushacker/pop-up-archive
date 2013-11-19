@@ -11,6 +11,12 @@ class Entity < ActiveRecord::Base
 
   belongs_to :item
 
+  after_save :update_item
+
+  def update_item
+    item.update_index_async if item
+  end
+
   def as_indexed_json
     {entity: name, category: category }
   end

@@ -1,8 +1,12 @@
 class Person < ActiveRecord::Base
   attr_accessible :name
-  before_save :generate_slug, on: :create
+
   has_many :contributions, dependent: :destroy
   has_many :items, through: :contributions
+
+  before_save :generate_slug, on: :create
+
+  after_save :update_items
 
   include Tire::Model::Callbacks
   include Tire::Model::Search
@@ -11,27 +15,27 @@ class Person < ActiveRecord::Base
 
   settings number_of_shards: 1,
     analysis: {
-              filter: {
-                ngram_filter: {
-                  type: "edgeNGram",
-                  min_gram: 2,
-                  max_gram: 8,
-                  side: "front"
-                }
-              },
-              analyzer: {
-                index_ngram_analyzer: {
-                  type: "custom",
-                  tokenizer: "standard",
-                  filter: ["lowercase", "ngram_filter"]
-                },
-                search_ngram_analyzer: {
-                  type: "custom",
-                  tokenizer: "standard",
-                  filter: ["standard", "lowercase", "ngram_filter"]
-                }
-              }
-            } do
+      filter: {
+        ngram_filter: {
+          type: "edgeNGram",
+          min_gram: 2,
+          max_gram: 8,
+          side: "front"
+        }
+      },
+      analyzer: {
+        index_ngram_analyzer: {
+          type: "custom",
+          tokenizer: "standard",
+          filter: ["lowercase", "ngram_filter"]
+        },
+        search_ngram_analyzer: {
+          type: "custom",
+          tokenizer: "standard",
+          filter: ["standard", "lowercase", "ngram_filter"]
+        }
+      }
+    } do
     mapping do
       indexes :id, index: :not_analyzed
       indexes :name, type: 'string', index_analyzer: 'index_ngram_analyzer', search_analyzer: 'search_ngram_analyzer'
@@ -46,6 +50,9 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def async_index
+    UpdateIndexWorker.perform_async(self.class.name, self.id) unless Rails.env.test?
+  end
 
   def collection_ids
     items.collect{|i| i.collection_id}.uniq
@@ -60,6 +67,10 @@ class Person < ActiveRecord::Base
   end
 
   private
+
+  def update_items
+    self.items.each{|i| i.update_index_async }
+  end
 
   def generate_slug
     self.slug = self.class.slugify name

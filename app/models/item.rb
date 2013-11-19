@@ -29,6 +29,10 @@ class Item < ActiveRecord::Base
     self.index.store(self)
   end
 
+  def update_index_async
+    UpdateIndexWorker.perform_async(self.class.name, self.id) unless Rails.env.test?
+  end
+
   index_name { ENV['ITEMS_INDEX_NAME'] || 'items' }
 
   tire do
