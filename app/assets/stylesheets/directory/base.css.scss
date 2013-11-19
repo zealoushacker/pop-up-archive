@@ -1323,10 +1323,6 @@ form.with-tags {
     margin: 5px;
   }
 }
-
-.top-terms {
-  height: 370px;
-}
 //end Explore
 
 .organization-member {
@@ -1630,7 +1626,7 @@ form.stripe-cc {
       background-color: black;
     }
     .layer {
-      background-color: rgba(255, 255, 255, 0.4);
+      background-color: rgba(3, 3, 3, 0.4);
       position: absolute;
       top: 70px;
       left: 0;
@@ -1652,6 +1648,7 @@ form.stripe-cc {
     padding: 20px 20px 0 20px;
     font-weight: 800;
     font-size: 20px;
+    color: #f2efef;
   }
   
   iframe{
@@ -1785,40 +1782,6 @@ form.stripe-cc {
      a.active {
        color: #c9b936;
      }
-    }
-  }
-}
-
-//explore
-.browse_results{
-  h4{
-    color: #85d0f1;
-  }
-  ul {
-    margin: 0px;
-  }
-  li {
-    list-style-type: none;
-    font-family: "freight-text-pro", serif;
-  }
-  a {
-    color: #000;
-    font-family: 'soleil', helvetica, sans-serif;
-  }
-  #letters {
-    padding: 10px;
-    text-align: center;
-    a {
-      font-size: 16px;
-      font-weight: bold;
-    }
-    a:active {
-      text-decoration: underline;
-    };
-    li {
-      display: inline;
-      margin: 5px;
-      text-decoration: none;
     }
   }
 }
