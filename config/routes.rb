@@ -69,7 +69,7 @@ PopUpArchive::Application.routes.draw do
   # used only for dev and test
   mount JasmineRails::Engine => "/jasmine" if defined?(JasmineRails)
 
-  unless Rails.env.test?
+  if Rails.env.development? || Rails.env.staging?
     require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'
   end
