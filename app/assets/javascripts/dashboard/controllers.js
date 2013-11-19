@@ -4,7 +4,7 @@ angular.module('Directory.dashboard.controllers', ['Directory.loader', 'Director
   });
     
     $scope.slides = [
-      {image: null, description: 'Image 00', headline: 'The web is getting noisier', text: 'Our simple tools are helping journalists, oral history collections, and media organizations around the world.', video: null, teaser: 'Pop Up Archive organizes sound so it can be found and reused.'},
+      {image: 'about/workingstatic.gif', description: 'Image 00', headline: 'The web is getting noisier', text: 'Our simple tools are helping journalists, oral history collections, and media organizations around the world.', video: null, teaser: 'Pop Up Archive organizes sound so it can be found and reused.'},
       {image: 'about/binders.jpg', description: 'Image 01', headline: 'Introducing Pop Up Archive', text: null, video: '//player.vimeo.com/video/74795063?api=1', teaser: null},
       {image: 'about/oldbooks.jpg', description: 'Image 02', headline: 'Focus on the story',  text: 'You record, organize, and share stories — you don’t archive them. But memories fade, and audio can get lost or degrade. When it’s easy to save and search sound, it’s easy to find the threads that create stories.', teaser: 'Journalists, archivists, media producers.'},
      {image: 'about/binders.jpg', description: 'Image 03', headline: 'Index sound automatically', text: 'Sound collections of all sizes benefit from immediate searchability, marked by time-stamps so producers — and audiences — can find and hear exactly what they\'re looking for.', teaser: 'Easy access and search for sound.'},
