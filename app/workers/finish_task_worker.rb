@@ -7,8 +7,8 @@ class FinishTaskWorker
 
   def perform(task_id)
     ActiveRecord::Base.connection_pool.with_connection do
-      task = Task.find(task_id)
-      task.finish!
+      task = Task.find_by_id(task_id)
+      task.finish! if task
       true
     end
   end
