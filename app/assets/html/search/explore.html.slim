@@ -1,0 +1,24 @@
+.browse_results
+  .row ng-hide="newView"
+    .span4.top-terms ng-repeat="facet in search.facetsAsObjects()" ng-show="facet.visible()"
+      h4 {{facet.name | lowercase}}
+      ul ng-controller="SearchCtrl" ng-submit="query.commit()"
+        li ng-repeat="entry in facet.entries()"
+          small.pull-right ({{entry.count}})
+          p ng-click="addSearchFilter(entry)" {{entry.nameForPresenting()}}
+        li
+          a ng-click="setQuery({field: facet.name, letter: 'A'}); toggleView()"  More...
+  .container ng-show="newView"   
+    .row
+      .span12
+        .browse
+          h4 {{title_term | lowercase}}
+          ul#letters
+            li ng-repeat="letter in letters"
+              a ng-click="setQuery({letter: letter})" {{letter}} 
+          a ng-click="toggleView()" Back to All Facets 
+    .row 
+      .results
+        .span4 ng-repeat="term in terms"
+          ul
+            li ng-click="termSearch({field: field, term: term.term})" {{term.term}} ({{term.count}})

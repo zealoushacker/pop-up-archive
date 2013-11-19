@@ -81,6 +81,11 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       controller: "PublicCollectionsCtrl",
       title: "Public Collections"
     })
+    .when('/explore', {
+      templateUrl: "<%= asset_path 'search/explore.html' %>",
+      controller: "SearchResultsCtrl",
+      title: "Explore"
+    })
     .when('/privacy_faq', {
       templateUrl: "<%= asset_path 'collections/privacy_faq.html' %>",
       controller: "PrivacyFAQ",

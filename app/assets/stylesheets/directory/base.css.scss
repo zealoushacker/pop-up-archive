@@ -1323,6 +1323,10 @@ form.with-tags {
     margin: 5px;
   }
 }
+
+.top-terms {
+  height: 370px;
+}
 //end Explore
 
 .organization-member {
@@ -1781,6 +1785,37 @@ form.stripe-cc {
      a.active {
        color: #c9b936;
      }
+    }
+  }
+}
+
+//explore
+.browse_results{
+  ul {
+    margin: 0px;
+  }
+  li {
+    list-style-type: none;
+    font-family: "freight-text-pro", serif;
+  }
+  a {
+    color: #000;
+    font-family: 'soleil', helvetica, sans-serif;
+  }
+  #letters {
+    padding: 10px;
+    text-align: center;
+    a {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    a:active {
+      text-decoration: underline;
+    };
+    li {
+      display: inline;
+      margin: 5px;
+      text-decoration: none;
     }
   }
 }

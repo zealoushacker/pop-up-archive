@@ -13,7 +13,7 @@ angular.module('Directory.searches.controllers', ['Directory.loader', 'Directory
     $scope.query = new Query();
   }
 }])
-.controller('SearchResultsCtrl', ['$scope', 'Search', 'Loader', '$location', '$routeParams', 'Query', 'Collection', 'SearchResults', function ($scope, Search, Loader, $location, $routeParams, Query, Collection, SearchResults) {
+.controller('SearchResultsCtrl', ['$scope', 'Search', 'Loader', '$location', '$routeParams', 'Query', 'Collection', 'SearchResults', '$http', function ($scope, Search, Loader, $location, $routeParams, Query, Collection, SearchResults, $http) {
   $scope.location = $location;
   
   $scope.$watch('location.search().query', function (searchquery) {
@@ -40,8 +40,14 @@ angular.module('Directory.searches.controllers', ['Directory.loader', 'Directory
   }
 
   $scope.addSearchFilter = function (filter) {
+    $location.path('/search');
     $scope.query.add(filter.field+":"+'"'+filter.valueForQuerying()+'"');
   }
+  
+  $scope.termSearch = function (args) {
+    $location.path('/search');
+    $scope.query.add(args.field+":"+'"'+args.term+'"');
+  };
 
   function fetchPage () {
     searchParams = {};
@@ -69,4 +75,65 @@ angular.module('Directory.searches.controllers', ['Directory.loader', 'Directory
       SearchResults.setResults(search);
     });
   }
+  
+  $scope.letters= ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+
+  $scope.setQuery = function (args) {
+    console.log(args.field);
+    
+    if (args.field){
+      if (args.field == "Collection"){
+        $scope.title_term= "Collection";
+        $scope.field= "collection_title";
+      }
+      else if (args.field == "creator"){
+        $scope.title_term= "Creator";
+        $scope.field= "creator";
+      }
+      else if (args.field == "interviewer"){
+        $scope.title_term="Interviewer";
+        $scope.field="interviewers";
+      }
+      else if (args.field == "interviewee"){
+        $scope.title_term="Interviewee";
+        $scope.field="interviewees";
+      }
+      else if (args.field == "producer"){
+        $scope.title_term="Producer";
+        $scope.field="producers";
+      }
+      else if (args.field == "host"){
+        $scope.title_term="Host";
+        $scope.field="hosts";
+      }
+      else if (args.field =="tag"){
+        $scope.title_term= "Tag";
+        $scope.field="tags";
+      }
+      else if (args.field == "seriesTitle"){
+        $scope.title_term="Series";
+        $scope.field="series_title";
+      }
+      else if (args.field == "episodeTitle"){
+        $scope.title_term="Episode";
+        $scope.field="episode_title";
+      }
+    };
+    if (args.letter){
+      letter= args.letter;
+    };
+    
+    console.log($scope.field, letter);
+    $http.get('/api/search?facets['+$scope.field+'][regex]='+letter+'.*&facets['+$scope.field+'][regex_flags]=CASE_INSENSITIVE&facets['+$scope.field+'][size]=100').success(function(data) {
+        $scope.terms = data.facets[$scope.field].terms;
+        console.log($scope.terms);
+    });
+  };
+  
+  $scope.newView = false;
+  
+  $scope.toggleView = function () {
+    $scope.newView=!$scope.newView;
+  };
+
 }]);
