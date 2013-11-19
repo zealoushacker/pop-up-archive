@@ -1315,16 +1315,6 @@ form.with-tags {
   }
 }
 
-//Explore
-.browse {
-  text-align: center;
-  li {
-    display: inline;
-    margin: 5px;
-  }
-}
-//end Explore
-
 .organization-member {
   list-style: none;
   padding: 8px 35px 8px 14px;
@@ -1782,6 +1772,53 @@ form.stripe-cc {
      a.active {
        color: #c9b936;
      }
+    }
+  }
+}
+
+//explore
+
+.browse {
+  text-align: center;
+  li {
+    display: inline;
+    margin: 5px;
+  }
+}
+
+.top-terms {
+  height: 370px;
+}
+
+.browse_results{
+  h4{
+    color: #85d0f1;
+  }
+  ul {
+    margin: 0px;
+  }
+  li {
+    list-style-type: none;
+    font-family: "freight-text-pro", serif;
+  }
+  a {
+    color: #000;
+    font-family: 'soleil', helvetica, sans-serif;
+  }
+  #letters {
+    padding: 10px;
+    text-align: center;
+    a {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    a:active {
+      text-decoration: underline;
+    };
+    li {
+      display: inline;
+      margin: 5px;
+      text-decoration: none;
     }
   }
 }
