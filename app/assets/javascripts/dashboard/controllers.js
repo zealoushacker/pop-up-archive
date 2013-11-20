@@ -17,7 +17,7 @@ angular.module('Directory.dashboard.controllers', ['Directory.loader', 'Director
         image: 'mlk_speech_women.jpg', 
         description: 'Image 00', 
         video: null, 
-        html: '<h1>Focus on the story.</h1><a class=\'featurebtn\' ng-hide=\'currentUser.authenticated()\' href=\'/contact\'>Sign Up</a><a class=\'featurebtn\' href=\'/collections\'>Upload Sounds</a><a class=\'featurebtn\' href=\'/search\'>Explore</a>',
+        html: '<h1>Focus on the story.</h1><a class=\'featurebtn\' ng-hide=\'currentUser.authenticated()\' href=\'/pricing\'>Sign Up</a><a class=\'featurebtn\' href=\'/collections\'>Upload Sounds</a><a class=\'featurebtn\' href=\'/search\'>Explore</a>',
         caption: '<p class=\"pull-right\">Garment workers at the Abe Schrader Shop listen to the funeral service for Martin Luther King, Jr. on a portable radio. April 8, 1968 &mdash; <a href=\"http://www.flickr.com/photos/kheelcenter/5279005059/sizes/l/in/photostream\" target=\"_blank\"> Kheel Center, Cornell University</a></p>',
       },
       {
