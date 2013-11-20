@@ -1,27 +1,23 @@
-#about.container.slider
-  nav.text-nav
-    .wrapper
-      ul
-        li ng-repeat="slide in slides"
-          a href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);" {{slide.headline}}
+.row#about
+  .span12
+    .container.slider
+      nav.text-nav
+        .wrapper
+          ul
+            li ng-repeat="slide in about_slides"
+              a href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);" {{slide.headline}}
 
-  .slide.slide-animation ng-repeat="slide in slides" ng-hide="!isCurrentSlideIndex($index)" 
-    .background
-      .layer
-      img ng-src="#{asset_path('{{slide.image}}')}"
-    .wrapper
-      iframe ng-show="slide.video" src="{{slide.video}}" width="700" height="393" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
-    .wrapper ng-show="slide.headline"
-      h1 {{slide.teaser}}  
-    p ng-show="slide.text" {{slide.text}}
+      .slide.slide-animation ng-repeat="slide in about_slides" ng-hide="!isCurrentSlideIndex($index)" 
+        .background
+          img.blur ng-show="slide.image" ng-src="#{asset_path('{{slide.image}}')}"
+          .layer
+        .foreground
+          iframe ng-show="slide.video" src="{{slide.video}}" width="940" height="528" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
+          .wrapper ng-show="slide.teaser"
+            h1 {{slide.teaser}}  
+          p ng-show="slide.text" {{slide.text}}
 
-    a.arrow.next href="#" ng-click="prevSlide()"
-      i.icon-circle-arrow-right
-    a.arrow.prev href="#" ng-click="nextSlide()"
-      i.icon-circle-arrow-left
-    
-    nav.nav
-      .wrapper
-        ul.dots
-          li.dot ng-repeat="slide in slides"
-            a href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);" {{slide.description}}
+        a.arrow.next href="#" ng-click="prevSlide(about_slides)"
+          i.icon-circle-arrow-right
+        a.arrow.prev href="#" ng-click="nextSlide(about_slides)"
+          i.icon-circle-arrow-left
