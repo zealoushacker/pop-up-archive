@@ -9,7 +9,7 @@
     li Affordable Human-Generated Transcripts
     li E-Mail Technical Support
 .row-fluid ng-show="hasSpecialPlan()"
-  .plan-well.current ng-click="changePlan({id: currentPlan})" ng-class="{selected: isSelectedPlan({id: currentPlan})}"
+  .plan-well.current ng-click="changePlan({id: me.plan.id})" ng-class="{selected: isSelectedPlan({id: me.plan.id})}"
     h3 {{me.plan.popUpHours}} hours
     h4 ${{me.plan.amount/100}}/{{me.plan.interval|shortInterval}}
     h5 Special Plan

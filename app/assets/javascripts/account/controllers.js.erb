@@ -26,7 +26,7 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
     $modal({template: '/assets/account/credit_card.html', persist: true, show: true, backdrop: 'static', scope: $scope});
   }
 }])
-.controller('AccountPlanCtrl', ['$scope', 'Me', 'Plan', function ($scope, Me, Plan) {
+.controller('AccountPlanCtrl', ['$scope', 'Me', 'Plan', '$modal', '$location', function ($scope, Me, Plan, $modal, $location) {
   $scope.interval = 'month';
   $scope.offer = $scope.offer || {};
 
@@ -38,7 +38,6 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
   Me.authenticated(function (me) {
     $scope.me = me;
     $scope.pendingPlan = me.plan.id;
-    $scope.currentPlan = me.plan.id;
     $scope.interval = me.plan.interval;
   });
 
@@ -47,7 +46,7 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
   };
 
   $scope.isCurrentPlan = function (plan) {
-    return plan && plan.id == $scope.currentPlan;
+    return plan && $scope.me && $scope.me.plan && plan.id == $scope.me.plan.id;
   };
 
   $scope.isSelectedPlan = function (plan) {
@@ -63,7 +62,7 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
   };
 
   $scope.hasPendingChange = function () {
-    return $scope.pendingPlan != $scope.currentPlan;
+    return $scope.me && $scope.me.plan && $scope.pendingPlan != $scope.me.plan.id;
   };
 
   $scope.toggleInterval = function () {
@@ -75,20 +74,52 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
   };
 
   $scope.hasSpecialPlan = function () {
+    if (!$scope.me) { return false };
     var special = true;
     angular.forEach($scope.plans, function (plan) {
-      if (plan.id == $scope.currentPlan) {
+      if (plan.id == $scope.me.plan.id) {
         special = false;
       }
     });
     return special;
   };
 
+  function getPendingPlan() {
+    if ($scope.hasPendingChange()) {
+      var returnPlan;
+      angular.forEach($scope.plans, function (plan) {
+        if ($scope.pendingPlan == plan.id) {
+          returnPlan = plan;
+        }
+      });
+      return returnPlan;
+    } else {
+      return {
+        id: $scope.me.plan.id,
+        hours: $scope.me.plan.popUpHours,
+        amount: $scope.me.plan.amount,
+        interval: $scope.me.plan.interval
+      };
+    }
+  }
+
   $scope.subscribe = function () {
-    $scope.currentPlan = $scope.pendingPlan;
-    $scope.me.subscribe($scope.pendingPlan, $scope.offer.code).then(function (u) {
-      $scope.currentPlan = u.plan.id;
-    });
+    $scope.pendingPlanObj = getPendingPlan();
+    if ($scope.me.creditCard || $scope.pendingPlanObj.amount == 0) {
+      $scope.me.plan.id = $scope.pendingPlan;
+      $scope.me.subscribe($scope.pendingPlan, $scope.offer.code).then(function () {
+        $location.path('/account');
+      });
+    } else {
+      var unregister = $scope.$on('creditCardSubmit', function () {
+        unregister();
+        $scope.me.plan.id = $scope.pendingPlan;
+        $scope.me.subscribe($scope.pendingPlan, $scope.offer.code).then(function () {
+          $location.path('/account');
+        });
+      });
+      $modal({template: '/assets/account/credit_card.html', persist: true, show: true, backdrop: 'static', scope: $scope});
+    }
   };
 
 }])
@@ -114,7 +145,7 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
     } else {
       $scope.saving = true;
       currentUser.updateCreditCard(response.id).then(function (data) {
-        $scope.$emit('creditCardSubmit');
+        $scope.$emit('creditCardSubmit', data);
         $scope.hide();
       });
     }

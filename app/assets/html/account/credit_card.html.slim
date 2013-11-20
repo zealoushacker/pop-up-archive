@@ -7,12 +7,12 @@ section ng-controller="CreditCardCtrl"
     .loading-shield ng-show="saving"
       i.icon-refresh.icon-spin
     .modal-body
-      p ng-show="pendingPlan"
+      p ng-show="pendingPlanObj"
         | You are signing up for a&nbsp;
-        strong {{pendingPlan.popUpHours}} hour&nbsp;
+        strong {{pendingPlanObj.hours}} hour&nbsp;
         | plan at the rate of&nbsp;
-        strong {{pendingPlan.amount/100|currency}} per {{pendingPlan.interval}}.
-      hr ng-show="pendingPlan"
+        strong {{pendingPlanObj.amount/100|currency}} per {{pendingPlanObj.interval}}.
+      hr ng-show="pendingPlanObj"
       .stripe-cc.form-horizontal
         .control-group ng-class="{error: errors.number}"
           label.control-label for="number" Credit Card

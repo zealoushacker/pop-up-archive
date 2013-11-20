@@ -61,10 +61,6 @@ angular.module('Directory.users.models', ['RailsModel'])
       sub.offer = offerCode;
     }
     return sub.update().then(function (plan) {
-      self.plan.id = plan.id;
-      self.plan.amount = plan.amount;
-      self.plan.popUpHours = plan.hours;
-      self.plan.interval = plan.interval;
       return User.get('me');
     });
   };
