@@ -53,11 +53,10 @@ angular.module('Directory.collections.models', ['RailsModel'])
 })
 .filter('validChangeCollections', function() {
   var array = [];
+
   return function (collections, item) {
-    if (!item || (item.storage && item.storage != 'InternetArchive')) {
-      return collections;
-    } else
-    if (angular.isArray(collections)) {
+
+    if (item && item.id && (item.storage && item.storage == 'InternetArchive') && angular.isArray(collections)) {
       array.splice(0, array.length);
       angular.forEach(collections, function(collection) {
         if (collection.storage == 'InternetArchive') {
