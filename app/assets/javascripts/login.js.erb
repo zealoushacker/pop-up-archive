@@ -1,0 +1,38 @@
+//= require jquery
+Stripe.setPublishableKey('<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>');
+jQuery(function ($) {
+
+  var form = $('form.striped');
+  var plan_id = $('input[name=plan_id]', form).val();
+
+	$('form.striped .social-signin a').click(function (event) {
+    var link = $(this);
+    event.preventDefault();
+
+    Stripe.card.createToken(form, function (status, data) {
+      if (status !== 200) {
+        $('.stripe-cc .alert').removeClass('hide').text(data.error.message);
+      } else {
+        $('.stripe-cc').slideUp();
+        $.post('/api/credit_card', {token_id: data.id, plan_id: plan_id}, function () {
+          window.location.href = link.attr('href');
+        });
+      }
+    });
+  });
+
+  form.submit(function (event) {
+    event.preventDefault();
+    Stripe.card.createToken(form, function (status, data) {
+      if (status !== 200) {
+        $('.stripe-cc .alert').removeClass('hide').text(data.error.message);
+      } else {
+        $('input[name=card_token]').val(data.id).attr('disabled', false);;
+        $('.stripe-cc').slideUp(function () {
+          $('input[data-stripe]').val('').attr('disabled', true);
+          form[0].submit();
+        });
+      }
+    });
+  });
+});
