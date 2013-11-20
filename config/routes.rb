@@ -23,7 +23,11 @@ PopUpArchive::Application.routes.draw do
       root to: 'status#info'
 
       get '/me' => 'users#me'
+      put '/me/credit_card' => 'credit_cards#update'
+      put '/me/subscription' => 'subscriptions#update'
       get '/users/me' => 'users#me'
+      put '/users/me/credit_card' => 'credit_cards#update'
+      put '/users/me/subscription' => 'subscriptions#update'
 
       resource :lastItems
       resource :search
@@ -54,6 +58,8 @@ PopUpArchive::Application.routes.draw do
       resources :timed_texts
 
       resources :organizations
+
+      resources :plans
 
       resources :collections do
         collection do

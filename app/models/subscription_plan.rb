@@ -12,7 +12,7 @@ class SubscriptionPlan
 
   def self.ungrandfathered
     Rails.cache.fetch([:plans, :group, :ungrandfathered], expires_in: 30.minutes) do
-      all.select { |p| (p.name ||'')[0] != '*' }
+      all.select { |p| (p.name ||'')[0] != '*' && p != organization }
     end
   end
 
@@ -60,9 +60,10 @@ class SubscriptionPlan
     @hours = calculate_plan_hours(plan.id)
     @name = plan.name
     @amount = plan.amount
+    @interval = plan.interval
   end
 
-  attr_reader :name, :amount, :hours, :id
+  attr_reader :name, :amount, :hours, :id, :interval
 
   def eql?(plan)
     plan.id == id

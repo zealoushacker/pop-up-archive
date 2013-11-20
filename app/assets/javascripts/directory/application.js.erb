@@ -62,7 +62,13 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
     .when('/account', {
       templateUrl: "<%= asset_path 'account/index.html' %>",
       controller: "AccountCtrl",
+      loginRequired: true,
       title: "My Account"
+    })
+    .when('/account/plan', {
+      templateUrl: "<%= asset_path 'account/plans.html' %>",
+      controller: "AccountPlanCtrl",
+      title: "My Account &raquo Plans"
     })
     .when('/collections', {
       templateUrl: "<%= asset_path 'collections/index.html' %>",

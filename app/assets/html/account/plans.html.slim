@@ -1,0 +1,8 @@
+.row-fluid
+  .page-nav.pull-right
+    a.btn ng-click="cancel()" Cancel
+    a.btn.btn-danger ng-disabled="!hasPendingChange()" ng-click="subscribe()" Save Changes
+  h3
+    a href="/account" My Account
+    |  &raquo; Plans
+ng-include src="'/assets/plans/_plans.html'"

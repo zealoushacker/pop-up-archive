@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20131106132744) do
     t.integer  "user_id"
   end
 
+  add_index "audio_files", ["item_id", "deleted_at"], :name => "index_audio_files_on_item_id_and_deleted_at"
   add_index "audio_files", ["item_id"], :name => "index_audio_files_on_item_id"
 
   create_table "collection_grants", :force => true do |t|
@@ -162,6 +163,7 @@ ActiveRecord::Schema.define(:version => 20131106132744) do
     t.text     "music_sound_used"
     t.text     "date_peg"
     t.text     "notes"
+    t.text     "transcription"
     t.string   "tags",                              :array => true
     t.integer  "geolocation_id"
     t.hstore   "extra"
@@ -172,7 +174,6 @@ ActiveRecord::Schema.define(:version => 20131106132744) do
     t.string   "token"
     t.integer  "storage_id"
     t.boolean  "is_public"
-    t.text     "transcription"
     t.string   "language"
     t.datetime "deleted_at"
   end

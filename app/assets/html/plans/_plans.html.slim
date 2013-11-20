@@ -1,0 +1,37 @@
+.row-fluid
+  p.subtitle Choose from our terrific paid plans or get started with our free Community Plan
+.row-fluid ng-hide="hasSpecialPlan()"
+  h3 All Paid Plans Include:
+  ul.paid-plan-features
+    li Unlimited Public Storage
+    li Unlimited Auto Transcripts and Keywords
+    li Easy-to-Use Sounds Management Tools
+    li Affordable Human-Generated Transcripts
+    li E-Mail Technical Support
+.row-fluid ng-show="hasSpecialPlan()"
+  .plan-well.current ng-click="changePlan({id: currentPlan})" ng-class="{selected: isSelectedPlan({id: currentPlan})}"
+    h3 {{me.plan.popUpHours}} hours
+    h4 ${{me.plan.amount/100}}/{{me.plan.interval|shortInterval}}
+    h5 Special Plan
+.row-fluid
+  select.pull-right ng-model='interval' ng-options="interval as intervalName for (interval, intervalName) in {month: 'Monthly Plans', year: 'Annual Plans'}"
+.row-fluid
+  .plan-well.span4 ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)"
+    h3 {{plan.hours}} hours
+    h4 ${{plan.amount/100}}/{{plan.interval|shortInterval}}
+    h5 Private Transcripts, Tags, and Storage
+.row-fluid
+  .plan-well
+    h4 Have more audio than you can handle?
+    p
+      a ng-click="" Contact us
+      |  for business services and tools, including automated injest and media organization assistance.
+.row-fluid
+  .plan-well ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+    h4 Or get started with our free Community Plan.
+    ul.plan-features
+      li Two hours of sorage at Pop Up Archive
+      li Unlimited storage at The Internet Archive
+      li Two minutes of automatic transcripts and keywords per file
+      li Easy-to-yse audio management tools
+      li Access to the Pop Up Archive support forum
