@@ -32,7 +32,7 @@ body {
   margin-bottom: 10px;
 }
 
-.form-signin, .form-vertical{
+.form-signin, .form-signup, .form-vertical{
   input[type="email"],
   input[type="text"],
   input[type="password"] {
@@ -46,6 +46,19 @@ body {
   label {
     margin-top: 10px;
     font-weight: 800;
+  }
+}
+
+
+.form-signup.with-social {
+  input[type="email"],
+  input[type="text"],
+  input[type="password"] {
+    width: 42%;
+  }
+  .social-signin {
+    width: 48%;
+    height: 160px;
   }
 }
 
@@ -112,5 +125,21 @@ body {
     top: 30px;
     left: -8px;
     font-style: italic;
+  }
+}
+.align-right {
+  text-align: right
+}
+
+.form-signup, .form-signup.with-social {
+  input.autowidth {
+    width: auto;
+  }
+  input.fullwidth {
+    font-size: 32px;
+    line-height: 40px;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
   }
 }

@@ -5,4 +5,10 @@ class Api::V1::CreditCardsController < Api::V1::BaseController
     render status: 200, json: {status: 'OK'}
   end
 
+  def save_token
+  	session[:card_token] = params[:token_id]
+  	session[:plan_id] = params[:plan_id]
+  	render status: 200, json: {status: 'OK'}
+  end
+
 end

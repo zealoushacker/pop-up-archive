@@ -1,32 +1,64 @@
-= bootstrap_form_for resource, as: resource_name, url: registration_path(resource_name) do |f|
-
+= form_for resource, as: resource_name, url: registration_path(resource_name), html: {class: "form-signup #{plan.amount > 0 && !card_available? ? 'striped' : ''} #{resource.password_required? && resource.name_required? && !resource.email.present? ? 'with-social': ''}"} do |f|
+  
   = f.hidden_field :provider
 
   = f.hidden_field :uid
 
-  h2.form-signup-heading Sign Up!
+  h2.form-signin-heading Sign Up for Pop Up Archive
+
+  p
+    - if plan.amount > 0
+      | You are signing up for a&nbsp;
+      strong #{plan.hours} hour&nbsp;
+      | plan at the rate of&nbsp;
+      strong #{number_to_currency(plan.amount/100)} per #{plan.interval}.
+    - else
+      | You are signing up for the&nbsp;
+      strong Free&nbsp;
+      | Community plan, with&nbsp;
+      strong #{plan.hours} hours&nbsp;
+      | of private storage.
+  p
+    | If this isn't right, you can 
+    = link_to 'look at the available plans', '/pricing'
+    |  again.
+  hr
+
   - flash.each do |type, message|
     .alert class="#{type}" == message
-  = f.alert_message "Please fix the errors below."
-
-  - if !resource.email.present? || !resource.invitation_token.present?
-    = f.email_field :email, autofocus: true, placeholder: "Email Address"
+  - if plan.amount > 0 && !card_available?
+    .stripe-cc
+      .alert.hide
+      input.fullwidth type="text" size="20" name="number" data-stripe="number" placeholder="Credit Card Number"
+      br
+      input.autowidth type="text" size="4" name="cvc" data-stripe="cvc" placeholder="CVC"
+      .pull-right
+        i exp.&nbsp;
+        input.autowidth type="text" size="2" name="exp-month" data-stripe="exp-month" placeholder="MM"
+        | &nbsp;/&nbsp;
+        input.autowidth type="text" size="4" name="exp-year" data-stripe="exp-year" placeholder="YYYY"
+      hr.clearfix
+  input name="plan_id" type='hidden' value="#{plan.id}"
+  - if resource.password_required? && resource.name_required? && !resource.email.present?
+    .pull-right.social-signin
+      - resource_class.omniauth_providers.each do |provider|
+        = link_to "Login with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), { target: '_self', class: "btn-auth btn-#{provider} pull-right" }
+        br/
+  - if !resource.email.present?
+    = f.email_field :email, placeholder: "Email Address"
+    br
   - else
     = f.hidden_field :email
-
-  - if !resource.invitation_token.present?
-    = f.text_field :invitation_token, label: 'Invitation', placeholder: 'Token', help: "Don't have an invitation token? That's ok, <a href='http://www.popuparchive.org/request-invite/'>request one!</a>".html_safe
-  - else
-    = f.hidden_field :invitation_token
-
   - if resource.name_required?
     = f.text_field  :name, placeholder: "Name"
+    br
   - else
     = f.hidden_field :name
-
   - if resource.password_required?
     = f.password_field :password, placeholder: "Password"
+    br
     = f.password_field :password_confirmation, placeholder: "Password (again)"
-  .pull-right
-    = f.primary "Sign Up", html: {class: 'pull-right'}
-  = link_to "go back", new_session_path(resource_name)
+  input name='card_token' type='hidden' disabled=''
+    
+  .pull-right.align-right = render "devise/shared/links"
+  button.btn.btn-primary Sign Up

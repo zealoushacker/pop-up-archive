@@ -3,11 +3,11 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name, :invitation_token
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name
 
   belongs_to :organization
 
@@ -25,7 +25,6 @@ class User < ActiveRecord::Base
   has_many :csv_imports
   has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner
 
-  validates_presence_of :invitation_token, if: :invitation_token_required?
   validates_presence_of :name, if: :name_required?
   validates_presence_of :uploads_collection
 
@@ -37,15 +36,7 @@ class User < ActiveRecord::Base
 
   def self.find_for_oauth(auth, signed_in_resource=nil)
     where(provider: auth.provider, uid: auth.uid).first ||
-    find_invited(auth) ||
     create{|user| user.apply_oauth(auth)}
-  end
-
-  def self.find_invited(auth)
-    user = where(invitation_token: auth.invitation_token).first if auth.invitation_token
-    user = where(email: auth.info.email).first if !user && auth.info.email
-    user.apply_oauth(auth) if user
-    user
   end
 
   def self.new_with_session(params, session)
@@ -55,8 +46,7 @@ class User < ActiveRecord::Base
         user.uid      = data['uid']
         user.email    = data["email"] if user.email.blank?
         user.name     = data["name"] if user.name.blank?
-        user.invitation_token = session[:invitation_token]
-        user.valid? if data[:should_validate]
+        user.valid?   if data[:should_validate]
       end
     end
   end
@@ -76,10 +66,6 @@ class User < ActiveRecord::Base
   def name_required?
     # logger.debug "name_required? checked on #{self.inspect}\n"
     !provider.present? && !@skip_password && !name.present?
-  end
-
-  def invitation_token_required?
-    !invitation_accepted_at.present?
   end
 
   def searchable_collection_ids

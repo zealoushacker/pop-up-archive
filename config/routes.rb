@@ -29,6 +29,8 @@ PopUpArchive::Application.routes.draw do
       put '/users/me/credit_card' => 'credit_cards#update'
       put '/users/me/subscription' => 'subscriptions#update'
 
+      post '/credit_card' => 'credit_cards#save_token'
+
       resource :lastItems
       resource :search
       resources :items do

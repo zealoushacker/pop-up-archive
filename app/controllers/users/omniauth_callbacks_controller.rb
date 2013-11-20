@@ -33,17 +33,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 
   def oauth_login(auth_hash=omniauth)
-    auth_hash[:invitation_token] = session[:invitation_token]
-
-    logger.debug("token: #{auth_hash.inspect}")
-
     @user = User.find_for_oauth(auth_hash, current_user)
 
-    if @user.invited_to_sign_up?
-      @user.accept_invitation!
-    end
-
     if @user.persisted?
+      set_card_and_plan
       sign_in_and_redirect @user, event: :authentication
     else
       return false
@@ -65,5 +58,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session_oauth_data[:email]    = auth_hash.info.email
 
     redirect_to new_user_registration_url, notice: message
+  end
+
+  def set_card_and_plan
+    if session[:card_token].present?
+      card_token = session.delete(:card_token)
+      @user.update_card!(card_token)
+    end
+    if session[:plan_id].present?
+      plan_id = session.delete(:plan_id)
+      @user.subscribe!(SubscriptionPlan.find(plan_id))
+    end
   end
 end

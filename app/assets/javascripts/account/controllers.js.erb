@@ -166,4 +166,66 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
     return plans;
   }
 })
+.controller('SignUpCtrl', ['$scope', 'Me', '$location', 'Plan', '$modal', function($scope, Me, $location, Plan, $modal) {
+  Me.authenticated(function (me) {
+    $location.path('/account/plan');
+  });
+
+  $scope.interval = 'month';
+  $scope.offer = $scope.offer || {};
+
+  Plan.get().then(function (plans) {
+    $scope.plans = plans;
+    var suggest, min = Infinity, max = -1;
+    angular.forEach(plans, function (plan) {
+      if (plan.interval == 'month') {
+        if (plan.amount < min) {
+          min = plan.amount;
+        }
+        if (plan.amount > max) {
+          max = plan.amount;
+        }
+      }
+    });
+    angular.forEach(plans, function (plan) {
+      if (plan.interval == 'month') {
+        if (plan.amount < max && plan.amount > min && (!suggest || plan.amount > suggest.amount)) {
+          suggest = plan;
+        }
+      }
+    });
+    $scope.pendingPlan = suggest.id;
+  });
+  $scope.community = Plan.community();
+
+  $scope.paidPlan = function (plan) {
+    return plan.amount > 0;
+  };
+
+  $scope.isCurrentPlan = function (plan) {
+    return plan && $scope.me && $scope.me.plan && plan.id == $scope.me.plan.id;
+  };
+
+  $scope.isSelectedPlan = function (plan) {
+    return plan && $scope.pendingPlan == plan.id;
+  }
+
+  $scope.isPaidPlan = function (plan) {
+    return plan && plan.amount > 0;
+  };
+
+  $scope.changePlan = function (plan) {
+    window.location = "/users/sign_up?plan_id=" + plan.id;
+  };
+
+  function getPendingPlan() {
+    var returnPlan;
+    angular.forEach($scope.plans, function (plan) {
+      if ($scope.pendingPlan == plan.id) {
+        returnPlan = plan;
+      }
+    });
+    return returnPlan;
+  }
+}])
 ;

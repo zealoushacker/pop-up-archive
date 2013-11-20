@@ -10,7 +10,6 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require_tree .
 //= require jquery
 //= require bootstrap
 //= require bootstrap-datepicker
@@ -23,7 +22,20 @@
 //= require mule-upload
 //= require angular-stripe
 //= require ng-player-hater
-//= require_tree ../
+//= require_tree ../account
+//= require_tree ../admin
+//= require_tree ../angular
+//= require_tree ../audio_files
+//= require_tree ../collections
+//= require_tree ../csv_imports
+//= require_tree ../dashboard
+//= require_tree ../entities
+//= require_tree ../files
+//= require_tree ../items
+//= require_tree ../organizations
+//= require_tree ../people
+//= require_tree ../searches
+//= require_tree ../users
 
 if(window.location.hash=="#_=_"){window.location.hash = ""}
 
@@ -58,6 +70,11 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       templateUrl: "<%= asset_path 'dashboard/about.html' %>",
       controller: "DashboardCtrl",
       title: "About"
+    })
+    .when('/pricing', {
+      templateUrl: "<%= asset_path 'account/sign_up.html' %>",
+      controller: 'SignUpCtrl',
+      title: "Sign Up"
     })
     .when('/account', {
       templateUrl: "<%= asset_path 'account/index.html' %>",
