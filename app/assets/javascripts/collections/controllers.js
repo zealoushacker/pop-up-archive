@@ -1,5 +1,7 @@
-angular.module('Directory.collections.controllers', ['Directory.loader', 'Directory.user', 'Directory.collections.models', 'ngTutorial'])
-.controller('CollectionsCtrl', ['$scope', '$modal', 'Collection', 'Loader', 'Me', 'Tutorial', function CollectionsCtrl($scope, $modal, Collection, Loader, Me, Tutorial) {
+angular.module('Directory.collections.controllers', ['Directory.loader', 'Directory.user', 'Directory.collections.models', 'ngTutorial', 'Directory.storage'])
+.controller('CollectionsCtrl', ['$scope', '$modal', 'Collection', 'Loader', 'Me', 'Tutorial', 'Storage', function CollectionsCtrl($scope, $modal, Collection, Loader, Me, Tutorial, Storage) {
+
+  $scope.Storage = Storage;
 
   Me.authenticated(function (me) {
     Loader.page(Collection.query(), Collection.get(me.uploadsCollectionId), 'Collections', $scope).then(function (data) {
@@ -7,11 +9,6 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
       $scope.uploadsCollection = data[1];
       $scope.uploadsCollection.fetchItems();
     });
-
-    $scope.storageClass = function (collection) {
-      var s = angular.lowercase(collection.storage) || "aws";
-      return ('storage-' + s);
-    };
 
 		$scope.tour = {
 		  'welcome': {

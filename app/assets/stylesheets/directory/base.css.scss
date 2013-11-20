@@ -702,6 +702,11 @@ h5.result-count {
   -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 
+.btn-item {
+  background: #5970B1;
+  color: white;
+}
+
 .item-detail {
   h4 {
     color: #7D7C82;
@@ -723,10 +728,6 @@ h5.result-count {
       text-shadow: none;
     }
 
-    .btn-item {
-      background: #5970B1;
-      color: white;
-    }
 
     .btn-transcript {
       background: #F9A732;

@@ -29,6 +29,9 @@ angular.module('Directory.collections.models', ['RailsModel'])
   }
 
   Collection.prototype.privateOrPublic = function () {
+    if ((this.storage == "InternetArchive") && this.itemsVisibleByDefault)
+      return 'public (archive.org)';
+
     return this.itemsVisibleByDefault ? 'public' : 'private';
   }
 
@@ -47,6 +50,25 @@ angular.module('Directory.collections.models', ['RailsModel'])
 .filter('privateCollections', function() {
   var pvt = [];
   return buildCollectionFilter(false, pvt);
+})
+.filter('validChangeCollections', function() {
+  var array = [];
+  return function (collections, item) {
+    if (!item || (item.storage && item.storage != 'InternetArchive')) {
+      return collections;
+    } else
+    if (angular.isArray(collections)) {
+      array.splice(0, array.length);
+      angular.forEach(collections, function(collection) {
+        if (collection.storage == 'InternetArchive') {
+          array.push(collection);
+        }
+      });
+      return array
+    } else {
+      return collections;
+    }
+  };
 })
 .filter('notUploads', ['Me', function (Me) {
   var user = {};

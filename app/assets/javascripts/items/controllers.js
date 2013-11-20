@@ -1,5 +1,8 @@
-angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.user', 'Directory.items.models', 'Directory.entities.models', 'Directory.people.models', 'prxSearch'])
-.controller('ItemsCtrl', [ '$scope', 'Item', 'Loader', 'Me', function ItemsCtrl($scope, Item, Loader, Me) {
+angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.user', 'Directory.items.models', 'Directory.entities.models', 'Directory.people.models', 'prxSearch', 'Directory.storage'])
+.controller('ItemsCtrl', [ '$scope', 'Item', 'Loader', 'Me', 'Storage', function ItemsCtrl($scope, Item, Loader, Me, Storage) {
+
+  $scope.Storage = Storage;
+
   Me.authenticated(function (data) {
     if ($scope.collectionId) {
       $scope.items = Loader.page(Item.query(), 'Items');
@@ -12,7 +15,9 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   }
 
 }])
-.controller('ItemCtrl', ['$scope', '$timeout', '$q', '$modal', 'Item', 'Loader', 'Me', '$routeParams', 'Collection', 'Entity', '$location', 'SearchResults', function ItemCtrl($scope, $timeout, $q, $modal, Item, Loader, Me, $routeParams, Collection, Entity, $location, SearchResults) {
+.controller('ItemCtrl', ['$scope', '$timeout', '$q', '$modal', 'Item', 'Loader', 'Me', '$routeParams', 'Collection', 'Entity', '$location', 'SearchResults', 'Storage', function ItemCtrl($scope, $timeout, $q, $modal, Item, Loader, Me, $routeParams, Collection, Entity, $location, SearchResults, Storage) {
+
+  $scope.Storage = Storage;
 
   $scope.storageModal = $modal({template: '/assets/items/storage.html', persist: false, show: false, backdrop: 'static', scope: $scope});
 
@@ -34,15 +39,6 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   $scope.searchResults = SearchResults;
 
   $scope.transcriptExpanded = false;
-
-  $scope.storageClass = function (item) {
-    if (!item) {
-      return '';
-    }
-
-    var s = angular.lowercase(item.storage) || "aws";
-    return ('storage-' + s);
-  };
 
   $scope.toggleTranscript = function () {
     $scope.transcriptExpanded = !$scope.transcriptExpanded;
@@ -90,56 +86,143 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
 }])
 .controller('ItemStorageCtrl', [ '$scope', 'Item', 'Loader', 'Me', function ItemsCtrl($scope, Item, Loader, Me) {
 
-function pad(number) {
-  if (number < 10) {
-    return "0" + number;
+  function pad(number) {
+    if (number < 10) {
+      return "0" + number;
+    }
+    return number;
   }
-  return number;
-}
 
-$scope.durationString = function (secs) {
-  var d = new Date(secs * 1000);
+  $scope.durationString = function (secs) {
+    var d = new Date(secs * 1000);
 
-  return pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes()) + ":" + pad(d.getUTCSeconds());
-};
-
+    return pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes()) + ":" + pad(d.getUTCSeconds());
+  };
 
 }])
-.controller('ItemFormCtrl', ['$scope', '$routeParams', 'Schema', 'Item', 'Contribution', function ($scope, $routeParams, Schema, Item, Contribution) {
+.controller('ItemFormCtrl', ['$window', '$cookies', '$scope', '$http', '$q', '$timeout', '$route', '$routeParams', '$modal', 'Me', 'Loader', 'Alert', 'Collection', 'Item', 'Contribution', function FilesCtrl($window, $cookies, $scope, $http, $q, $timeout, $route, $routeParams, $modal, Me, Loader, Alert, Collection, Item, Contribution) {
 
-  $scope.item = {};
-  $scope.itemTags = [];
+  $scope.$watch('item', function (is) {
+    if (!angular.isUndefined(is) && (is.id > 0) && angular.isUndefined(is.adoptToCollection)) {
+      is.adoptToCollection = is.collectionId;
+    }
+  });
 
-  if ($scope.$parent.item) {
-    // console.log('$scope.$parent.item', $scope.$parent.item);
-    angular.copy($scope.$parent.item, $scope.item);
-    angular.forEach($scope.item.tags, function(v,k){ this.push({id:v, text:v}); }, $scope.itemTags);
-  }
+  $scope.selectedCollection = null;
 
-  $scope.fields = Schema.columns;
+  $scope.$watch('item.collectionId', function (cid) {
+    $scope.setSelectedCollection();
+  })
 
-  $scope.tagSelect = function() {
+  $scope.$watch('item.adoptToCollection', function (cid) {
+    $scope.setSelectedCollection();
+  })
 
-    // console.log('tagSelect', $scope.item, $scope.itemTags);
+  $scope.setSelectedCollection = function () {
+    if (angular.isUndefined($scope.item))
+      return;
 
-    return {
-      placeholder: 'Tags...',
-      width: '220px',
-      tags: [],
-      initSelection: function (element, callback) { 
-        // console.log('tagSelect initSelection', $scope.itemTags);
-        callback($scope.itemTags);
+    var collectionId = $scope.item.adoptToCollection || $scope.item.collectionId;
+
+    if (collectionId && (collectionId > 0) && (!$scope.selectedCollection || (collectionId != $scope.selectedCollection.id))) {
+      for (var i=0; i < $scope.collections.length; i++) {
+        if ($scope.collections[i].id == collectionId) {
+          $scope.selectedCollection = $scope.collections[i];
+          break;
+        }
       }
     }
   };
 
-  $scope.roleSelect = {
-    placeholder:'Role...',
-    width: '160px'
+  if ($scope.item && $scope.item.id) {
+    $scope.item.adoptToCollection = $scope.item.collectionId;
+  }
+
+  $scope.submit = function () {
+    // console.log('ItemFormCtrl submit: ', $scope.item);
+    var saveItem = $scope.item;
+    this.item = $scope.initializeItem(true);
+    $scope.clear();
+
+    var uploadFiles = saveItem.files;
+    saveItem.files = [];
+    
+    var audioFiles = saveItem.audioFiles;
+    var contributions = saveItem.contributions;
+
+    Collection.get(saveItem.collectionId).then(function (collection) {
+      if (angular.isArray(collection.items)) {
+        collection.items.push(saveItem);
+      }
+    });
+
+    if (saveItem.id) {
+
+      saveItem.update().then(function (data) {
+        // reset tags
+        saveItem.tagList2Tags();
+
+        $scope.uploadAudioFiles(saveItem, uploadFiles);
+        $scope.updateAudioFiles(saveItem, audioFiles);
+        $scope.updateContributions(saveItem, contributions);
+        delete $scope.item;
+        // console.log('scope after update', $scope);
+        // $scope.item = saveItem;
+        // if ($scope.item != $scope.$parent.item) {
+        //   angular.copy($scope.item, $scope.$parent.item);
+        // }
+      });
+    } else {
+      saveItem.create().then(function (data) {
+        // reset tags
+        saveItem.tagList2Tags();
+
+        $scope.uploadAudioFiles(saveItem, uploadFiles);
+        $scope.updateAudioFiles(saveItem, audioFiles);
+        $scope.updateContributions(saveItem, contributions);
+        $timeout(function(){ $scope.$broadcast('datasetChanged')}, 750);
+        delete $scope.item;
+        // console.log('scope after create', $scope);
+      });
+    }
+
   };
 
-  $scope.deleteContribution = function(contribution) {
-    contribution._delete = true;
+  $scope.clear = function() {
+    $scope.hideUploadModal();
+  }
+
+  // used by the upload-button callback when new files are selected
+  $scope.setFiles = function(element) {
+    $scope.$apply(function($scope) {
+
+      var newFiles = element[0].files;
+
+      // default title to first file if not already set
+      if (!$scope.item.title || $scope.item.title == "") {
+        $scope.item.title = newFiles[0].name;
+      }
+
+      if (!$scope.item.files) {
+        $scope.item.files = [];
+      }
+
+      // add files to the item
+      angular.forEach(newFiles, function (file) {
+        $scope.item.files.push(file);
+      });
+
+      element[0].value = "";
+
+    });
+  };
+
+  $scope.removeAudioFile = function(file) {
+    if (file.id && (file.id > 0)) {
+      file._delete = true;
+    } else {
+      $scope.item.files.splice($scope.item.files.indexOf(file), 1);
+    }
   }
 
   $scope.addContribution = function () {
@@ -148,7 +231,71 @@ $scope.durationString = function (secs) {
       $scope.item.contributions = [];
     }
     $scope.item.contributions.push(c);
+    // console.log('addContribution', $scope);
   }
+
+  $scope.deleteContribution = function(contribution) {
+    // mark it to delete later
+    if (contribution.id && (contribution.id > 0)) {
+      contribution._delete = true;
+    } else {
+      $scope.item.contributions.splice($scope.item.contributions.indexOf(contribution), 1);
+    }
+  }
+
+  $scope.updateContributions = function(item, contributions) {
+    item.contributions = contributions;
+    item.updateContributions();
+  };
+
+  $scope.updateAudioFiles = function(item, audioFiles) {
+    item.audioFiles = audioFiles;
+    item.updateAudioFiles();
+  };
+
+  $scope.tagSelect = function() {
+    return {
+      placeholder: 'Tags...',
+      width: '284px',
+      tags: [],
+      initSelection: function (element, callback) { 
+        callback($scope.item.getTagList());
+      }
+    }
+  };
+
+  $scope.languageSelect = function() {
+    return {
+      placeholder: 'Language...',
+      width: '220px',
+      data: Item.languages,
+      initSelection: function (element, callback) { 
+        callback(element.val());
+      }
+    }
+  };  
+
+  // the ajax version, maybe?
+  // $scope.languageSelect = function() {
+  //   return {
+  //     placeholder: 'Language...',
+  //     width: '220px',
+  //     ajax: {
+  //       url: '/languages.json',
+  //       results: function (data) {
+  //         return {results: data};
+  //       }
+  //     },
+  //     initSelection: function (element, callback) { 
+  //       callback($scope.item.language);
+  //     }
+  //   }
+  // };  
+
+  $scope.roleSelect = {
+    placeholder:'Role...',
+    width: '160px'
+  };
 
   $scope.peopleSelect = {
     placeholder: 'Name...',
@@ -158,7 +305,7 @@ $scope.durationString = function (secs) {
     formatSelection: function (person) { return person.name; },
     formatResult: function (result, container, query, escapeMarkup) { 
       var markup=[];
-      window.Select2.util.markMatch(result.name, query.term, markup, escapeMarkup);
+      $window.Select2.util.markMatch(result.name, query.term, markup, escapeMarkup);
       return markup.join("");
     },
     createSearchChoice: function (term, data) {
@@ -173,38 +320,11 @@ $scope.durationString = function (secs) {
       callback(scope.contribution.person);
     },
     ajax: {
-      url: '/api/collections/' + $routeParams.collectionId + '/people',
+      url: function (self, term, page, context) {
+        return '/api/collections/' + ($routeParams.collectionId || $scope.item.collectionId) + '/people';
+      },
       data: function (term, page) { return { q: term }; },
       results: function (data, page) { return { results: data }; }
-    }
-  }
-
-  $scope.$parent.$watch('item', function (is) {
-    // console.log('$scope.$parent.$watch item', $scope.$parent.item);
-    if (is && $scope.item != is) {
-      angular.copy(is, $scope.item);
-      $scope.itemTags = [];
-      angular.forEach($scope.item.tags, function(v,k){ this.push({id:v, text:v}); }, $scope.itemTags);
-    }
-  });
-
-  $scope.submit = function () {
-
-    var cleanTags = [];
-    angular.forEach($scope.itemTags, function(v,k){ this.push(v.id); }, cleanTags);
-    $scope.item.tags = cleanTags;
-    
-    if ($scope.item.id) {
-      $scope.item.update().then(function (data) {
-        $scope.item.updateContributions();
-        angular.copy($scope.item, $scope.$parent.item);
-        // $scope.close();
-      });
-    } else {
-      $scope.item.create().then(function (data) {
-        $timeout(function(){ $scope.$broadcast('datasetChanged')}, 750);
-        $scope.close();
-      });
     }
   }
 
