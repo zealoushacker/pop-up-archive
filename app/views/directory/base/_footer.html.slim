@@ -1,28 +1,29 @@
 .container.ng-cloak ng-hide="hideFooter"
-	.row-fluid
-		.span12.navbar#colophon
-			.site-info.pull-left
-				ul
-					li ©#{© 2013} 
-					li
-						a href="http://www.popuparchive.org" Pop Up Archive
-			ul.nav.pull-right
-				li
-					a href="https://twitter.com/popuparchive" @popuparchive
-				li= link_to('about', '/about', {target: '_self'})
-				li= link_to('enterprise', '/enterprise', {target: '_self'})
-				li= link_to('team', '/team', {target: '_self'})
-				li= link_to('contact', '/contact', {target: '_self'})
-				li
-					a href="http://popuparchive.tumblr.com/" target="_blank" news
-		.row-fluid
-			.span12
-			  .site-info
-			    ul
-  				  li
-  				    a href="http://www.knightfoundation.org" target="_blank"
-  					    img.image.sponsors src='#{asset_path("knight-foundationBW.png")}'
-  				  li  
-  				    a href="http://www.neh.gov" target="_blank"
-  				      img.image.sponsors src='#{asset_path("neh_logo.jpg")}'
+  .row-fluid
+    .span12.navbar#colophon
+      .site-info.pull-left
+        p Pop Up Archive is optimized for Chrome.
+        ul
+          li ©#{© 2013} 
+          li
+            a href="http://www.popuparchive.org" Pop Up Archive
+      ul.nav.pull-right
+        li
+          a href="https://twitter.com/popuparchive" @popuparchive
+        li= link_to('about', '/about', {target: '_self'})
+        li= link_to('enterprise', '/enterprise', {target: '_self'})
+        li= link_to('team', '/team', {target: '_self'})
+        li= link_to('contact', '/contact', {target: '_self'})
+        li
+          a href="http://popuparchive.tumblr.com/" target="_blank" news
+    .row-fluid
+      .span12
+        .site-info
+          ul
+            li
+              a href="http://www.knightfoundation.org" target="_blank"
+                img.image.sponsors src='#{asset_path("knight-foundationBW.png")}'
+            li  
+              a href="http://www.neh.gov" target="_blank"
+                img.image.sponsors src='#{asset_path("neh_logo.jpg")}'
 

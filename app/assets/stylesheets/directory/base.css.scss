@@ -1002,6 +1002,9 @@ form.with-tags {
 }
 
 .site-info {  
+  p {
+    padding: 0;
+  }
   a{
     color: #777777;
     text-decoration: none;
@@ -1014,7 +1017,7 @@ form.with-tags {
   
   ul{
     margin: 0;
-    padding-top: 10px;
+    padding-top: 0;
     font-family: "freight-text-pro", serif !important;
     font-size: 16px !important;
     font-size: 1.6rem;
@@ -1023,6 +1026,7 @@ form.with-tags {
   
   li{
     display: inline;
+    padding: 0;
   } 
 } 
 
