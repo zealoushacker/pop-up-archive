@@ -1,8 +1,11 @@
-angular.module('Directory.account.controllers', ['stripe'])
+angular.module('Directory.account.controllers', ['stripe', 'Directory.account.models'])
 .config(function () {
   Stripe.setPublishableKey('<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>');
 })
-.controller('AccountCtrl', ['$scope', 'Me', function ($scope, Me) {
+.controller('AccountCtrl', ['$scope', 'Me', '$modal', function ($scope, Me, $modal) {
+  Me.authenticated(function (me) {
+    $scope.me = me;
+  });
 
   $scope.errors = {};
 
@@ -17,4 +20,119 @@ angular.module('Directory.account.controllers', ['stripe'])
       });
     }
   }
-}]);
+
+  $scope.changeCreditCard = function () {
+    $scope.pendingPlan = $scope.me.plan;
+    $modal({template: '/assets/account/credit_card.html', persist: true, show: true, backdrop: 'static', scope: $scope});
+  }
+}])
+.controller('AccountPlanCtrl', ['$scope', 'Me', 'Plan', function ($scope, Me, Plan) {
+  $scope.interval = 'month';
+  $scope.offer = $scope.offer || {};
+
+  Plan.get().then(function (plans) {
+    $scope.plans = plans;
+  });
+  $scope.community = Plan.community();
+
+  Me.authenticated(function (me) {
+    $scope.me = me;
+    $scope.pendingPlan = me.plan.id;
+    $scope.currentPlan = me.plan.id;
+    $scope.interval = me.plan.interval;
+  });
+
+  $scope.paidPlan = function (plan) {
+    return plan.amount > 0;
+  };
+
+  $scope.isCurrentPlan = function (plan) {
+    return plan && plan.id == $scope.currentPlan;
+  };
+
+  $scope.isSelectedPlan = function (plan) {
+    return plan && $scope.pendingPlan == plan.id;
+  }
+
+  $scope.isPaidPlan = function (plan) {
+    return plan && plan.amount > 0;
+  };
+
+  $scope.changePlan = function (plan) {
+    $scope.pendingPlan = plan.id;
+  };
+
+  $scope.hasPendingChange = function () {
+    return $scope.pendingPlan != $scope.currentPlan;
+  };
+
+  $scope.toggleInterval = function () {
+    $scope.interval = ( $scope.interval == 'year' ? 'month' : 'year');
+  };
+
+  $scope.oppositeInterval = function () {
+    return $scope.interval == 'year' ? 'Monthly' : 'Annual';
+  };
+
+  $scope.hasSpecialPlan = function () {
+    var special = true;
+    angular.forEach($scope.plans, function (plan) {
+      if (plan.id == $scope.currentPlan) {
+        special = false;
+      }
+    });
+    return special;
+  };
+
+  $scope.subscribe = function () {
+    $scope.currentPlan = $scope.pendingPlan;
+    $scope.me.subscribe($scope.pendingPlan, $scope.offer.code).then(function (u) {
+      $scope.currentPlan = u.plan.id;
+    });
+  };
+
+}])
+.filter('shortInterval', function () {
+  return function (interval) {
+    if (!interval || interval.toLowerCase() == 'month') {
+      return 'mo';
+    } else {
+      return 'yr';
+    }
+  }
+})
+.controller('CreditCardCtrl', ['$scope', function ($scope) {
+  var currentUser = $scope.currentUser || $scope.me;
+  $scope.errors = {};
+  $scope.creditCard = currentUser.creditCard;
+  $scope.saving = false;
+  $scope.save = function(status, response) {
+    if (response.error) {
+      var e = {};
+      e[response.error.param] = response.error.message;
+      angular.copy(e, $scope.errors);
+    } else {
+      $scope.saving = true;
+      currentUser.updateCreditCard(response.id).then(function (data) {
+        $scope.$emit('creditCardSubmit');
+        $scope.hide();
+      });
+    }
+  }
+}])
+.filter('monthOrYear', function () {
+  var plans_ = [];
+  return function monthOrYear (plans, monthOrYear) {
+    if(angular.isArray(plans)) {
+      plans_.length = 0;
+      angular.forEach(plans, function (plan) {
+        plan[monthOrYear].frequency = (plan[monthOrYear].frequency || monthOrYear);
+        plan[monthOrYear].hours = (plan[monthOrYear].hours || plan.level);
+        plans_.push(plan[monthOrYear]);
+      });
+      plans = plans_;
+    }
+    return plans;
+  }
+})
+;

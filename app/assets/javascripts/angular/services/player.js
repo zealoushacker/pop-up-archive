@@ -59,7 +59,7 @@
       if (typeof url === 'undefined' ||
         playerHater.nowPlaying && simpleFile(url) === simpleFile(playerHater.nowPlaying.url)) {
         return playerHater.play();
-      } 
+      }
       return playerHater.play({url:url, title: title});
     };
 
@@ -93,20 +93,54 @@
     return Player;
   }])
   .filter('timeCode', function () {
-    function pad(number) {
-      if (number < 10) {
-        return "0" + number;
+    function dd(dd) {
+      if (dd < 10) {
+        return "0" + dd;
       }
-      return number;
+      return dd;
     }
 
-    return function (data, options) {
-      if (isNaN(data)) {
-        return "00:00.0";
-      }
-      var date = new Date(data*1000);
-      return [date.getUTCHours(), pad(date.getMinutes()), pad(date.getUTCSeconds())].join(':') + '.' + parseInt(date.getUTCMilliseconds()/100);
+    function hh(seconds) {
+      return Math.floor(seconds / 3600);
     }
+
+    function mm(seconds) {
+      return Math.floor(seconds % 3600 / 60);
+    }
+
+    function ss(seconds) {
+      return seconds % 3600 % 60;
+    }
+
+    return function (seconds, style) {
+      if (typeof style === 'undefined') {
+        style = "short";
+      }
+
+      var d = new Date(seconds * 1000);
+      if ((seconds > 3600 && style == "short") || style == "long") {
+        return  hh(seconds) + ":" + dd(mm(seconds)) + ":" + dd(ss(seconds));
+      } else if (style == "short") {
+        return mm(seconds) + ":" + dd(ss(seconds));
+      } else if (style == "words") {
+        var h = hh(seconds);
+        var m = mm(seconds);
+        var s = ss(seconds);
+        if (h && !m) {
+          return  h + "h";
+        } else if (h && m) {
+          return h + "h" + m + "m";
+        } else if (m && !s) {
+          return m + "m";
+        } else if (m && s) {
+          return m + "m" + s + "s";
+        } else {
+          return s + 's';
+        }
+      } else {
+        return "INVALID STYLE";
+      }
+    };
   })
   .directive("verticalScrubber", ["Player", '$timeout', function (Player, $timeout) {
     return {
@@ -126,7 +160,7 @@
           var $this = angular.element(this);
           var $window = angular.element(window);
           var $body = angular.element(window.document.getElementsByTagName('body'));
-          
+
           $body.addClass('scrubbing');
           var timeoutComplete = true;
 
@@ -272,7 +306,7 @@
 
         scope.$watch(checkWaveform);
         angular.element(window).bind('resize', checkWaveform);
-        
+
         el.bind('click', function (e) {
           var left = 0, element = this;
           do {
@@ -375,12 +409,12 @@
         scope.canShowEditor = function() {
           return (!this.editorEnabled && scope.canEdit && (parseInt(this.text.id, 10) > 0));
         };
-        
+
         scope.enableEditor = function() {
           this.editorEnabled = true;
           this.editableTranscript = this.text.text;
         };
-        
+
         scope.disableEditor = function() {
           this.editorEnabled = false;
         };

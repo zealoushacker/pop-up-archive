@@ -1,5 +1,13 @@
 angular.module('Directory.users.models', ['RailsModel'])
-.factory('User', ['Model', function (Model) {
+.factory('CreditCard', ['Model', function (Model) {
+  var CreditCard = Model({url:'/api/me/credit_card', name: 'credit_card'});
+  return CreditCard;
+}])
+.factory('Subscription', ['Model', function (Model) {
+  var Subscription = Model({url:'/api/me/subscription', name: 'subscription'});
+  return Subscription;
+}])
+.factory('User', ['Model', 'CreditCard', 'Subscription', function (Model, CreditCard, Subscription) {
   var User = Model({url:'/api/users', name: 'user'});
 
   User.prototype.authenticated = function (callback, errback) {
@@ -33,6 +41,32 @@ angular.module('Directory.users.models', ['RailsModel'])
     } else {
       return false;
     }
+  };
+
+  User.prototype.updateCreditCard = function (stripeToken) {
+    var cc = new CreditCard({token: stripeToken});
+    return cc.update().then(function () {
+      return User.get('me');
+    });
+  };
+
+  User.prototype.hasCreditCard = function () {
+    return !!this.creditCard;
+  };
+
+  User.prototype.subscribe = function (planId, offerCode) {
+    var sub = new Subscription({planId: planId});
+    var self = this;
+    if (typeof offerCode !== 'undefined') {
+      sub.offer = offerCode;
+    }
+    return sub.update().then(function (plan) {
+      self.plan.id = plan.id;
+      self.plan.amount = plan.amount;
+      self.plan.popUpHours = plan.hours;
+      self.plan.interval = plan.interval;
+      return User.get('me');
+    });
   };
 
   return User;
