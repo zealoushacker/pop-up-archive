@@ -8,7 +8,6 @@ PopUpArchive::Application.routes.draw do
   match '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'beta.popuparchive.org' }
   match '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'www.popuparchive.org', :protocol => "http://" }
 
-
   devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
   namespace :admin do
