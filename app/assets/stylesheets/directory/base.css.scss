@@ -1536,7 +1536,7 @@ form.stripe-cc {
   position: relative;
   width: 940px;
   height: 528px;
-  margin: 20px 0 35px;
+  margin: 0 0 35px;
   .background {
     position: relative;
     background-color: #fff;
@@ -1696,6 +1696,7 @@ form.stripe-cc {
 }
 
 //Home Page
+
 #home{
   font-family: 'soleil', helvetica, sans-serif;
   text-align: center;
@@ -1737,7 +1738,6 @@ form.stripe-cc {
   }
   .caption {
     width: 940px;
-    height: 20px;
     background:black;
     opacity: .7;
     position:absolute; 
@@ -1762,6 +1762,16 @@ form.stripe-cc {
     font-size: 35px;
     font-weight: 800;
     padding-top: 70px;
+  }
+  .callout {
+    background-color: #8581a1;
+    font-family: "freight-text", serif;
+    font-size: 18px;
+    padding: 10px 25px;
+    line-height: 26px;
+    a {
+      
+    }
   }
 }
 .background-container {
@@ -1867,6 +1877,38 @@ a.featurebtn:nth-child(3){
     }
   }
 }
+
+#banner {
+  p {
+    opacity: .9;
+    padding: 10px;
+    float: left;
+    height: 24px;
+    width: 760px;
+    background: #c9b936;
+    font-size: 16px;
+    color: #fff;
+    line-height: 24px;
+    overflow: hidden;
+  }
+  a{
+    color: #5970b1;
+    text-decoration: none;
+  }
+}
+
+#banner:after{
+  opacity: .9;
+  content: ' ';
+  float: left;
+  width: 0; 
+	height: 0; 
+	border-top: 22px solid transparent;
+	border-bottom: 22px solid transparent;
+
+	border-left: 20px solid #c9b936;
+}
+
 
 .faq {
   h2{

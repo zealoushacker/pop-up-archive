@@ -23,7 +23,8 @@ angular.module('Directory.dashboard.controllers', ['Directory.loader', 'Director
       {
         image: 'about/static3.gif', 
         description: 'Image 01', 
-        html: '<h2 class=\"pop\">Simple tools to manage sound.<h2><p> Pop Up Archive organizes sound so it can be found and reused. Working on the ground with journalists and archives, we’re building tools to revitalize workflows, liberate undiscovered histories, and bring new voices into media.</p><ul><li> Transcribe and tag sound automatically</li><li> Search your private material and the public archive</li><li> Drag and drop to rediscover lost voices or organize new work</li></ul>'
+        html: '<h2 class=\"pop\">Simple tools to manage sound.<h2><p> Pop Up Archive organizes sound so it can be found and reused. Working on the ground with journalists and archives, we’re building tools to revitalize workflows, liberate undiscovered histories, and bring new voices into media.</p><ul><li> Transcribe and tag sound automatically</li><li> Search your private material and the public archive</li><li> Drag and drop to rediscover lost voices or organize new work</li></ul>',
+        banner: '<p>Help us transcribe the <a href=\"http://www.amara.org/en/teams/studs-terkel-archive/\" target=\"_blank\"> Studs Terkel Archive</a> and the <a href=\"http://www.amara.org/en/teams/pacifica-radio-archive/\" target=\"_blank\"> Pacifica Radio Archive</a> with our partners at Amara.</p>'
       },
       {
         image: null, 

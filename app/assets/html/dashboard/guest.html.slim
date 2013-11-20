@@ -1,36 +1,37 @@
-.row#home
-  .span12
-    .container.slider
-      .slide.slide-animation ng-repeat="slide in home_slides" ng-hide="!isCurrentSlideIndex($index)" 
-        .background
-          img ng-show="slide.image" ng-src="#{asset_path('{{slide.image}}')}"
-          .layer
-        .foreground.content
-          iframe ng-show="slide.video" src="{{slide.video}}" width="940" height="528" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
-          .wrapper ng-show="slide.html" ng-bind-html-unsafe="slide.html"
-          p ng-show="slide.text" {{slide.text}}
-          .caption ng-show="slide.caption" ng-bind-html-unsafe="slide.caption"
-          nav.nav
-              ul.dots
-                li.dot ng-repeat="slide in home_slides"
-                  a href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);" {{slide.description}}
+#home
+  .row
+    .span12
+      .container.slider
+        .slide.slide-animation ng-repeat="slide in home_slides" ng-hide="!isCurrentSlideIndex($index)" 
+          .background
+            img ng-show="slide.image" ng-src="#{asset_path('{{slide.image}}')}"
+            .layer
+          .foreground.content
+            #banner ng-show="slide.banner" ng-bind-html-unsafe="slide.banner"
+            iframe ng-show="slide.video" src="{{slide.video}}" width="940" height="528" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
+            .wrapper ng-show="slide.html" ng-bind-html-unsafe="slide.html"
+            p ng-show="slide.text" {{slide.text}}
+            .caption ng-show="slide.caption" ng-bind-html-unsafe="slide.caption"
+            nav.nav
+                ul.dots
+                  li.dot ng-repeat="slide in home_slides"
+                    a href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);" {{slide.description}}
 
-        a.arrow.next href="#" ng-click="prevSlide(home_slides)"
-          i.icon-circle-arrow-right
-        a.arrow.prev href="#" ng-click="nextSlide(home_slides)"
-          i.icon-circle-arrow-left
-          
-.row
-  .span12
-    .featured-collection
-      a href='http://beta.popuparchive.org/collections/583' 
-        img src="#{asset_path('WILL.jpg')}"
-        h5 Illinois Public Radio
-    .featured-collection
-      a href='http://beta.popuparchive.org/collections/453'
-        img src="#{asset_path('the_connection.jpg')}"
-        h5 WBUR's The Connection
-    .featured-collection
-      a href='http://beta.popuparchive.org/collections/483'
-        img src="#{asset_path('Buck_ONeil.jpg')}"
-        h5 Society for American Baseball Research
+          a.arrow.next href="#" ng-click="prevSlide(home_slides)"
+            i.icon-circle-arrow-right
+          a.arrow.prev href="#" ng-click="nextSlide(home_slides)"
+            i.icon-circle-arrow-left
+  .row
+    .span12
+      .featured-collection
+        a href='http://beta.popuparchive.org/collections/925'
+          img src="#{asset_path('terkel.jpg')}"
+          h5 Studs Terkel Archive
+      .featured-collection
+        a href='http://beta.popuparchive.org/collections/938'
+          img src="#{asset_path('pacifica.jpg')}"
+          h5 Pacifica Radio Archives
+      .featured-collection
+        a href='http://beta.popuparchive.org/collections/583' 
+          img src="#{asset_path('WILL.jpg')}"
+          h5 Illinois Public Radio
