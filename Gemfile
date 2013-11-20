@@ -139,3 +139,7 @@ group :development, :production, :staging do
   gem 'foreman'
   gem 'unicorn'
 end
+
+group :production, :staging do
+  gem 'rails_12factor'
+end
