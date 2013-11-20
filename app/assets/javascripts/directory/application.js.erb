@@ -152,6 +152,10 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       templateUrl: "<%= asset_path 'dashboard/team.html' %>",
       title: "Team"
     })
+    .when('/terms_of_use', {
+      templateUrl: "<%= asset_path 'dashboard/terms_of_use.html' %>",
+      title: "Terms of Use"
+    })
     .otherwise({
       template: "<h1>404 - not found</h1>"
     });
