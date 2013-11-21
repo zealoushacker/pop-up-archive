@@ -54,6 +54,10 @@ angular.module('Directory.users.models', ['RailsModel'])
     return !!this.creditCard;
   };
 
+  User.prototype.hasCommunityPlan = function () {
+    return !!(!this.plan || !this.plan.id || this.plan.name.match(/Community/));
+  };
+
   User.prototype.subscribe = function (planId, offerCode) {
     var sub = new Subscription({planId: planId});
     var self = this;

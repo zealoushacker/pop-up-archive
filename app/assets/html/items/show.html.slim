@@ -77,16 +77,22 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
               a href="#" &nbsp;
 
           .transcript transcript-text="audioFile.transcript | highlightMatches:transcriptFilter" transcript-editable="currentUser.canEdit(item)" current-time="player.time" save-text="saveText(text)" file-url="fileUrl" auto-scroll="!transcriptFilter"
-      .alert.alert-info ng-show="currentUser.canEdit(item) && currentUser.plan == 'community' && item.audioFiles.length > 0 && item.audioFiles[0].transcript == 0" 
-        |TRANSCRIPT PROCESSING  &mdash; We're automatically transcribing the first two minutes of your audio. It should be ready momentarily. Want full transcripts? 
-        a href="/pricing" Upgrade your plan.
-        br
-        |STILL WAITING? &mdash; If you don't see the first two minutes of your transcript shortly, try re-uploading your audio. 
-        
-      .alert.alert-info ng-show="currentUser.canEdit(item) && currentUser.plan != 'community' && item.audioFiles.length > 0 && item.audioFiles[0].transcript == 0" 
-        |TRANSCRIPT PROCESSING  &mdash; The first two minutes of your transcription will be ready momentarily. The rest will process in real time (a 30-minute file will take at least 30 minutes.) We'll email you when it's ready.
-        br
-        |STILL WAITING? &mdash; If you've been waiting for hours, try re-uploading your audio.
+      div ng-show="isTransciptProcessing()" 
+        .alert.alert-info ng-show="currentUser.hasCommunityPlan()" 
+          strong TRANSCRIPT PROCESSING
+          |  We're automatically transcribing the first two minutes of your audio. It should be ready momentarily. Want full transcripts? 
+          strong
+            a href="/pricing" Upgrade your plan.
+          br
+          strong STILL WAITING?
+          |  If you don't see the first two minutes of your transcript shortly, try re-uploading your audio. 
+          
+        .alert.alert-info ng-hide="currentUser.hasCommunityPlan()" 
+          b TRANSCRIPT PROCESSING
+          |  The first two minutes of your transcription will be ready momentarily. The rest will process in real time (a 30-minute file will take at least 30 minutes.) We'll email you when it's ready.
+          br
+          b STILL WAITING?
+          |  If you've been waiting for hours, try re-uploading your audio.
         
 .row-fluid.item-detail.metadata
   .span6
