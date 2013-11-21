@@ -1725,6 +1725,7 @@ form.with-tags {
     font-weight: 500;
   } 
   ul{
+    font-family: 'freight-text-pro', serif;
     width: 940px;
     font-size: 24px;
     color: white;
@@ -1762,6 +1763,9 @@ form.with-tags {
     background: image-url("about/static3.gif") no-repeat;
     position: relative;
     width: 940px;
+    i {
+      padding: 5px;
+    }
     #content {
       font-family: 'freight-text', serif;
       width: auto;
