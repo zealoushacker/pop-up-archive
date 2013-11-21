@@ -1983,6 +1983,19 @@ a.featurebtn:nth-child(3){
 	}
 }
 
+//plans
+#plan-header {
+  text-align: center;
+  color: #8581a1;
+  a {
+    color: #5e5692;
+  }
+}
+.subtitle{
+  text-align: center;
+  color: #8581a1;
+  font-size: 16px;
+}
 .credit-card, .plan-pricing {
   font-size: 2.0em;
   line-height: 2.2em;
@@ -2196,3 +2209,4 @@ ul.paid-plan-features {
     }
   }
 }
+
