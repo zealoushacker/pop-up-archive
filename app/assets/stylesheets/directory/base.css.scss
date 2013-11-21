@@ -1492,11 +1492,12 @@ form.with-tags {
       line-height: 22px;
     }
   }
-  #logos{
+  #rightsidebar{
     float:left;
     width: 183px;
     img {
-      padding: 20px 22px;
+      padding: 16px 42px;
+      width: 110px;
     }
     p {
       background-color: #3d3d3e;
@@ -1505,7 +1506,26 @@ form.with-tags {
       font-family: soleil, sans-serif !important;
       font-size: 19px;
       line-height: 28px;
-    } 
+    }
+  }
+  #logos {
+    padding-top: 20px;
+    float: left;
+    width: 100%;
+    h4 {
+      color: #aa027b;
+    }
+    i {
+      padding-left: 5px;
+    }
+    ul {
+      margin: 0;
+    }
+    li {
+      display: inline;
+      width: 120px;
+      padding-right: 2px;
+    }
   }
 }
 
