@@ -234,7 +234,7 @@ GEM
       rack (~> 1.4)
       rest-client (~> 1.0)
     journey (1.0.4)
-    json (1.8.0)
+    json (1.8.1)
     jwt (0.1.8)
       multi_json (>= 1.5)
     kgio (2.8.0)
