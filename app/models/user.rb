@@ -103,7 +103,11 @@ class User < ActiveRecord::Base
 
   def subscribe!(plan, offer = nil)
     cus = customer.stripe_customer
-    cus.update_subscription(plan: plan.id, coupon: offer)
+    if (offer == 'prx')
+      cus.update_subscription(plan: plan.id, trial_end: 90.days.from_now.to_i)
+    else
+      cus.update_subscription(plan: plan.id, coupon: offer)
+    end
     invalidate_cache
   end
 

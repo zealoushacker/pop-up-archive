@@ -123,6 +123,44 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
   };
 
 }])
+.controller('PRXAccountPlanCtrl', ['$scope', 'Me', 'Plan', '$location', function ($scope, Me, Plan, $location) {
+  Plan.get().then(function (plans) {
+    var suggest, min = Infinity, max = -1;
+    angular.forEach(plans, function (plan) {
+      if (plan.interval == 'month') {
+        if (plan.amount < min) {
+          min = plan.amount;
+        }
+        if (plan.amount > max) {
+          max = plan.amount;
+        }
+      }
+    });
+    angular.forEach(plans, function (plan) {
+      if (plan.interval == 'month') {
+        if (plan.amount < max && plan.amount > min && (!suggest || plan.amount > suggest.amount)) {
+          suggest = plan;
+        }
+      }
+    });
+    $scope.plan = suggest;
+  });
+
+  Me.authenticated(function (me) {
+    $scope.me = me;
+  });
+
+  $scope.subscribe = function () {
+    $scope.signingUp = true;
+    $scope.me.subscribe($scope.plan.id, 'prx').then(function () {
+      $location.path('/account');
+    });
+  };
+
+  $scope.cancel = function () {
+    $location.path('/account/plan');
+  }
+}])
 .filter('shortInterval', function () {
   return function (interval) {
     if (!interval || interval.toLowerCase() == 'month') {
@@ -132,6 +170,40 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
     }
   }
 })
+.controller('PRXSignUpCtrl', ['$scope', 'Me', 'Plan', '$location', function ($scope, Me, Plan, $location) {
+  Me.authenticated(function (me) {
+    $location.path('/account/plan/prx').replace();
+  }, function () {
+    Plan.get().then(function (plans) {
+      var suggest, min = Infinity, max = -1;
+      angular.forEach(plans, function (plan) {
+        if (plan.interval == 'month') {
+          if (plan.amount < min) {
+            min = plan.amount;
+          }
+          if (plan.amount > max) {
+            max = plan.amount;
+          }
+        }
+      });
+      angular.forEach(plans, function (plan) {
+        if (plan.interval == 'month') {
+          if (plan.amount < max && plan.amount > min && (!suggest || plan.amount > suggest.amount)) {
+            suggest = plan;
+          }
+        }
+      });
+      $scope.plan = suggest;
+    });
+    $scope.subscribe = function () {
+      $scope.signingUp = true;
+      window.location.href = '/users/sign_up?plan_id=' + $scope.plan.id + '&offer_code=prx';
+    };
+    $scope.cancel = function () {
+      $location.path('/pricing');
+    };
+  });
+}])
 .controller('CreditCardCtrl', ['$scope', function ($scope) {
   var currentUser = $scope.currentUser || $scope.me;
   $scope.errors = {};
@@ -168,7 +240,7 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
 })
 .controller('SignUpCtrl', ['$scope', 'Me', '$location', 'Plan', '$modal', function($scope, Me, $location, Plan, $modal) {
   Me.authenticated(function (me) {
-    $location.path('/account/plan');
+    $location.path('/account/plan').replace();;
   });
 
   $scope.interval = 'month';

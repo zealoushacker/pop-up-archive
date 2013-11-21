@@ -2210,3 +2210,13 @@ ul.paid-plan-features {
   }
 }
 
+ul.great-list {
+  li {
+    display: inline-block;
+    text-align: left;
+    &:before {
+      content: ' ◦ '
+    }
+  }
+}
+

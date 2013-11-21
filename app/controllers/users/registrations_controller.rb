@@ -8,11 +8,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource.save
       yield resource if block_given?
       if resource.active_for_authentication?
-        set_flash_message :notice, :signed_up if is_flashing_format?
         sign_up(resource_name, resource)
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
-        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
         expire_data_after_sign_in!
         respond_with resource, :location => after_inactive_sign_up_path_for(resource)
       end
@@ -27,9 +25,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
         resource.email = nil
         resource.name = nil
       else
-        message = ["There was a problem saving your account. Please fix the errors below."]
+        message = ["There was a problem saving your account."].concat(resource.errors.full_messages)
       end
-      flash[:notice] = message.join(' ')
+      flash[:notice] = message.join('<br />')
       clean_up_passwords resource
       respond_with resource
     end
@@ -40,6 +38,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def build_resource(*args)
     session[:plan_id] = params[:plan_id] if params[:plan_id].present?    
     session[:card_token] = params[:card_token] if params[:card_token].present?
+    session[:offer_code] = params[:offer_code] if params[:offer_code].present?
     super
   end
 
@@ -55,7 +54,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   expose(:plan){ get_plan }
-  expose(:card_available?) { get_card_available }
+  expose(:card_available?) { get_card_available || offer_code == 'prx' }
+  expose(:offer_code) { session[:offer_code] }
 
   def get_plan
     if plan_id.present?
@@ -66,7 +66,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def get_card_available
-    Rails.logger.debug(session)
     !!session[:card_token]
   end
 
@@ -78,10 +77,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if session[:card_token].present?
       card_token = session.delete(:card_token)
       user.update_card!(card_token)
-      if session[:plan_id].present?
-        plan_id = session.delete(:plan_id)
-        user.subscribe!(SubscriptionPlan.find(plan_id))
-      end
+    end
+    if session[:plan_id].present?
+      plan_id = session.delete(:plan_id)
+      user.subscribe!(SubscriptionPlan.find(plan_id), session.delete(:offer_code))
     end
   end
 end

@@ -11,7 +11,10 @@
       | You are signing up for a&nbsp;
       strong #{plan.hours} hour&nbsp;
       | plan at the rate of&nbsp;
-      strong #{number_to_currency(plan.amount/100)} per #{plan.interval}.
+      strong #{number_to_currency(plan.amount/100)} per #{plan.interval}
+      - if offer_code == 'prx'
+        | <br>with a <strong>90-day</strong> free trial offer <strong>especially for PRX Members</strong>
+      |.
     - else
       | You are signing up for the&nbsp;
       strong Free&nbsp;
@@ -45,6 +48,7 @@
         input.autowidth type="text" size="4" name="exp-year" data-stripe="exp-year" placeholder="YYYY"
       hr.clearfix
   input name="plan_id" type='hidden' value="#{plan.id}"
+  input name="offer_code" type='hidden' value="#{offer_code}"
   - if resource.password_required? && resource.name_required? && !resource.email.present?
     .pull-right.social-signin
       - resource_class.omniauth_providers.each do |provider|

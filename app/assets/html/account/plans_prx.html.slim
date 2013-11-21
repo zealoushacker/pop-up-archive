@@ -1,0 +1,15 @@
+.row-fluid
+  .plan-well
+    h4 Welcome, PRX Members!
+    p Pop Up Archive has a special offer just for you: A free 90-day trial.  You'll get:
+    ul.great-list
+      li Simple management tools to organize your sound so it can be found and heard
+      li Automatic transcription and tagging
+      li Searchable private and public archives
+      li
+        a href="/about" target="_blank" A lot more
+.row-fluid
+  p This trial offer is good for a <strong>90-day</strong> subscription to Pop Up Archive.  The trial includes <strong>{{plan.hours}} hours</strong> of private audio.  To continue your subscription after the trial, you will be asked to provide credit card info and continue your subscription for <strong>{{plan.amount/100|currency}}/mo</strong> or choose from one of the other <a href="/pricing">available plans</a>.
+.row-fluid
+  a.btn.btn-link ng-click="cancel()" Cancel
+  a.btn.btn-primary.pull-right ng-click="subscribe()" ng-disabled="signingUp" Sign Up!

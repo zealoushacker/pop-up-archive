@@ -76,6 +76,11 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       controller: 'SignUpCtrl',
       title: "Sign Up"
     })
+    .when('/pricing/prx', {
+      templateUrl: "<%= asset_path 'account/plans_prx.html' %>",
+      controller: 'PRXSignUpCtrl',
+      title: "Sign Up &raquo; PRX Special Offer"
+    })
     .when('/account', {
       templateUrl: "<%= asset_path 'account/index.html' %>",
       controller: "AccountCtrl",
@@ -85,7 +90,14 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
     .when('/account/plan', {
       templateUrl: "<%= asset_path 'account/plans.html' %>",
       controller: "AccountPlanCtrl",
-      title: "My Account &raquo Plans"
+      title: "My Account &raquo Plans",
+      loginRequired: true
+    })
+    .when('/account/plan/prx', {
+      templateUrl: "<%= asset_path 'account/plans_prx.html' %>",
+      controller: "PRXAccountPlanCtrl",
+      title: "My Account &raquol Plans &raquo PRX Special Offer",
+      loginRequired: true
     })
     .when('/collections', {
       templateUrl: "<%= asset_path 'collections/index.html' %>",
@@ -378,7 +390,7 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       if (typeof next !== 'undefined') {
         if (next.$$route.loginRequired) {
           Me.authenticated(undefined, function () {
-            window.location = "/users/sign_in"
+            window.location.replace("/users/sign_in");
           });
         }
       }
