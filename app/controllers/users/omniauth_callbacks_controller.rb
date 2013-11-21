@@ -9,6 +9,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         else
           message << "reset your password below."
         end
+        @user = User.new
       else
         message = ["We need some more information to finish setting up your account."]
         session_oauth_data[:should_validate] = true
