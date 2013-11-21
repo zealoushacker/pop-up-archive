@@ -37,7 +37,8 @@ child @search.results do
       {
         url: af.url,
         filename: af.filename,
-        id: af.id
+        id: af.id,
+        transcript: af.transcript_array
       }
     end) }
   end
