@@ -33,6 +33,12 @@ child @search.results do
   end
 
   node(:highlights, if: ->(o) { o.highlighted_audio_files.present? }) do |i|
-    {audio_files: partial('api/v1/audio_files/audio_file', object: i.highlighted_audio_files) }
+    { audio_files: (i.highlighted_audio_files.map do |af|
+      {
+        url: af.url,
+        filename: af.filename,
+        id: af.id
+      }
+    end) }
   end
 end
