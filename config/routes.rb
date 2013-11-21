@@ -12,7 +12,7 @@ PopUpArchive::Application.routes.draw do
   root to: redirect('https://www.popuparchive.org/'), constraints: { host: 'beta.popuparchive.org' }
   root to: redirect('https://www.popuparchive.org/'), constraints: { host: 'pop-up-archive.herokuapp.com' }
 
-  devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations', omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations', omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions' }
 
   namespace :admin do
     resources :taskList

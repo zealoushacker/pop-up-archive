@@ -64,10 +64,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if session[:card_token].present?
       card_token = session.delete(:card_token)
       @user.update_card!(card_token)
-    end
-    if session[:plan_id].present?
-      plan_id = session.delete(:plan_id)
-      @user.subscribe!(SubscriptionPlan.find(plan_id))
+      if session[:plan_id].present?
+        plan_id = session.delete(:plan_id)
+        @user.subscribe!(SubscriptionPlan.find(plan_id))
+      end
     end
   end
 end
