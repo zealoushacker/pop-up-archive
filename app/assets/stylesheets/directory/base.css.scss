@@ -2130,11 +2130,17 @@ dd.usage-meter {
     background: image-url('hourglass_large.svg');
   }
 
+  &.soft {
+    background: none;
+    border: none;
+  }
+
   &.current {
     border: 10px solid #CCCCCC;
   }
   &.selected {
     border: 10px solid #FFB959;
+    background: #FFF;
     &.current {
       border: 10px solid #8581A1;
     }
