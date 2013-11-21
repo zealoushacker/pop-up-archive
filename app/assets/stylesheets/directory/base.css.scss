@@ -2091,57 +2091,6 @@ dd.usage-meter {
   h5 {
     text-align: left;
   }
-  ul.paid-features {
-    list-style-type: none;
-    margin: 0;
-    vertical-align: top;
-    li {
-      padding: 0 0 0 10px;
-      vertical-align: top;
-      margin: 0;
-      display: inline-block;
-      width: 160px;
-      height: 210px;
-      &.hovered img {
-        -webkit-filter: grayscale(0%);
-        -moz-filter: grayscale(0%);
-        filter: grayscale(0%);
-      }
-      img {
-        width: 125px;
-        transition: filter 0.1s ease;
-        filter: grayscale(100%);
-        -webkit-transition: -webkit-filter 0.1s ease;
-        -moz-transition: -moz-filter 0.1s ease;
-        -webkit-filter: grayscale(100%);
-        -moz-filter: grayscale(100%);
-      }
-      &:before {
-        content: '+';
-        display: inline-block;
-        margin: 0 5px;
-        font-size: 1.5em;
-        line-height: 125px;
-        float: left;
-        position: relative;
-        left: -5px;
-        font-weight: 800;
-      }
-      &:first-child {
-        padding: 0;
-        margin: 0 -10px 0 -10px;
-        &:before {
-          display: none;
-        }
-        h6 {
-          margin-left: 0px;
-        }
-      }
-      h6 {
-        margin-left: 20px;
-      }
-    }
-  }
 
   ul.plan-features {
     list-style-type: none;
@@ -2157,11 +2106,30 @@ dd.usage-meter {
     }
   }
 
-  h4 {
-    &:after {
-
-    }
+  h3 {
+    margin-top: 0px;
   }
+
+  &.span4 h3:after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 3px auto 0;
+  }
+
+  &.span4:nth-child(1) h3:after {
+    background: image-url('hourglass_small.svg');
+  }
+
+  &.span4:nth-child(2) h3:after {
+    background: image-url('hourglass_medium.svg');
+  }
+
+  &.span4:nth-child(3) h3:after {
+    background: image-url('hourglass_large.svg');
+  }
+
   &.current {
     border: 10px solid #CCCCCC;
   }
@@ -2169,6 +2137,60 @@ dd.usage-meter {
     border: 10px solid #FFB959;
     &.current {
       border: 10px solid #8581A1;
+    }
+  }
+}
+
+ul.paid-plan-features {
+  list-style-type: none;
+  margin: 0;
+  vertical-align: top;
+  text-align: center;
+  li {
+    padding: 0 0 0 10px;
+    vertical-align: top;
+    margin: 0;
+    display: inline-block;
+    width: 180px;
+    height: 210px;
+    &:hover object {
+      -webkit-filter: grayscale(0%);
+      -moz-filter: grayscale(0%);
+      filter: grayscale(0%);
+    }
+    object {
+      width: 150px;
+      height: 130px;
+      transition: filter 0.1s ease;
+      filter: grayscale(100%);
+      -webkit-transition: -webkit-filter 0.1s ease;
+      -moz-transition: -moz-filter 0.1s ease;
+      -webkit-filter: grayscale(100%);
+      -moz-filter: grayscale(100%);
+    }
+    &:before {
+      content: '+';
+      display: inline-block;
+      margin: 0 5px;
+      font-size: 1.5em;
+      line-height: 125px;
+      float: left;
+      position: relative;
+      left: -15px;
+      font-weight: 800;
+    }
+    &:first-child {
+      padding: 0;
+      margin: 0 -10px 0 -10px;
+      &:before {
+        display: none;
+      }
+      h6 {
+        margin-left: 0px;
+      }
+    }
+    h6 {
+      margin-left: 20px;
     }
   }
 }
