@@ -10,6 +10,8 @@
         a href="/about" target="_blank" A lot more
 .row-fluid
   p This trial offer is good for a <strong>90-day</strong> subscription to Pop Up Archive.  The trial includes <strong>{{plan.hours}} hours</strong> of private audio.  To continue your subscription after the trial, you will be asked to provide credit card info and continue your subscription for <strong>{{plan.amount/100|currency}}/mo</strong> or choose from one of the other <a href="/pricing">available plans</a>.
+.row-fluid ng-hide="me"
+  p <strong>Important</strong>: If you already have an account, <a href="/users/sign_in?return_to=/pricing/prx" target="_self">sign in</a> and then come back here to add the free trial to your account. Otherwise, click Sign Up below to make a new account with this free trial!
 .row-fluid
   a.btn.btn-link ng-click="cancel()" Cancel
   a.btn.btn-primary.pull-right ng-click="subscribe()" ng-disabled="signingUp" Sign Up!

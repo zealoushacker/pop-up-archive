@@ -124,6 +124,7 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
 
 }])
 .controller('PRXAccountPlanCtrl', ['$scope', 'Me', 'Plan', '$location', function ($scope, Me, Plan, $location) {
+  $scope.me = true;
   Plan.get().then(function (plans) {
     var suggest, min = Infinity, max = -1;
     angular.forEach(plans, function (plan) {
