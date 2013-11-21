@@ -12,28 +12,6 @@ angular.module('Directory.dashboard.controllers', ['Directory.loader', 'Director
      {image: 'about/internet_archive.jpg', description: 'Image 05', headline: 'Integrate with workflows', text: 'We’ve done the heavy lifting and tethered lots of services in one place: transcription, cataloging, storage, preservation, a hypermedia API, and a platform for processing large amounts of digital sound. Rigorous user testing is at the heart of our design process. Pop Up Archive\'s partners include radio stations and producers, oral history archives, universities, and media distributors.', teaser: 'Actually simple.'}
     ];
     
-    $scope.home_slides = [
-      {
-        image: 'mlk_speech_women.jpg', 
-        description: 'Image 00', 
-        video: null, 
-        html: '<h1>Focus on the story.</h1><a class=\'featurebtn\' ng-hide=\'currentUser.authenticated()\' href=\'/pricing\'>Sign Up</a><a class=\'featurebtn\' href=\'/collections\'>Upload Sounds</a><a class=\'featurebtn\' href=\'/search\'>Explore</a>',
-        caption: '<p class=\"pull-right\">Garment workers at the Abe Schrader Shop listen to the funeral service for Martin Luther King, Jr. on a portable radio. April 8, 1968 &mdash; <a href=\"http://www.flickr.com/photos/kheelcenter/5279005059/sizes/l/in/photostream\" target=\"_blank\"> Kheel Center, Cornell University</a></p>',
-      },
-      {
-        image: 'about/static3.gif', 
-        description: 'Image 01', 
-        html: '<h2 class=\"pop\">Simple tools to manage sound.<h2><p> Pop Up Archive organizes sound so it can be found and reused. Working on the ground with journalists and archives, we’re building tools to revitalize workflows, liberate undiscovered histories, and bring new voices into media.</p><ul><li> Transcribe and tag sound automatically</li><li> Search your private material and the public archive</li><li> Drag and drop to rediscover lost voices or organize new work</li></ul>',
-        banner: '<p>Help us transcribe the <a href=\"http://www.amara.org/en/teams/studs-terkel-archive/\" target=\"_blank\"> Studs Terkel Archive</a> and the <a href=\"http://www.amara.org/en/teams/pacifica-radio-archive/\" target=\"_blank\"> Pacifica Radio Archive</a> with our partners at Amara.</p>'
-      },
-      {
-        image: null, 
-        description: 'Image 02',  
-        video: '//player.vimeo.com/video/74795063?api=1', 
-        html: null
-      },
-    ];
-    
     $scope.currentIndex = 0;
 
     $scope.setCurrentSlideIndex = function (index) {

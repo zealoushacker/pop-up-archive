@@ -1,37 +1,67 @@
 #home
   .row
     .span12
-      .container.slider
-        .slide.slide-animation ng-repeat="slide in home_slides" ng-hide="!isCurrentSlideIndex($index)" 
-          .background
-            img ng-show="slide.image" ng-src="#{asset_path('{{slide.image}}')}"
-            .layer
-          .foreground.content
-            #banner ng-show="slide.banner" ng-bind-html-unsafe="slide.banner"
-            iframe ng-show="slide.video" src="{{slide.video}}" width="940" height="528" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
-            .wrapper ng-show="slide.html" ng-bind-html-unsafe="slide.html"
-            p ng-show="slide.text" {{slide.text}}
-            .caption ng-show="slide.caption" ng-bind-html-unsafe="slide.caption"
-            nav.nav
-                ul.dots
-                  li.dot ng-repeat="slide in home_slides"
-                    a href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);" {{slide.description}}
-
-          a.arrow.next href="#" ng-click="prevSlide(home_slides)"
-            i.icon-circle-arrow-right
-          a.arrow.prev href="#" ng-click="nextSlide(home_slides)"
-            i.icon-circle-arrow-left
+      #feature-image
+        #content 
+          h1 Focus on the story.
+      
+  .row
+    .span12
+      #buttons-background
+        h2 Simple tools to manage sound. 
+        a.featurebtn href='http://www.popuparchive.org/request-invite/' ng-hide="currentUser.authenticated()"
+          |Sign Up
+        a.featurebtn href='/collections'
+          |Archive
+        a.featurebtn href='/explore'
+          |Listen
+      
   .row
     .span12
       .featured-collection
-        a href='/collections/925'
+        a href='http://beta.popuparchive.org/collections/938'
           img src="#{asset_path('terkel.jpg')}"
           h5 Studs Terkel Archive
       .featured-collection
-        a href='/collections/938'
+        a href='http://beta.popuparchive.org/collections/925'
           img src="#{asset_path('pacifica.jpg')}"
           h5 Pacifica Radio Archives
       .featured-collection
         a href='/collections/583' 
           img src="#{asset_path('WILL.jpg')}"
           h5 Illinois Public Radio
+          
+  .row
+    .span12#static-div
+      .background
+        img.blur src="#{asset_path('about/static3.gif')}"
+        .layer  
+      #content
+        p.pop Pop Up Archive organizes sound so it can be found and reused.
+        ul 
+          li 
+            i.icon-star-empty 
+            |Search your work
+            i.icon-star-empty 
+          li
+            i.icon-star-empty 
+            |Transcribe and tag automatically
+            i.icon-star-empty
+          li
+            i.icon-star-empty 
+            |Explore the public archive and rediscover lost voices
+            i.icon-star-empty
+          
+  .row
+    .span12#banner
+      p 
+        |Help us transcribe the 
+        a href='http://www.amara.org/en/teams/studs-terkel-archive' target='_blank\' Studs Terkel Archive  
+        | and the 
+        a href='http://www.amara.org/en/teams/pacifica-radio-archive/' target='_blank\' Pacifica Radio Archive 
+        | with our partners at Amara.
+        
+  .row
+    .span12
+      iframe src="//player.vimeo.com/video/74795063" width="940" height="528" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
+        
