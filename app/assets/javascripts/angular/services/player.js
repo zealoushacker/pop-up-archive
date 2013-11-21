@@ -332,6 +332,7 @@
         transcriptTimestamps: "@",
         currentTime: "=",
         fileUrl: "=",
+        autoScroll: "=",
         saveText: "&"
       },
       priority: -1000,
@@ -421,17 +422,19 @@
 
         if (scope.transcript && scope.transcript.length > 0) {
           scope.$watch('currentTime', function (time) {
-            var second = parseInt(time, 10);
-            var height = angular.element(".file-transcript table tr")[0].scrollHeight;
-            if (second != lastSecond) {
-              if ((scope.player.nowPlayingUrl() == scope.fileUrl) && (second in scope.transcriptRows)) {
-                var index = scope.transcriptRows[second];
-                if (index != undefined) {
-                  el[0].scrollTop = Math.max((index - 1), 0) * height;
-                  scope.transcriptStart = second;
+            if (scope.autoScroll) {
+              var second = parseInt(time, 10);
+              var height = angular.element(".file-transcript table tr")[0].scrollHeight;
+              if (second != lastSecond) {
+                if ((scope.player.nowPlayingUrl() == scope.fileUrl) && (second in scope.transcriptRows)) {
+                  var index = scope.transcriptRows[second];
+                  if (index != undefined) {
+                    el[0].scrollTop = Math.max((index - 1), 0) * height;
+                    scope.transcriptStart = second;
+                  }
                 }
+                lastSecond = second;
               }
-              lastSecond = second;
             }
           });
         }

@@ -76,7 +76,7 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
             li
               a href="#" &nbsp;
 
-          .transcript transcript-text="audioFile.transcript | highlightMatches:transcriptFilter" transcript-editable="currentUser.canEdit(item)" current-time="player.time" save-text="saveText(text)" file-url="fileUrl"
+          .transcript transcript-text="audioFile.transcript | highlightMatches:transcriptFilter" transcript-editable="currentUser.canEdit(item)" current-time="player.time" save-text="saveText(text)" file-url="fileUrl" auto-scroll="!transcriptFilter"
       .alert.alert-info ng-show="currentUser.canEdit(item) && currentUser.plan == 'community' && item.audioFiles.length > 0 && item.audioFiles[0].transcript == 0" 
         |TRANSCRIPT PROCESSING  &mdash; We're automatically transcribing the first two minutes of your audio. It should be ready momentarily. 
         
