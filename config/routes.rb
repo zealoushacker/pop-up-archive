@@ -5,10 +5,12 @@ PopUpArchive::Application.routes.draw do
   end
 
 
-  match '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'pop-up-archive.herokuapp.com' }
-  match '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'beta.popuparchive.org' }
-  match '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'www.popuparchive.org', protocol: "http://" }
+  get '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'pop-up-archive.herokuapp.com' }
+  get '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'beta.popuparchive.org' }
+  get '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'www.popuparchive.org', protocol: "http://" }
   root to: redirect('https://www.popuparchive.org/'), constraints: { host: 'www.popuparchive.org', protocol: 'http://' }
+  root to: redirect('https://www.popuparchive.org/'), constraints: { host: 'beta.popuparchive.org' }
+  root to: redirect('https://www.popuparchive.org/'), constraints: { host: 'pop-up-archive.herokuapp.com' }
 
   devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
