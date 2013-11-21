@@ -1244,10 +1244,15 @@ form.with-tags {
   }
 }
 
-form.stripe-cc {
+.stripe-cc {
   input {
     width: auto;
   }
+}
+
+.modal form {
+  margin: 0;
+  padding: 0;
 }
 
 .arrow-buttons { 
@@ -1954,3 +1959,216 @@ a.featurebtn:nth-child(3){
 	}
 }
 
+.credit-card, .plan-pricing {
+  font-size: 2.0em;
+  line-height: 2.2em;
+  small {
+    font-size: 16px;
+    line-height: 21px;
+    margin: 0 0 5px;
+    span {
+      float: left;
+      margin-top: 1px;
+      font-size: 0.8em;
+    }
+  }
+}
+
+.plan-pricing small {
+  margin-left: 10px;
+}
+
+.credit-card {
+  margin-top: -10px;
+  text-align: right;
+  small {
+    font-size: 13px;
+    position: relative;
+    display: block;
+    top: -15px;
+  }
+}
+
+
+.loading-shield {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 70px;
+  top: 55px;
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 4.0em;
+  text-align:center;
+  vertical-align: center;
+  z-index: 100;
+  padding-top: 100px;
+  display: block;
+}
+
+.foot.fixed {
+  position: absolute;
+  left: 50%;
+  margin-left: -470px;
+  bottom: 5px;
+  width: 940px;
+}
+
+.span6 .dl-horizontal {
+  dd {
+    margin-left: 120px;
+    margin-bottom: 10px;
+  }
+  dt {
+    width: 110px;
+    margin-bottom: 10px;
+  }
+}
+
+dd.usage-meter {
+  position: relative;
+  background: #FFF;
+  border-radius: 10px;
+  padding-left: 10px;
+  overflow: hidden;
+
+  &.warning .bar {
+    background: rgb(241, 219, 139);
+  }
+
+  &.full .bar {
+    background: rgb(255, 131, 131);
+  }
+
+  .bar {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: rgb(139, 241, 219);
+    border-radius: 10px;
+  }
+  .meter-words {
+    position: relative;
+    z-index: 10;
+    font-family: "soleil", sans-serif !important;
+  }
+}
+
+.plan-well {
+  font-family: "soleil", sans-serif;
+  background: #FFF;
+  border-radius: 20px;
+  text-align: center;
+  padding: 10px;
+  border: 10px solid #FFF;
+  margin-bottom: 20px;
+  h5 {
+    text-align: left;
+  }
+
+  ul.plan-features {
+    list-style-type: none;
+    margin: 0;
+    li {
+      display: inline-block;
+      &:after {
+        content: '***'
+      }
+      &:last-child:after {
+        content: ''
+      }
+    }
+  }
+
+  h3 {
+    margin-top: 0px;
+  }
+
+  &.span4 h3:after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 3px auto 0;
+  }
+
+  &.span4:nth-child(1) h3:after {
+    background: image-url('hourglass_small.svg');
+  }
+
+  &.span4:nth-child(2) h3:after {
+    background: image-url('hourglass_medium.svg');
+  }
+
+  &.span4:nth-child(3) h3:after {
+    background: image-url('hourglass_large.svg');
+  }
+
+  &.soft {
+    background: none;
+    border: none;
+  }
+
+  &.current {
+    border: 10px solid #CCCCCC;
+  }
+  &.selected {
+    border: 10px solid #FFB959;
+    background: #FFF;
+    &.current {
+      border: 10px solid #8581A1;
+    }
+  }
+}
+
+ul.paid-plan-features {
+  list-style-type: none;
+  margin: 0;
+  vertical-align: top;
+  text-align: center;
+  li {
+    padding: 0 0 0 10px;
+    vertical-align: top;
+    margin: 0;
+    display: inline-block;
+    width: 180px;
+    height: 210px;
+    &:hover object {
+      -webkit-filter: grayscale(0%);
+      -moz-filter: grayscale(0%);
+      filter: grayscale(0%);
+    }
+    object {
+      width: 150px;
+      height: 130px;
+      transition: filter 0.1s ease;
+      filter: grayscale(100%);
+      -webkit-transition: -webkit-filter 0.1s ease;
+      -moz-transition: -moz-filter 0.1s ease;
+      -webkit-filter: grayscale(100%);
+      -moz-filter: grayscale(100%);
+    }
+    &:before {
+      content: '+';
+      display: inline-block;
+      margin: 0 5px;
+      font-size: 1.5em;
+      line-height: 125px;
+      float: left;
+      position: relative;
+      left: -15px;
+      font-weight: 800;
+    }
+    &:first-child {
+      padding: 0;
+      margin: 0 -10px 0 -10px;
+      &:before {
+        display: none;
+      }
+      h6 {
+        margin-left: 0px;
+      }
+    }
+    h6 {
+      margin-left: 20px;
+    }
+  }
+}
