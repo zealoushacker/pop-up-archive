@@ -1,23 +1,29 @@
 .row-fluid
   p.subtitle Choose from our terrific paid plans or get started with our free Community Plan
 .row-fluid ng-hide="hasSpecialPlan()"
-  h3 All Paid Plans Include:
-  ul.paid-plan-features
-    li
-      object type="image/svg+xml" data="/assets/tape_deck.svg"
-      | Unlimited Public Storage
-    li 
-      object type="image/svg+xml" data="/assets/robot.svg"
-      | Unlimited Auto Transcripts and Keywords
-    li
-      object type="image/svg+xml" data="/assets/shelf.svg"
-      | Easy-to-Use Sounds Management Tools
-    li
-      object type="image/svg+xml" data="/assets/brain_black.svg"
-      | Affordable Human-Generated Transcripts
-    li
-      object type="image/svg+xml" data="/assets/email.svg"
-      | E-Mail Technical Support
+  .plan-well
+    h4 All Paid Plans Include
+    ul.paid-plan-features
+      li
+        object type="image/svg+xml" data="/assets/tape_deck.svg"
+        br
+        | Unlimited Public Publishing to the Internet Archive
+      li 
+        object type="image/svg+xml" data="/assets/robot.svg"
+        br
+        | Full Auto Transcripts and Keywords
+      li
+        object type="image/svg+xml" data="/assets/shelf.svg"
+        br
+        | Easy-to-Use Sounds Management Tools
+      li
+        object type="image/svg+xml" data="/assets/brain_black.svg"
+        br
+        | Affordable Human-Generated Transcripts
+      li
+        object type="image/svg+xml" data="/assets/email.svg"
+        br
+        | E-Mail Technical Support
 .row-fluid ng-show="hasSpecialPlan()"
   .plan-well.current ng-click="changePlan({id: me.plan.id})" ng-class="{selected: isSelectedPlan({id: me.plan.id})}"
     h3 {{me.plan.popUpHours}} hours
@@ -28,20 +34,21 @@
 .row-fluid
   .plan-well.span4 ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)"
     h3 {{plan.hours}} hours
+    h5 of your sounds made searchable with full transcripts, tags, and timestamps
     h4 ${{plan.amount/100}}/{{plan.interval|shortInterval}}
-    h5 Private Transcripts, Tags, and Storage
+    
+.row-fluid
+  .plan-well.soft ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+    h4 Or get started with our free Community Plan.
+    ul.plan-features
+      li Easy-to-use audio management tools
+      li Two hours of storage at Pop Up Archive
+      li Two minutes of automatic transcripts and keywords per file
+      li Publish to the Internet Archive to free up storage and get full transcripts and keywords
+      li Access to the Pop Up Archive support forum
 .row-fluid
   .plan-well
     h4 Have more audio than you can handle?
     p
       a href="mailto:edison@popuparchive.org" Contact us
       |  for business services and tools, including automated ingest and media organization assistance.
-.row-fluid
-  .plan-well.soft ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
-    h4 Or get started with our free Community Plan.
-    ul.plan-features
-      li Two hours of storage at Pop Up Archive
-      li Unlimited storage at The Internet Archive
-      li Two minutes of automatic transcripts and keywords per file
-      li Easy-to-use audio management tools
-      li Access to the Pop Up Archive support forum

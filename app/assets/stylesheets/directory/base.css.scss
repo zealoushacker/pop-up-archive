@@ -1996,6 +1996,7 @@ a.featurebtn:nth-child(3){
   color: #8581a1;
   font-size: 16px;
 }
+
 .credit-card, .plan-pricing {
   font-size: 2.0em;
   line-height: 2.2em;
@@ -2097,8 +2098,11 @@ dd.usage-meter {
   padding: 10px;
   border: 10px solid #FFF;
   margin-bottom: 20px;
+  h4 {
+    color: rgb(255,151,77);;
+  }
   h5 {
-    text-align: left;
+    text-align: center;
   }
 
   ul.plan-features {
@@ -2161,28 +2165,29 @@ ul.paid-plan-features {
   margin: 0;
   vertical-align: top;
   text-align: center;
+
   li {
     padding: 0 0 0 10px;
     vertical-align: top;
     margin: 0;
     display: inline-block;
-    width: 180px;
-    height: 210px;
-    &:hover object {
-      -webkit-filter: grayscale(0%);
-      -moz-filter: grayscale(0%);
-      filter: grayscale(0%);
-    }
-    object {
-      width: 150px;
-      height: 130px;
-      transition: filter 0.1s ease;
-      filter: grayscale(100%);
-      -webkit-transition: -webkit-filter 0.1s ease;
-      -moz-transition: -moz-filter 0.1s ease;
-      -webkit-filter: grayscale(100%);
-      -moz-filter: grayscale(100%);
-    }
+    width: 165px;
+    height: 180px;
+//    &:hover object {
+//      -webkit-filter: grayscale(0%);
+//      -moz-filter: grayscale(0%);
+//      filter: grayscale(0%);
+//    }
+//    object {
+//      width: 150px;
+//      height: 130px;
+//      transition: filter 0.1s ease;
+//      filter: grayscale(100%);
+//      -webkit-transition: -webkit-filter 0.1s ease;
+//      -moz-transition: -moz-filter 0.1s ease;
+//      -webkit-filter: grayscale(100%);
+//      -moz-filter: grayscale(100%);
+//    }
     &:before {
       content: '+';
       display: inline-block;
