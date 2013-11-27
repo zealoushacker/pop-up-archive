@@ -31,8 +31,10 @@ class PBCoreImporter
     pbc_collection.description_documents.each do |doc|
       sleep(2)
 			item = item_for_omeka_doc(doc)
-      item.save! unless dry_run
-      items << item
+      unless Item.where(identifier: item.identifier, collection_id: item.collection.id).exists?
+        item.save! unless dry_run
+        items << item
+      end
     end
     items
   end
