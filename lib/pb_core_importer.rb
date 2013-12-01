@@ -45,8 +45,8 @@ class PBCoreImporter
     item.date_created      = doc.detect_element(:asset_dates, match_value: ['created', nil], value: :date)
     item.identifier        = doc.detect_element(:identifiers)
     item.episode_title     = doc.detect_element(:titles, match_value: 'episode', default_first: false)
-    item.series_title      = doc.detect_element(:titles, match_value: 'series', default_first: false)
-    item.title             = doc.detect_element(:titles)
+    item.series_title      = doc.detect_element(:titles)
+    item.title             = doc.detect_element(:titles, match_value: 'episode', default_first: false)
     item.tags              = doc.subjects.collect{|s| s.value}.compact
     item.description       = doc.detect_element(:descriptions)
     item.physical_location = doc.detect_element(:coverages, match_value: 'spatial', value: :info, default_first: false).try(:value)
