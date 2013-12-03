@@ -34,7 +34,7 @@
 
 ### Recommended setup
 
-This guide expects that you have git and homebrew installed, and have a ruby environment set up with 1.9.3 (using RVM or rbenv). We also assume you are using Pow, and have the development site running at http://pop-up-archive.dev. This is not required, but some aspects of the guide may not be appropriate for different configurations.
+This guide expects that you have git and homebrew installed, and have a ruby environment set up with 2.0.0-p247 (using RVM or rbenv). We also assume you are using Pow, and have the development site running at http://pop-up-archive.dev. This is not required, but some aspects of the guide may not be appropriate for different configurations.
 
     brew install redis elasticsearch postgres
     git clone git@github.com:PRX/pop-up-archive.git
