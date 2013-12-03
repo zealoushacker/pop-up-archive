@@ -48,7 +48,7 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
  
     if (!user.isAdmin()) return false;
 
-    // if (!user.hasCard) return false;
+    if (!user.hasCard) return false;
 
     if (self.isTranscriptOrdered()) return false;
 
