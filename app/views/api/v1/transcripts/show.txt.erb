@@ -1,9 +1,11 @@
 Pop Up Archive Item: "<%= transcript.audio_file.item.title %>" : <%= transcript.audio_file.item.url %>
-Transcript for file: <%= transcript.audio_file.filename %>
-
-<%- transcript.timed_texts.each_with_index do |tt, index| -%>
-<%= if tt.start_time%30===0 
-      "\r\n" + format_time(tt.start_time) + "\r\n"
+Transcript for file: <%= transcript.audio_file.filename + "\r\n" %>
+<%= "00:00:00" %>
+<%- n=0 %>
+<%- transcript.timed_texts.each_with_index do |tt, index| 
+      n=n+1-%>
+<%= if n%7===0 
+      "\r" + format_time(tt.start_time) + "\r\n"
     end%>
 <%= tt.text %>
 <%- end -%>
