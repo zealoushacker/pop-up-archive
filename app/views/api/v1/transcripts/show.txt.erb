@@ -5,7 +5,7 @@ Transcript for file: <%= transcript.audio_file.filename + "\r\n" %>
 <%- transcript.timed_texts.each_with_index do |tt, index| 
       n=n+1-%>
 <%= if n%7===0 
-      "\r" + format_time(tt.start_time) + "\r\n"
-    end%>
-<%= tt.text %>
+      "\n\r" + format_time(tt.start_time) + "\r\n"
+    end %>
+<%= tt.text -%>
 <%- end -%>
