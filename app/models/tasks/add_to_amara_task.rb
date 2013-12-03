@@ -87,7 +87,7 @@ class Tasks::AddToAmaraTask < Task
 
     full_language = (audio_file.item.language || 'en-US')
     identifier    = "#{audio_file.id}_#{language}"
-    transcript    = audio_file.item.transcripts.build(language: full_language, identifier: identifier, start_time: 0, end_time: 0, confidence: 100)
+    transcript    = audio_file.transcripts.build(language: full_language, identifier: identifier, start_time: 0, end_time: 0, confidence: 100)
 
     subtitles.subtitles.each do |row|
       tt = transcript.timed_texts.build({

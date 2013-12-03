@@ -113,6 +113,8 @@ describe Tasks::AddToAmaraTask do
     transcript.start_time.should eq 2
     transcript.end_time.should eq 60
     transcript.confidence.should eq 100
+    transcript.audio_file_id.should_not be_nil
+    transcript.audio_file_id.should eq @task.owner_id
 
     transcript.timed_texts.count.should eq subtitles.subtitles.count
 
