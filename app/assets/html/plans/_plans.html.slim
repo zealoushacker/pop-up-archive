@@ -3,27 +3,13 @@
 .row-fluid ng-hide="hasSpecialPlan()"
   .plan-well
     h4 All Paid Plans Include
-    ul.paid-plan-features
-      li
-        object type="image/svg+xml" data="/assets/tape_deck.svg"
-        br
-        | Unlimited Public Publishing to the Internet Archive
-      li 
-        object type="image/svg+xml" data="/assets/robot.svg"
-        br
-        | Full Auto Transcripts and Keywords
-      li
-        object type="image/svg+xml" data="/assets/shelf.svg"
-        br
-        | Easy-to-Use Sounds Management Tools
-      li
-        object type="image/svg+xml" data="/assets/brain.svg"
-        br
-        | Affordable Human-Generated Transcripts
-      li
-        object type="image/svg+xml" data="/assets/email.svg"
-        br
-        | E-Mail Technical Support
+    ul.paid-plan-features 
+      li ng-repeat="feature in features" ng-click="explain(feature.explain) || showExplain()"
+        object type="image/svg+xml" data="#{asset_path('{{feature.image}}')}"
+        br {{feature.headline}}
+    .explain ng-show="showExplain"
+      p  {{explanation}}
+
 .row-fluid ng-show="hasSpecialPlan()"
   .plan-well.current ng-click="changePlan({id: me.plan.id})" ng-class="{selected: isSelectedPlan({id: me.plan.id})}"
     h3 {{me.plan.popUpHours}} hours

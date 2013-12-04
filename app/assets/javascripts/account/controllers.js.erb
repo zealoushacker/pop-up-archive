@@ -121,6 +121,22 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
       $modal({template: '/assets/account/credit_card.html', persist: true, show: true, backdrop: 'static', scope: $scope});
     }
   };
+  
+  $scope.explain = function (def) {
+    $scope.explanation=def;
+  };
+  
+  $scope.showExplain= function() {
+    $scope.showExplain = true;
+  };
+  
+  $scope.features = [
+    {image: "tape_deck.svg", explain: 'The Internet Archive is a non-profit digital library offering free universal access to books, movies & music. To support this mission, Pop Up Archive provides full auto-transcription and analysis of any audio that you agee to publish to The Internet Archive. Simply create a public Internet Archive collection to add your audio to the Internet Archive\'s body of work.', headline: 'Unlimited Publishing to the Internet Archive'},
+    {image: "robot.svg", explain: 'Premium plans receive full-length auto-transcription and auto-tagging. Your transcripts will be synched and timestamped, just click a phrase to play it. Our free community plan provides two minutes of auto-transcription and auto-tagging per file for up to two hours of private audio.', headline: 'Full Auto Transcripts and Keywords'},
+    {image: "shelf.svg", explain: 'Pop Up Archive provides easy-to-use sound management tools. Sort your audio into public and private collections, and use tags and facets to further refine your media for a powerful search experience.', headline: 'Easy-to-Use Sound Management Tools'},
+    {image: "brain_pink.svg", explain: 'Need perfect transcripts? Pop Up Archive has teamed up with the Amara captioning service to provide affordable human-generated transcripts. Upload your file to Pop Up Archive and select the \"Perfect your transcript\" link to get started.', headline: 'Affordable Human-Generated Transcripts'},
+    {image: "email.svg", explain: 'Have questions? Use the Support link or email us directly at edison@popuparchive.com. Premium plan members are guaranteed a response within 24 hours.', headline: 'E-Mail Technical Support'},
+  ];
 
 }])
 .controller('PRXAccountPlanCtrl', ['$scope', 'Me', 'Plan', '$location', function ($scope, Me, Plan, $location) {

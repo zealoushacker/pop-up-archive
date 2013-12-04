@@ -2144,7 +2144,6 @@ dd.usage-meter {
   }
 
   &.soft {
-    background: none;
     border: none;
   }
 
@@ -2173,21 +2172,6 @@ ul.paid-plan-features {
     display: inline-block;
     width: 165px;
     height: 180px;
-//    &:hover object {
-//      -webkit-filter: grayscale(0%);
-//      -moz-filter: grayscale(0%);
-//      filter: grayscale(0%);
-//    }
-//    object {
-//      width: 150px;
-//      height: 130px;
-//      transition: filter 0.1s ease;
-//      filter: grayscale(100%);
-//      -webkit-transition: -webkit-filter 0.1s ease;
-//      -moz-transition: -moz-filter 0.1s ease;
-//      -webkit-filter: grayscale(100%);
-//      -moz-filter: grayscale(100%);
-//    }
     &:before {
       content: '+';
       display: inline-block;
@@ -2213,6 +2197,12 @@ ul.paid-plan-features {
       margin-left: 20px;
     }
   }
+}
+
+.explain {
+  background: #DB995D;
+  padding: 15px;
+  text-align: left;
 }
 
 ul.great-list {
