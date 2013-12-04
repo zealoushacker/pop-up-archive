@@ -123,7 +123,7 @@ function mule_upload(settings) {
 
         // the Amazon S3 bucket where you'll store the uploads
         settings.bucket = settings.bucket;
-        settings.host = settings.host || "http://" + settings.bucket + ".s3.amazonaws.com";
+        settings.host = settings.host || "https://" + settings.bucket + ".s3.amazonaws.com";
 
         // the Amazon S3 access key. DO NOT give the AWS Secret code!
         settings.access_key = settings.access_key;
