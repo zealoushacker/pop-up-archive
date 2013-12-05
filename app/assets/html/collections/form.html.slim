@@ -2,7 +2,7 @@ div ng-controller='CollectionFormCtrl'
   .modal-header
     button type="button" class="close" data-dismiss="modal" aria-hidden="true" x
     h3 ng-show="collection.id" Edit {{collection.title}}
-    h3 ng-hide="collection.id" Create a {{collection.privateOrPublic()}} Collection
+    h3 ng-hide="collection.id" Create a Collection
   .modal-body
     form.form-horizontal name="collectionForm"
       .control-group
