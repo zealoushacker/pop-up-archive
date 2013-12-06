@@ -148,7 +148,8 @@ angular.module('Directory.csvImports.models', ['RailsModel'])
     "interviewees[]":                  {type:"person",      display: "Interviewee"},
     "producers[]":                     {type:"person",      display: "Producer"},
     "creators[]":                      {type:"person",      display: "Creator"},
-    "hosts[]":                         {type:"person",      display: "Host"}
+    "hosts[]":                         {type:"person",      display: "Host"},
+    "guests[]":                        {type:"person",      display: "Guest"}, 
   }, function (metaData, columnName) {
     for (var typeIndex=0; schema.types[typeIndex].name != metaData.type; typeIndex++);
     schema.columns.push({name:columnName, humanName:metaData.display, typeId: typeIndex, camelCaseName:camelize(columnName), typeName:metaData.type});

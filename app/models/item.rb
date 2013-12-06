@@ -7,7 +7,7 @@ class Item < ActiveRecord::Base
 
   DEFAULT_INDEX_PARAMS = {except: [:transcription, :rights, :storage_id, :token, :geolocation_id, :csv_import_id, :deleted_at]}
 
-  STANDARD_ROLES = ['producer', 'interviewer', 'interviewee', 'creator', 'host']
+  STANDARD_ROLES = ['producer', 'interviewer', 'interviewee', 'creator', 'host', 'guest']
 
   before_validation :set_defaults, if: :new_record?
 

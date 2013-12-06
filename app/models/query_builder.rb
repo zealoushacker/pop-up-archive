@@ -72,6 +72,6 @@ class QueryBuilder
   end
 
   def default_facets
-    {date_created: {type:'date'}, date_broadcast: {type:'date'}, date_added: {type:'date'}, duration: {type:'histogram'}, interviewer:{}, interviewee:{}, tag:{}, collection_id:{}, creator:{}, host:{}, producer:{}}
+    {date_created: {type:'date'}, date_broadcast: {type:'date'}, date_added: {type:'date'}, duration: {type:'histogram'}, interviewer:{}, interviewee:{}, tag:{}, collection_id:{}, creator:{}, host:{}, producer:{}, guest:{}}
   end
 end

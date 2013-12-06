@@ -275,7 +275,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     }
   }
 
-  Item.prototype.standardRoles = ['producer', 'interviewer', 'interviewee', 'creator', 'host'];
+  Item.prototype.standardRoles = ['producer', 'interviewer', 'interviewee', 'creator', 'host','guest'];
 
   return Item;
 }])

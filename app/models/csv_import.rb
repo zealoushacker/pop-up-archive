@@ -171,6 +171,7 @@ class CsvImport < ActiveRecord::Base
       when /interviewer/ then ["interviewers[]", 'person']
       when /interviewee/ then ["interviewees[]", "person"]      
       when /producer/ then ['producers[]', 'person']
+      when /guest/ then ['guests[]', 'person']
       when /description/ then ['description', 'text']
       when /rights/ then ['rights', 'text']
       when /phy(.*)format/ then ['physical_format', 'short_text']
