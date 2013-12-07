@@ -106,6 +106,10 @@ angular.module('Directory.searches.controllers', ['Directory.loader', 'Directory
         $scope.title_term="Host";
         $scope.field="hosts";
       }
+      else if (args.field == "guest"){
+        $scope.title_term="Guest";
+        $scope.field="guests";
+      }
       else if (args.field =="tag"){
         $scope.title_term= "Tag";
         $scope.field="tags";

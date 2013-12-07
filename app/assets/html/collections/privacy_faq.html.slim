@@ -1,75 +1,111 @@
 .faq
-	h1 Audio Privacy FAQs
-	h2 What are public collections and where are they stored? 
-	p
-		|Media in public collections is visible to anyone on the web. Anyone can see or hear audio in public collections through 
-		a ng-href="http://popuparchive.org" target="blank" Pop Up Archive’s website
-		|, which is indexed by 
-		a ng-href="http://google.com" target="blank" Google
-		|. like any other public website. Currently, no one can download material directly from the Pop Up Archive website unless they are an owner of the material. 
-	p
-		| You can choose to store public collections either on Amazon S3 servers maintained by Pop Up Archive, or on servers at 
-		a ng-href="http://archive.org" target="blank" the Internet Archive
-		|. Like a public library, the Internet Archive stores media and makes it available at no cost to researchers, historians, and scholars. Public collections stored at the Internet Archive can be seen, heard, and downloaded through the Internet Archive's website, which is also indexed by Google. 
-	
-	h2 What are private collections and where are they stored? 
-	p 
-		|Private collections can be seen and heard only by the person who created them, unless they are part of a team account (
-		a href="mailto: anne@popuparchive.org" contact us if you're interested
-		|). Audio in private team collections can only be seen and heard by team members who have been granted access by the team administrator. All media in private collections is stored on private Amazon S3 servers maintained by Pop Up Archive.  
+  .row
+    .span12
+      h1 FAQs
+      h2 
+        a href="#privacy" Privacy
+      h3 What are public collections and where are they stored? 
+      p
+        |Media in public collections is visible to anyone on the web. Anyone can see or hear audio in public collections through 
+        a ng-href="http://popuparchive.org" target="blank" Pop Up Archive’s website. 
+        | Currently, no one can download material directly from the Pop Up Archive website unless they are an owner of the material. 
+      p
+        | You can choose to store public collections either on Amazon S3 servers maintained by Pop Up Archive, or on servers at 
+        a ng-href="http://archive.org" target="blank" the Internet Archive
+        |. Like a public library, the Internet Archive stores media and makes it available at no cost to researchers, historians, and scholars. Public collections stored at the Internet Archive can be seen, heard, and downloaded through the Internet Archive's website, which is indexed by Google. 
+  
+      h3 What are private collections and where are they stored? 
+      p 
+        |Private collections can be seen and heard only by the person who created them, unless they are part of a team account. Audio in private team collections can only be seen and heard by team members who have been granted access by the team administrator. All media in private collections is stored on private Amazon S3 servers maintained by Pop Up Archive. 
+      p
+        a href="mailto: edison@popuparchive.org" Contact us 
+        | if you're interested in a team account. 
 
-	h2 What is the Internet Archive?
-	p 
-		a ng-href="http://archive.org" target="blank" The Internet Archive 
-		|focuses on preservation and providing access to digital cultural artifacts. Like a public library, the Internet Archive stores media and makes it available at no cost to researchers, historians, and scholars. People (like you!) can contribute content to the Internet Archive if it's in the public domain or if you own the rights to it. If you own the rights, we recommend that you choose a license for it and/or provide contact information so that others will know how they may (or may not) use it.
+      h3 What is the Internet Archive?
+      p 
+        a ng-href="http://archive.org" target="blank" The Internet Archive 
+        |focuses on preservation and providing access to digital cultural artifacts. Like a public library, the Internet Archive stores media and makes it available at no cost to researchers, historians, and scholars. People (like you!) can contribute content to the Internet Archive if it's in the public domain or if you own the rights to it. If you own the rights, we recommend that you choose a license for it and/or provide contact information so that others will know how they may (or may not) use it.
 
-	h2 Who can access my audio if it’s in a public collection?
-	p 
-		|Anyone can access audio in a public collection through 
-		a ng-href="http://popuparchive.org" target="blank" Pop Up Archive’s website
-		|. No one can download material directly from Pop Up Archive website unless they are an owner of that material. 
-	p
-		| If your public collection is stored at the Internet Archive, it can be accessed through Pop Up Archive’s website as well as through the 
-		a ng-href="http://archive.org" target="blank" Internet Archive
-		|. Audio stored at the Internet Archive can also be downloaded from the Internet Archive’s website.
+      h3 Who can access my audio if it’s in a public collection?
+      p 
+        |Anyone can access audio in a public collection through 
+        a ng-href="http://popuparchive.org" target="blank" Pop Up Archive’s website
+        |. No one can download material directly from Pop Up Archive website unless they are an owner of that material. 
+      p
+        | If your public collection is stored at the Internet Archive, it can be accessed through Pop Up Archive’s website as well as through the 
+        a ng-href="http://archive.org" target="blank" Internet Archive
+        |. Audio stored at the Internet Archive can also be downloaded from the Internet Archive’s website.
 
-	h2 Who can access my audio if it’s in a private collection?
-	p 
-		|A private collection can be seen and heard only by the person who created it. Private team collections (
-		a href="mailto: anne@popuparchive.org" contact us if you're interested
-		|) are only visible to team members who have been granted access by the team administrator. 
+      h3 Who can access my audio if it’s in a private collection?
+      p 
+        |A private collection can be seen and heard only by the person who created it. Private team collections are only visible to team members who have been granted access by the team administrator. 
+        a href="mailto: edison@popuparchive.org" Contact us 
+        |if you're interested in creating a team collection.
 
-	h2 I accidentally added private audio to a public collection. Now what?
-	p 
-		|You can delete the collection and all of the audio in that collection will be deleted from 
-		a ng-href="http://archive.org" target="blank" the Internet Archive’s website. 
-		| Then, create a private collection and add the audio to your new private collection. The new private collection will only be accessible to you. 
-	p	
-		|Keep in mind: even after you delete a public collection, textual information about that collection may continue to exist in search engine indexes. For this reason, we encourage you to be mindful of sensitive audio.
+      h3 I accidentally added private audio to a public collection. Now what?
+      p 
+        | Privacy is set at the collection level. If you've added your audio to an Internet Archive collection and would like to have it removed, 
+        a href="mailto: edison@popuparchive.org" contact us
+        | . If you're audio is in a non-Internet Archive public collection, you can move it to a private collection by selecting the item, clicking edit, and selecting a private collection from the Collection pulldown menu.
+  //|You can delete the collection and all of the audio in that collection will be deleted from 
+  //a ng-href="http://archive.org" target="blank" the Internet Archive’s website. 
+  //| Then, create a private collection and add the audio to your new private collection. The new private collection will only be accessible to you. 
+      p 
+        |Keep in mind: even after you delete a public collection, textual information about that collection may continue to exist in search engine indexes. For this reason, we encourage you to be mindful of sensitive audio.
 
-	h2 Why can’t I change the privacy setting of a collection?
-	p 
-		|When you create a public collection, any textual information (i.e. title, description) about the audio files in that collection is also stored on 
-		a ng-href="http://archive.org" target="blank" the Internet Archive’s website
-		|, and that textual information gets indexed very frequently by 
-		a ng-href="http://google.com" target="blank" Google  
-		| and other search engines. 
-	p
-		|This is great news when it comes to SEO and making material easier to find on the web. But it also means that even when an audio file is deleted from the Internet Archive, textual information about that file will continue to exist in search engine indexes. So even if we allowed you to change the privacy setting of an Internet Archive collection and make it private, a record of that collection would still exist in search engine indexes. 
-	p
-		|We want to be as straightforward as possible about where your sound is referenced, which is why you can't change the privacy setting of a collection. 
-		|Don't despair: you can still delete a collection and all of the audio in that collection will be deleted from the Internet Archive’s servers (or from Pop Up Archive’s servers, in the case of private collections).
-		
-	h2 How can I use the public audio I find in Pop Up Archive?
-	p Part of the reason we built Pop Up Archive was to encourage discovery of archival audio. Anything in a public Pop Up Archive collection is indexed by search engines and can be seen and heard by the public. Through Pop Up Archive, thousands of hours of hidden sonic treasure is seeing the light of day for the first time.
+      h3 Why can’t I change the privacy setting of a collection stored at the Internet Archive?
+      p 
+        |The Internet Archive does not support the programmatic deletion of items. However, you can 
+        a href="mailto: edison@popuparchive.org" contact us 
+        | to take down any files you have accidentally uploaded to the Internet Archive. However, keep in mind that any textual information (i.e. title, description) about the audio files in that collection is also stored on 
+        a ng-href="http://archive.org" target="blank" the Internet Archive’s website
+        |, and that textual information gets indexed very frequently by 
+        a ng-href="http://google.com" target="blank" Google  
+        | and other search engines, so textual information about your item may continue to shop up in search engines even after the item has been removed from the Internet Archive.
+    
+      h3 How can I use the public audio I find in Pop Up Archive?
+      p We built Pop Up Archive to encourage the discovery of archival audio. Anything in a public Pop Up Archive collection is indexed by search engines and can be seen and heard by the public. Through Pop Up Archive, thousands of hours of hidden sonic treasure is seeing the light of day for the first time.
 
-	p 
-		|You can use public material — whether you want to cite it, remix it, perform it, or sing it to your grandma — in accordance with the terms that the content owner has specified. These may be All Rights Reserved or 
-		a ng-href="http://creativecommons.org/" target="blank" Creative Commons. 
-		|If the person who uploaded the material provided information related to use rights, either by way of directly entering it in the “Rights” field or by selecting a 
-		a ng-href="http://creativecommons.org/licenses/" Creative Commons license
-		|, it will be viewable on the item page. We also encourage you to inform the content owner if you intend to use their work. 
+      p 
+        |You can use public material — whether you want to cite it, remix it, perform it, or sing it to your grandma — in accordance with the terms that the content owner has specified. These may be All Rights Reserved or 
+        a ng-href="http://creativecommons.org/" target="blank" Creative Commons. 
+        |If the person who uploaded the material provided information related to use rights, either by way of directly entering it in the “Rights” field or by selecting a 
+        a ng-href="http://creativecommons.org/licenses/" target="blank" Creative Commons license
+        |, it will be viewable on the item page. If no rights information is specified, it's best to assume that the material is All Rights Reserved.  We  encourage you to inform the content owner if you intend to use their work. 
 
-	p People (like you!) can contribute content to Pop Up Archive if it's in the public domain or if you own the rights to it. If you own the rights, we recommend that you choose a license for it so that others will know how they may (or may not) use it. Please note that if you wish to be contacted with inquiries regarding your item, you'll need to supply public contact information. Some people provide a web address, mailing address, or other means of contact in the “Rights” field for the item.
+      p People (like you!) can contribute content to Pop Up Archive if it's in the public domain or if you own the rights to it. If you own the rights, we recommend that you choose a license for it so that others will know how they may (or may not) use it. Please note that if you wish to be contacted with inquiries regarding your item, you'll need to supply public contact information. Some people provide a web address, mailing address, or other means of contact in the “Rights” field for the item.
 
-	p When a user adds audio to Pop Up Archive, in accordance with our terms of use, they are agreeing that they have the rights to do so — that is, that they are the owner of that audio or that their use is non-infringing. Our terms of use (see section 1.8) require that users make use of Pop Up Archive at their own risk and ensure that such use is non-infringing and in accordance with all applicable laws. We cannot guarantee the copyright status of material in public collections and cannot guarantee information posted by Pop Up Archive users regarding copyright or other intellectual property rights. 
+      p When a user adds audio to Pop Up Archive, in accordance with our terms of use, they are agreeing that they have the rights to do so — that is, that they are the owner of that audio or that their use is non-infringing. Our terms of use (see section 1.8) require that users make use of Pop Up Archive at their own risk and ensure that such use is non-infringing and in accordance with all applicable laws. We cannot guarantee the copyright status of material in public collections and cannot guarantee information posted by Pop Up Archive users regarding copyright or other intellectual property rights.
+  .row
+    .span12
+     h2 
+      a href="#transcripts" Transcripts and Audio Quality
+     h3 How can I improve my transcript quality?
+     p In order for Pop Up Archive to generate the best possible transcript for your audio files, please consider these guidelines when recording and preparing your audio so that the automated speech-to-text engine can do its best.
+     h4 Maximize signal-to-noise ratio
+     ol 
+      li Minimize background noise
+      li Place the microphone close to the voices you are recording
+      li Speak clearly and loudly
+      li Record at the highest volume levels you can without clipping the audio
+
+     h4 Optimize audio settings
+     p When you prepare your audio (saving and encoding), certain settings can ensure a more accurate transcript:
+     ol
+      li <strong>Bit Depth (a.k.a. Sample Size or Bits Per Sample)</strong> measures how many bits of information are recorded for each audio sample. A higher bit depth helps reduce noise in your recording.
+      ul
+        li <strong>Optimal setting: 16 bits</strong>
+        li 8 bits has traditionally been a standard for voice recording, but this setting will result in suboptimal transcriptions.
+        li 24 bits (used in professional audio) is acceptable, but will result in a much larger file size, with limited marginal benefit for a voice recording.
+      br
+      li <strong>Sample Rate</strong> measures how frequently a sample is taken when converting your audio from analog (sound wave) to digital (1's and 0's). A higher sample rate helps improve the frequency response of your recording.
+      ul
+        li <strong>Optimal setting: 16 kHz</strong>
+        li 8 kHz (typically the standard for phone transmissions) will result in suboptimal transcriptions, and is not recommended.
+        li 44.1 kHz (CD quality) and 48 kHz (professional audio) are acceptable rates - we will store and play back your audio in your original sample rate, but the speech-to-text engine which generates the transcript will only accept sample rates up to 16 kHz (we will create a 16 kHz copy of your file to feed into the engine).
+      br
+      li <strong>Encoding format - e.g. MP3, FLAC, WAV</strong>
+      ul
+        li <strong>Optimal setting: WAV or Decent-quality MP3 (128 kbps or higher)</strong>
+        li If you have recorded at a good bit depth and sample rate, the encoding format is of lesser importance. However, you should avoid uploading MP3s that are lower than 128 kbps bit rate - in general, the lower the MP3 bit rate, the lower the quality of the audio, and thus of the transcript.
+        li FLAC files are great for archiving, and can be uploaded for storage and audio transcription, but right now Pop Up Archive doesn't support FLAC playback in our audio player.
