@@ -1,12 +1,13 @@
 .row-fluid ng-tutorial="collectionsTour"
   h1 My Collections
   .page-nav.pull-right
-		a.btn href="/imports/new"
-			i.icon-th-list Batch Upload
+    a.btn href="/imports/new"
+      i.icon-th-list Batch Upload
 
   h3 Unsorted Files
   .alert 
     | This is a temporary place for your audio. Select audio below to move it to your collections. Then: listen, see transcripts, and add tags! 
+    a href="/how_to_organize" Learn more about organizing. 
   .alert.alert-error ng-show="collections.length < 2 && selectedItems.length > 0"
       | It looks like you haven't created any collections yet. Create a collection to get started.
   div
@@ -38,7 +39,7 @@
   h3 Collections
   .alert.alert-info 
 	  | Pop Up Archive collections can be private or shared publicly. 
-	  a href="/privacy_faq.html" Learn more about privacy.
+	  a href="/faq#privacy" Learn more about privacy.
   div
     span tutorial-step="tour.welcome" data-placement="top"
     span tutorial-step="tour.privacy" data-placement="top"
