@@ -704,7 +704,7 @@ h5.result-count {
 
 .item-detail {
   h4 {
-    color: #7D7C82;
+    color: #7C7B81;
   }
 
   .well {
@@ -742,7 +742,7 @@ h5.result-count {
 
   section.notes {
     h5 {
-      color: #7D7C82;
+      color: #7C7B81;
       font-family: "soleil", sans-serif !important;
     }
 
@@ -752,7 +752,7 @@ h5.result-count {
 
   section.transcription {
     h5 {
-      color: #7D7C82;
+      color: #7C7B81;
       font-family: "soleil", sans-serif !important;
     }
 
@@ -762,7 +762,7 @@ h5.result-count {
 
   section.rights {
     h5 {
-      color: #7D7C82;
+      color: #7C7B81;
       font-family: "soleil", sans-serif !important;
     }
 
@@ -773,7 +773,7 @@ h5.result-count {
   section.entities {
     h5 {
       font-family: "soleil", sans-serif !important;
-      color: #7D7C82;
+      color: #7C7B81;
       clear: both;
     }
 
@@ -831,7 +831,7 @@ h5.result-count {
   section.tags {
     h5 {
       font-family: "soleil", sans-serif !important;
-      color: #7D7C82;
+      color: #7C7B81;
       clear: both;
     }
 
@@ -970,7 +970,7 @@ $navbarHeight: 105px;
         }
 
         button {
-          background: rgb(181,154,109);
+          background: rgb(181,155,109);
           color: #fff;
           text-shadow: none;
         }
@@ -1006,7 +1006,7 @@ form.with-tags {
     padding: 0;
   }
   a{
-    color: #777777;
+    color: #7C7B81;
     text-decoration: none;
   }
   
@@ -1116,7 +1116,7 @@ form.with-tags {
 #welcome-div {
   padding: 10px 25px;
   margin-top: 25px;
-  background-color: #f8f7f7;
+  background-color: #f2efef;
   border-radius: 10px;
   
   h1, h2 {
@@ -1477,7 +1477,7 @@ form.with-tags {
     height: 929px;
     float:left;
     width: 310px;
-    background-color: #f25b4c ;
+    background-color: #f25a4c;
     padding: 10px 45px 33px;
     ul {
       margin: 0;
@@ -1537,7 +1537,7 @@ form.with-tags {
   font-family: "freight-text-pro", serif;  
   h1 {
     width: 700px;
-    color: #8af1dc;
+    color: #8BF1DB;
     margin: -465px auto 0;
     padding: 20px;
   }
@@ -1818,7 +1818,7 @@ form.with-tags {
   }
   .pop {
     font-family: 'soleil', helvetica, sans-serif;
-    color: #8af1dc;
+    color: #8BF1DB;
     font-size: 28px;
     font-weight: 800;
     padding-top: 70px;
@@ -1973,16 +1973,6 @@ a.featurebtn:nth-child(3){
 	margin: 20px 0;
 }
 
-
-.faq {
-  h2{
-	color: #000;
-  }
-	.strong{
-	  font-weight: 800;
-	}
-}
-
 //plans
 #plan-header {
   text-align: center;
@@ -2099,7 +2089,7 @@ dd.usage-meter {
   border: 10px solid #FFF;
   margin-bottom: 20px;
   h4 {
-    color: rgb(255,151,77);;
+    color: #F9A732;
   }
   h5 {
     text-align: center;
@@ -2148,7 +2138,7 @@ dd.usage-meter {
   }
 
   &.current {
-    border: 10px solid #CCCCCC;
+    border: 10px solid #CCC;
   }
   &.selected {
     border: 10px solid #FFB959;
