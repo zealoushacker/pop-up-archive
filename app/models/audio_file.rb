@@ -45,7 +45,10 @@ class AudioFile < ActiveRecord::Base
       f = version ? file.send(version) : file
       File.basename(f.path)
     elsif !original_file_url.blank?
-      File.basename(URI.parse(original_file_url).path || '')
+      f = URI.parse(original_file_url).path || ''
+      x = File.extname(f)
+      v = !version.blank? ? ".#{version}" : nil
+      File.basename(f, x) + (v || x)
     end || ''
     fn
   end

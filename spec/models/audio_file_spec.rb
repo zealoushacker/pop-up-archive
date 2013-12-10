@@ -9,25 +9,46 @@ describe AudioFile do
   after { StripeMock.stop }
 
   context "basics" do
+
+    before(:each) {
+      @audio_file = FactoryGirl.create :audio_file
+    }
+
+    it "should provide filename" do
+      @audio_file.filename.should eq 'test.mp3'
+      @audio_file.filename('ogg').should eq 'test.ogg'
+    end
+
+    it "should provide filename for remote url" do
+      audio_file = AudioFile.new
+      audio_file.item = @audio_file.item
+      audio_file.user = @audio_file.user
+
+      audio_file.remote_file_url = "http://www.prx.org/test.wav"
+      audio_file.filename.should eq 'test.wav'
+      audio_file.filename('ogg').should eq 'test.ogg'
+
+      audio_file.remote_file_url = "http://www.prx.org/test"
+      audio_file.filename.should eq 'test'
+      audio_file.filename('ogg').should eq 'test.ogg'
+      audio_file.filename(nil).should eq 'test'
+    end
+
     it "should provide a url" do
-      audio_file = FactoryGirl.create :audio_file
-      audio_file.url.should eq '/test.mp3'
+      @audio_file.url.should eq '/test.mp3'
     end
 
     it "should provide a url for a version" do
-      audio_file = FactoryGirl.create :audio_file
-      audio_file.url(:ogg).should eq '/test.ogg'
+      @audio_file.url(:ogg).should eq '/test.ogg'
     end
 
     it "should provide a list of urls when transcoded" do
-      audio_file = FactoryGirl.create :audio_file
-      audio_file.transcoded_at = Time.now
-      audio_file.urls.sort.should eq [audio_file.url(:mp3), audio_file.url(:ogg)]
+      @audio_file.transcoded_at = Time.now
+      @audio_file.urls.sort.should eq [@audio_file.url(:mp3), @audio_file.url(:ogg)]
     end
 
     it "should provide original url for urls when not transcoded" do
-      audio_file = FactoryGirl.create :audio_file
-      audio_file.urls.should eq [audio_file.url]
+      @audio_file.urls.should eq [@audio_file.url]
     end
 
     it "should provide url for private file" do
