@@ -306,12 +306,9 @@ class AudioFile < ActiveRecord::Base
       return
     end
 
-    self.tasks << Tasks::DetectDerivativesTask.new(
-      identifier: 'detect_derivatives',
-      extras: {
-        urls: detect_urls
-      }
-    )
+    task = Tasks::DetectDerivativesTask.new(identifier: 'detect_derivatives')
+    task.urls = detect_urls
+    self.tasks << task
   end
 
   def detect_urls

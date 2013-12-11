@@ -11,12 +11,15 @@ describe Tasks::DetectDerivativesTask do
       h
     end
 
-    @task = Tasks::DetectDerivativesTask.new(extras: {'urls' => @urls}, owner: @audio_file, identifier: 'detect_derivatives')
+    @task = Tasks::DetectDerivativesTask.new(owner: @audio_file, identifier: 'detect_derivatives')
+    @task.urls = @urls
     @task.save!
   end
 
   it "should be valid with defaults" do
-    task = Tasks::DetectDerivativesTask.new(extras:  {'urls' => @urls}, owner: @audio_file, identifier: 'detect_derivatives')
+    task = Tasks::DetectDerivativesTask.new(owner: @audio_file, identifier: 'detect_derivatives')
+    task.urls = @urls
+   
     task.owner.should eq @audio_file
     task.identifier.should eq 'detect_derivatives'
     task.should be_valid
@@ -25,7 +28,7 @@ describe Tasks::DetectDerivativesTask do
   end
 
   it "should have url info as hashes" do
-    @task.urls.values.each{|v| v.should be_an_instance_of(Hash) }
+    @task.urls.values.each{|v| v.should be_an_instance_of(HashWithIndifferentAccess) }
   end
 
   it "should have audio_file owner" do
@@ -47,7 +50,7 @@ describe Tasks::DetectDerivativesTask do
   end
 
   it "should should be complete when all detected" do
-    @task.urls.each{|u, i| i['detected_at'] = DateTime.now}
+    @task.urls.each{|u, i| i['detected_at'] = DateTime.now }
     @task.save!
     @task.should be_all_detected
   end

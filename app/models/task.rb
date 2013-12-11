@@ -54,7 +54,7 @@ class Task < ActiveRecord::Base
   end
 
   def set_task_defaults
-    self.extras = {} unless extras
+    self.extras = HashWithIndifferentAccess.new unless extras
     self.storage_id = owner.storage.id if (!storage_id && owner && owner.storage)
   end
 
@@ -71,14 +71,14 @@ class Task < ActiveRecord::Base
   end
 
   def serialize_extra(name)
-    self.extras = {} unless extras
+    self.extras = HashWithIndifferentAccess.new unless extras
     self.extras[name] = self.extras[name].to_json if (self.extras[name] && !self.extras[name].is_a?(String))
   end
 
-  def deserialize_extra(name, default={})
+  def deserialize_extra(name, default=HashWithIndifferentAccess.new)
     return nil unless self.extras
     if self.extras[name].is_a?(String)
-      self.extras[name] = JSON.parse(self.extras[name])
+      self.extras[name] = HashWithIndifferentAccess.new(JSON.parse(self.extras[name]))
     end
 
     self.extras[name] ||= default if default
@@ -87,11 +87,11 @@ class Task < ActiveRecord::Base
   end
 
   def results
-    HashWithIndifferentAccess.new(deserialize_extra('results', {}))
+    deserialize_extra('results', HashWithIndifferentAccess.new)
   end
 
   def results=(rs)
-    self.extras = {} unless extras
+    self.extras = HashWithIndifferentAccess.new unless extras
     self.extras['results'] = HashWithIndifferentAccess.new(rs)
   end
 

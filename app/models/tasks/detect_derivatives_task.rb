@@ -16,7 +16,12 @@ class Tasks::DetectDerivativesTask < Task
   end
 
   def urls
-    deserialize_extra('urls', {})
+    deserialize_extra('urls', HashWithIndifferentAccess.new)
+  end
+
+  def urls=(urls)
+    self.extras = HashWithIndifferentAccess.new unless extras
+    self.extras['urls'] = HashWithIndifferentAccess.new(urls)
   end
 
   def audio_file

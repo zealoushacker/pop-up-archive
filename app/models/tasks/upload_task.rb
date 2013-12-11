@@ -34,7 +34,7 @@ class Tasks::UploadTask < Task
 
 
   def set_upload_task_defaults
-    self.extras = {} unless extras
+    self.extras = HashWithIndifferentAccess.new unless extras
     self.extras['chunks_uploaded'] = [].to_csv unless self.extras.key?(:chunks_uploaded)
     self.identifier = Tasks::UploadTask.make_identifier(extras) unless identifier
   end
@@ -53,7 +53,7 @@ class Tasks::UploadTask < Task
   end
 
   def chunks_uploaded=(chunks_array)
-    self.extras ||= {}
+    self.extras ||= HashWithIndifferentAccess.new
     self.extras['chunks_uploaded'] = chunks_array.to_csv
   end
 
