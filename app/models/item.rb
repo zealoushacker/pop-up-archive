@@ -41,7 +41,7 @@ class Item < ActiveRecord::Base
       indexes :id, index: :not_analyzed
       indexes :is_public, index: :not_analyzed
       indexes :collection_id, index: :not_analyzed
-      indexes :collection_title,      type: 'string'
+      indexes :collection_title,      type: 'string', index: "not_analyzed"
       indexes :date_created,          type: 'date',   include_in_all: false
       indexes :date_broadcast,        type: 'date',   include_in_all: false
       indexes :created_at,            type: 'date',   include_in_all: false, index_name:"date_added"
