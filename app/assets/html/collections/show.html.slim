@@ -8,6 +8,6 @@
 
     h2 Browsing {{collection.title}}
 
-    p {{collection.description}}
+    p ng-show="collection.description" ng-bind-html-unsafe="collection.description"
 
     ng-include ng-controller="SearchResultsCtrl" src="'#{asset_path 'search/results.html'}'"
