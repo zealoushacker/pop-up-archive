@@ -87,6 +87,8 @@ gem 'stripe'
 
 gem 'redis-rails'
 
+gem 'jplayer-rails'
+
 group :assets do
   gem 'sprockets'
   gem 'sass-rails', '~> 3.2.3'

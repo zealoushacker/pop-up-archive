@@ -234,6 +234,7 @@ GEM
       rack (~> 1.4)
       rest-client (~> 1.0)
     journey (1.0.4)
+    jplayer-rails (2.4.1)
     json (1.8.1)
     jwt (0.1.8)
       multi_json (>= 1.5)
@@ -533,6 +534,7 @@ DEPENDENCIES
   heroku-api (~> 0.3.10)
   jasmine
   jasmine-rails
+  jplayer-rails
   language_list
   listen
   media_monster_client

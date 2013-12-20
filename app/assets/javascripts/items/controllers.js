@@ -15,7 +15,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   }
 
 }])
-.controller('ItemCtrl', ['$scope', '$timeout', '$q', '$modal', 'Item', 'Loader', 'Me', '$routeParams', 'Collection', 'Entity', '$location', 'SearchResults', 'Storage', function ItemCtrl($scope, $timeout, $q, $modal, Item, Loader, Me, $routeParams, Collection, Entity, $location, SearchResults, Storage) {
+.controller('ItemCtrl', ['$scope', '$timeout', '$q', '$modal', 'Item', 'Loader', 'Me', '$routeParams', 'Collection', 'Entity', '$location', 'SearchResults', 'Storage', '$window', function ItemCtrl($scope, $timeout, $q, $modal, Item, Loader, Me, $routeParams, Collection, Entity, $location, SearchResults, Storage, $window) {
 
   $scope.Storage = Storage;
 
@@ -80,7 +80,12 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
       })
     }
   };
-
+  
+  $scope.encodeText = function (text) {
+    return encodeURIComponent(text);
+  };
+  
+ $scope.my_path= $window.location.protocol + "//" + $window.location.host;
 }])
 .controller('ItemStorageCtrl', [ '$scope', 'Item', 'Loader', 'Me', function ItemsCtrl($scope, Item, Loader, Me) {
 

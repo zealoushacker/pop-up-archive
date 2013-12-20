@@ -1,0 +1,275 @@
+body {
+  margin: 0;
+}
+.jp-audio{
+  position: absolute;
+  left:45px;
+}
+.jp-audio:before {
+  width: 44px;
+  height: 95px;
+  position: absolute;
+  left: -42px;
+  background-image: image-url('jplayer/player_tip_left.png');
+  content: '';
+}
+
+.jp-audio:after {
+  width: 44px;
+  top: 0;
+  height: 95px;
+  position: absolute;
+  left: 418px;
+  background-image: url(/assets/jplayer/player_tip_right.png);
+  content: '';
+}
+div.jp-audio {
+
+	font-size:1.25em;
+
+	font-family:'soleil', Arial, sans-serif;
+	line-height:1.6;
+	color: #666;
+	background-color:#eee;
+}
+div.jp-audio {
+	width:420px;
+}
+
+div.jp-interface {
+	position: relative;
+	background-color:#eee;
+	width:100%;
+}
+
+div.jp-audio div.jp-type-single div.jp-interface {
+	height: 95px;
+}
+div.jp-audio div.jp-type-playlist div.jp-interface {
+	height: 95px;
+}
+
+/* @group CONTROLS */
+.jp-controls {
+  position: absolute;
+  top: 23px;
+  left:25px;
+}
+
+div.jp-interface ul.jp-controls {
+	list-style-type:none;
+	margin:0;
+	padding: 0;
+	overflow:hidden;
+}
+
+div.jp-interface ul.jp-controls li {
+	display:inline;
+	float: left;
+}
+
+div.jp-interface ul.jp-controls a {
+	display:block;
+	overflow:hidden;
+}
+a.jp-play,
+a.jp-pause {
+	width:50px;
+	height:50px;
+}
+
+#jp-play-button, #jp-pause-button {
+  fill: #ffffff;
+  width: 50px; 
+  height: 50px;
+}
+
+/* @end */
+
+/* @group progress bar */
+
+div.jp-progress {
+	overflow:hidden;
+	background-color: #ddd;
+}
+div.jp-audio div.jp-progress {
+	position: absolute;
+	top:40px;
+	height:15px;
+}
+div.jp-audio div.jp-type-single div.jp-progress {
+	left:90px;
+	width:310px;
+}
+div.jp-audio div.jp-type-playlist div.jp-progress {
+	left:166px;
+	width:130px;
+}
+
+div.jp-seek-bar {
+	background: image-url('jplayer/jplayer.blue.monday.jpg') 0 -202px repeat-x;
+	width:0px;
+	height:100%;
+	cursor: pointer;
+}
+div.jp-play-bar {
+	background: #FFBE30 ;
+	width:0px;
+	height:100%;
+}
+
+/* The seeking class is added/removed inside jPlayer */
+div.jp-seeking-bg {
+	background: image-url("jplayer/jplayer.blue.monday.seeking.gif");
+}
+
+/* @end */
+
+/* @group current time and duration */
+
+div.jp-audio div.jp-time-holder {
+	position:absolute;
+	top:55px;
+}
+div.jp-audio div.jp-type-single div.jp-time-holder {
+	left:90px;
+	width:310px;
+}
+
+div.jp-current-time,
+div.jp-duration {
+	width:60px;
+	font-size:.64em;
+	font-style:oblique;
+}
+div.jp-current-time {
+	float: left;
+	display:inline;
+}
+div.jp-duration {
+	float: right;
+	display:inline;
+	text-align: right;
+}
+
+/* @end */
+
+/* @group playlist */
+
+div.jp-title {
+	font-weight: bold;
+  left: 90px;
+  position: absolute;
+  top: 10px;
+  width:310px;
+  overflow:hidden;
+}
+
+div.jp-type-single div.jp-title,
+div.jp-type-playlist div.jp-title,
+div.jp-type-single div.jp-playlist {
+	border-top:none;
+}
+div.jp-title ul {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	font-size:.72em;
+}
+
+div.jp-title li {
+  color: #333;
+	padding:5px 0;
+	font-weight:bold;
+}
+
+span.jp-artist {
+	font-size:.8em;
+	color:#666;
+}
+
+/* @end */
+
+
+div.jp-jplayer audio,
+div.jp-jplayer {
+	width:0px;
+	height:0px;
+}
+
+div.jp-jplayer {
+	background-color: #000000;
+}
+
+/* @group TOGGLES */
+
+/* The audio toggles are nested inside jp-time-holder */
+
+ul.jp-toggles {
+	list-style-type:none;
+	padding:0;
+	margin:0 auto;
+	overflow:hidden;
+}
+
+div.jp-audio .jp-type-single ul.jp-toggles {
+	width:25px;
+}
+div.jp-audio .jp-type-playlist ul.jp-toggles {
+	width:55px;
+	margin: 0;
+	position: absolute;
+	left: 325px;
+	top: 50px;
+}
+
+ul.jp-toggles li {
+	display:block;
+	float:right;
+}
+
+ul.jp-toggles li a {
+	display:block;
+	width:25px;
+	height:18px;
+	text-indent:-9999px;
+	line-height:100%; /* need this for IE6 */
+}
+
+
+/* @end */
+.jp-popuplink {
+  position: absolute;
+  top: 35px;
+  right: 5px;
+}
+.jp-popuplink a {
+  float: right;
+  font-size: .6em;
+  margin-top: 20px;
+  text-decoration: none;
+  color: #f25a4c;
+  padding-right: 5px;
+}
+/* @group NO SOLUTION error feedback */
+
+.jp-no-solution {
+	padding:5px;
+	font-size:.8em;
+	background-color:#eee;
+	color:#000;
+	display:none;
+}
+
+.jp-no-solution a {
+	color:#000;
+}
+
+.jp-no-solution span {
+	font-size:1em;
+	display:block;
+	text-align:center;
+	font-weight:bold;
+}
+
+/* @end */

@@ -1,0 +1,67 @@
+<head>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <%= stylesheet_link_tag "jplayer.popup.css" %>
+  <%= javascript_include_tag "jquery.jplayer" %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#jquery_jplayer_1").jPlayer({
+        ready: function () {
+          $(this).jPlayer("setMedia", {
+            m4a: "<%= @url %>",
+          });
+        },
+        // swfPath: <&= asset_path "Jplayer.swf" %>,
+        supplied: "m4a"
+      });
+    });
+  </script>
+</head>
+<body>
+  <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+  <div id="jp_container_1" class="jp-audio">
+    <div class="jp-type-single">
+      <div class="jp-gui jp-interface">
+        
+        <div class="jp-title">
+          <ul>
+            <li><%= @name %></li>
+          </ul>
+        </div>
+        
+        <ul class="jp-controls">
+          <!--play button-->
+          <li><a href="javascript:;" class="jp-play" tabindex="1"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="jp-play-button" x="0px" y="0px" viewBox="0 0 75 100" style="enable-background:new 0 0 75 100;" xml:space="preserve">
+          <polygon points="0,0 75,50 0,100 "/>
+          </svg></a></li>
+          
+          <!--pause button-->
+          <li><a href="javascript:;" class="jp-pause" tabindex="1"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="jp-pause-button" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+          <rect x="60.891" y="5.189" width="33.924" height="89.621"/>
+          <rect x="5.186" y="5.189" width="33.933" height="89.621"/>
+          </svg></a></li>
+        </ul>
+        
+        <div class="jp-progress">
+          <div class="jp-seek-bar">
+            <div class="jp-play-bar"></div>
+          </div>
+        </div>
+        
+        <div class="jp-time-holder">
+          <div class="jp-current-time"></div>
+          <div class="jp-duration"></div>
+        </div>
+        <div>
+          <p class="jp-popuplink"><a href="https://www.popuparchive.org/collections/<%= @collection_id %>/items/<%= @item_id %>"> Listen in Pop Up Archive</a></p>
+        </div>
+      </div>
+      
+
+
+      <div class="jp-no-solution">
+        <span>Update Required</span>
+        To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+      </div>
+    </div>
+  </div>
+</body>
