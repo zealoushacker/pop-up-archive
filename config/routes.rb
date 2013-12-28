@@ -4,7 +4,6 @@ PopUpArchive::Application.routes.draw do
     controllers :applications => 'oauth/applications'
   end
 
-
   get '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'pop-up-archive.herokuapp.com' }
   get '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'beta.popuparchive.org' }
   get '/*path' => redirect {|params, request| "https://www.popuparchive.org/#{params[:path]}" }, constraints: { host: 'www.popuparchive.org', protocol: "http://" }
@@ -24,7 +23,9 @@ PopUpArchive::Application.routes.draw do
   
   get 'embed_player/:name/:file_id/:item_id/:collection_id', to: 'embed_player', action: 'show'
 
-  post 'amara_callback', controller: 'callbacks', action: 'amara'
+  post 'fixer_callback/:audio_file_id', controller: 'callbacks', action: 'fixer', as: 'fixer_callback'
+
+  post 'amara_callback', controller: 'callbacks', action: 'amara', as: 'amara_callback'
 
   namespace :api, defaults: { format: 'json' }, path: 'api' do
     scope module: :v1, constraints: ApiVersionConstraint.new(version: 1, default: true) do
