@@ -46,7 +46,39 @@ class Task < ActiveRecord::Base
     after_transition any => :complete do |task, transition|
       task.finish_task
     end
+  end
 
+  def update_from_fixer(params)
+
+    # enforce this later
+    # return false unless params['cbt'] == self.call_back_token
+
+    # logger.debug "update_from_fixer: task #{params['label']} is #{result}"
+
+    # update with the job id
+    if !extras['job_id'] && params['job'] && params['job']['id']
+      self.extras['job_id'] = params['job']['id']
+      save!
+    end
+
+    # get the status of the fixer task
+    result = params['result_details']['status']
+
+    case result
+    when 'created'
+      logger.debug "task #{params['label']} created"
+    when 'processing'
+      begin!
+    when 'complete'
+      self.results = params['result_details']
+      save!
+      FinishTaskWorker.perform_async(id) unless Rails.env.test?
+    when 'error'
+      failure!
+    else
+      raise "task #{params['label']} unrecognized result: #{result}"
+    end
+    true
   end
 
   def serialize_results
@@ -54,8 +86,28 @@ class Task < ActiveRecord::Base
   end
 
   def set_task_defaults
-    self.extras = HashWithIndifferentAccess.new unless extras
-    self.storage_id = owner.storage.id if (!storage_id && owner && owner.storage)
+    self.extras        = HashWithIndifferentAccess.new unless extras
+    self.storage_id    = owner.storage.id if (!storage_id && owner && owner.storage)
+    self.extras['cbt'] = self.extras['cbt'] || SecureRandom.hex(8)
+  end
+
+  def call_back_token
+    self.extras['cbt']
+  end
+
+  def original
+    extras['original'] || owner.try(:process_audio_url)
+  end
+
+  def call_back_url
+    url = extras['call_back_url'] || owner.try(:call_back_url)
+    if call_back_token
+      uri = URI.parse(url)
+      p = Rack::Utils.parse_nested_query(uri.query)
+      uri.query = p.merge({:cbt => call_back_token}).to_query
+      url = uri.to_s
+    end
+    url
   end
 
   def finish_task
