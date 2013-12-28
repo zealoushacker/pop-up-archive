@@ -5,10 +5,10 @@ class Api::V1::BaseController < Api::BaseController
   respond_to :json
 
   # this should protect the resources using oauth when user is not logged in (i.e. API requests)
-  doorkeeper_for :create, :update, :destroy, if: lambda{ |c| !current_user }
+  # doorkeeper_for :create, :update, :destroy, if: lambda{ |c| !current_user }
+  doorkeeper_for :create, :destroy, if: lambda{ |c| !current_user }
 
   doorkeeper_try :all, except: [:create, :update, :destroy], if: lambda{ |c| !current_user }
-
 
   # use either the devise or oauth user as current_user
   def current_user_with_oauth
