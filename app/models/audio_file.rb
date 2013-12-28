@@ -40,6 +40,10 @@ class AudioFile < ActiveRecord::Base
     !self.file.try(:path).nil?
   end
 
+  def copy_media?
+    item.collection.copy_media
+  end
+
   def filename(version=nil)
     fn = if has_file?
       f = version ? file.send(version) : file
@@ -108,38 +112,12 @@ class AudioFile < ActiveRecord::Base
     metered.nil? ? is_metered? : super
   end
 
-
   def update_from_fixer(params)
-
-    # get the status of the fixer task
-    result = params['result_details']['status']
-
     # get the task id from the label
     task = tasks.where(id: params['label']).last
     return unless task
 
-    # logger.debug "update_from_fixer: task #{params['label']} is #{result}"
-
-    # update with the job id
-    if !task.extras['job_id'] && params['job'] && params['job']['id']
-      task.extras['job_id'] = params['job']['id']
-      task.save!
-    end
-
-    case result
-    when 'created'
-      logger.debug "task #{params['label']} created"
-    when 'processing'
-      task.begin!
-    when 'complete'
-      task.results = params['result_details']
-      task.save!
-      FinishTaskWorker.perform_async(task.id) unless Rails.env.test?
-    when 'error'
-      task.failure!
-    else
-      raise "task #{params['label']} unrecognized result: #{result}"
-    end
+    task.update_from_fixer(params)
 
   rescue Exception => e
     logger.error e.message
@@ -180,7 +158,7 @@ class AudioFile < ActiveRecord::Base
   end
 
   def copy_original
-    return false unless (should_trigger_fixer_copy && item.collection.copy_media && original_file_url)
+    return false unless (should_trigger_fixer_copy && copy_media? && original_file_url)
     create_copy_task(original_file_url, destination, storage)
     self.should_trigger_fixer_copy = false
   end
@@ -364,13 +342,17 @@ class AudioFile < ActiveRecord::Base
   end
 
   def call_back_url
-    Rails.application.routes.url_helpers.api_item_audio_file_url(item_id, id)
+    Rails.application.routes.url_helpers.fixer_callback_url(audio_file_id: id)
+  end
+
+  def use_original_file_url?
+    !copy_media? || !has_file?
   end
 
   def process_audio_url
-    return original_file_url if !has_file?
-    return destination       if (file.fog_credentials[:provider].downcase == 'aws')
-    file.url
+    return original_file_url if use_original_file_url?
+    return file.url          if storage.is_public?
+    destination
   end
 
   def destination_options(options={})
