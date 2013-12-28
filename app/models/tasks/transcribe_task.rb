@@ -130,10 +130,6 @@ class Tasks::TranscribeTask < Task
     !!extras['start_only']
   end
 
-  def call_back_url
-    extras['call_back_url'] || owner.try(:call_back_url)
-  end
-
   def destination
     suffix = start_only? ? '_ts_start.json' : '_ts_all.json'
     extras['destination'] || owner.try(:destination, {
@@ -141,10 +137,6 @@ class Tasks::TranscribeTask < Task
       suffix:  suffix,
       options: { metadata: { 'x-archive-meta-mediatype' => 'data' } }
     })
-  end
-
-  def original
-    extras['original'] || owner.try(:original)
   end
 
 end

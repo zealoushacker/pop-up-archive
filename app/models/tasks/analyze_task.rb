@@ -39,7 +39,6 @@ class Tasks::AnalyzeTask < Task
     end
   end
 
-
   def create_analyze_job
     j = create_job do |job|
       job.job_type    = 'text'
@@ -57,20 +56,12 @@ class Tasks::AnalyzeTask < Task
     end
   end
 
-  def call_back_url
-    extras['call_back_url'] || owner.try(:call_back_url)
-  end
-
   def destination
     extras['destination'] || owner.try(:destination, {
       storage: storage,
       suffix:  '_analysis.json',
       options: { metadata: {'x-archive-meta-mediatype'=>'data' } }
     })
-  end
-
-  def original
-    extras['original'] || owner.try(:original)
   end
 
 end

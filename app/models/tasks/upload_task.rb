@@ -32,7 +32,6 @@ class Tasks::UploadTask < Task
     logger.error e.backtrace.join("\n")
   end
 
-
   def set_upload_task_defaults
     self.extras = HashWithIndifferentAccess.new unless extras
     self.extras['chunks_uploaded'] = [].to_csv unless self.extras.key?(:chunks_uploaded)

@@ -25,14 +25,6 @@ class Tasks::AnalyzeAudioTask < Task
     end
   end
 
-  def call_back_url
-    extras['call_back_url'] || audio_file.try(:call_back_url)
-  end
-
-  def original
-    extras['original'] || audio_file.process_audio_url
-  end
-
   def audio_file
     self.owner
   end

@@ -19,19 +19,11 @@ class Tasks::TranscodeTask < Task
     self.id
   end
 
-  def call_back_url
-    extras['call_back_url'] || owner.try(:call_back_url)
-  end
-
   def destination
     extras['destination'] || owner.try(:destination, {
       storage: storage,
       version: format
     })
-  end
-
-  def original
-    extras['original'] || owner.try(:destination)
   end
 
   def create_transcode_job

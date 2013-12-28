@@ -39,18 +39,10 @@ class Tasks::CopyTask < Task
     self.should_process = false
   end
 
-  def call_back_url
-    extras['call_back_url'] || owner.try(:call_back_url)
-  end
-
   def destination
     extras['destination'] || owner.try(:destination, {
       storage: storage
     })
-  end
-
-  def original
-    extras['original'] || owner.try(:original)
   end
 
 end
