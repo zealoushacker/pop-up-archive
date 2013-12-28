@@ -12,15 +12,22 @@ describe CallbacksController do
   describe "POST 'create'" do
     before :each do
       @task = FactoryGirl.create :add_to_amara_task, extras: {video_id: 'abcdefg'}
+
     end
 
-    it "gets callback from amara" do
-      post 'amara', {"video_id"=>"abcdefg", "event"=>'subs-new'}
+    it "gets random callback from amara" do
+      post 'amara', {"video_id"=>"abcdefg", "event"=>'subs-random'}
       response.code.should eq "200"
       response.should be_success
     end
 
-    it "gets callback from amara" do
+    it "gets new callback from amara" do
+      post 'amara', {"video_id"=>"abcdefg", "event"=>'subs-new'}
+      response.code.should eq "202"
+      response.should be_success
+    end
+
+    it "gets approved callback from amara" do
       post 'amara', {"video_id"=>"abcdefg", "event"=>'subs-approved'}
       response.code.should eq "202"
       response.should be_success

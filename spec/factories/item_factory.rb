@@ -6,6 +6,11 @@ FactoryGirl.define do
       association :collection, factory: :collection_private
     end
 
+    factory :item_no_copy_media do
+      association :collection, factory: :collection_no_copy_media
+    end
+
+
     factory :item_with_audio do
       ignore do
         audio_files_count 1

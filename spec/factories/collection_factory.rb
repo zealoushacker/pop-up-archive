@@ -16,5 +16,11 @@ FactoryGirl.define do
       association :default_storage, factory: :storage_configuration_popup
     end
     
+    factory :collection_no_copy_media do
+      copy_media false
+      items_visible_by_default false
+      association :default_storage, factory: :storage_configuration_popup
+    end
+
   end
 end

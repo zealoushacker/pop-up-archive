@@ -5,15 +5,15 @@ describe Utils do
   after { StripeMock.stop }
 
   it "checks http resource exists" do
-    Utils.http_resource_exists?('http://www.prx.org/robots.txt', 1).should be_true
+    Utils.http_resource_exists?('http://www.prx.org/robots.txt').should be_true
   end
 
   it "checks http resource exists, follow redirect" do
-    Utils.http_resource_exists?('http://prx.org/robots.txt', 1).should be_true
+    Utils.http_resource_exists?('http://prx.org/robots.txt').should be_true
   end
 
   it "checks http resource doesn't exist" do
-    Utils.http_resource_exists?('http://www.prx.org/noway.txt', 1).should_not be_true
+    Utils.http_resource_exists?('http://www.prx.org/noway.txt', 1).should be_false
   end
 
   it "checks http resource and retries" do

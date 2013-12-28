@@ -18,8 +18,10 @@ describe Tasks::TranscodeTask do
   end
 
   it "should have format info in extras" do
-    @task.extras.keys.sort.should eq AudioFileUploader.version_formats['ogg'].keys.sort
-    @task.extras.values.sort.should eq AudioFileUploader.version_formats['ogg'].values.collect(&:to_s).sort
+    extras = @task.extras.clone
+    extras.delete('cbt')
+    extras.keys.sort.should eq AudioFileUploader.version_formats['ogg'].keys.sort
+    extras.values.sort.should eq AudioFileUploader.version_formats['ogg'].values.collect(&:to_s).sort
   end
 
   it "should be valid with defaults" do
@@ -28,7 +30,7 @@ describe Tasks::TranscodeTask do
     task.identifier.should eq 'ogg_transcode'
     task.should be_valid
     task.extras.should_not be_nil
-    task.extras.keys.sort.should eq ['bit_rate', 'channel_mode', 'format', 'sample_rate']
+    task.extras.keys.sort.should eq ['bit_rate', 'cbt', 'channel_mode', 'format', 'sample_rate']
   end
 
   it "should have audio_file owner" do

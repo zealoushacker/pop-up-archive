@@ -136,6 +136,23 @@ describe AudioFile do
       audio_file.destination_path.should == '/test'
     end
 
+    it "should use s3 for private item in copy_media=true collection" do
+      audio_file = FactoryGirl.create :audio_file_private
+      audio_file.process_audio_url.should match("s3://(.*).popuparchive.prx.org/untitled.(.*).popuparchive.org/test.mp3")
+    end
+
+    it "should use http for public item in copy_media=true collection" do
+      audio_file = FactoryGirl.create :audio_file
+      audio_file.process_audio_url.should eq '/test.mp3'
+    end
+
+    it "should use original url for item in copy_media=false collection" do
+      audio_file = FactoryGirl.build :audio_file_no_copy_media
+      audio_file.remote_file_url = "http://www.prx.org/test.wav"
+      audio_file.save
+      audio_file.process_audio_url.should eq "http://www.prx.org/test.wav"
+    end
+
   end
 
   context "transcripts" do
@@ -199,6 +216,10 @@ describe AudioFile do
     before(:each) {
       @audio_file = FactoryGirl.create :audio_file
     }
+
+    it 'generate callback for fixer' do
+      @audio_file.call_back_url.should end_with(".popuparchive.org/fixer_callback/#{@audio_file.id}")
+    end
 
     it 'updates job id and results' do
       task = @audio_file.analyze_audio
