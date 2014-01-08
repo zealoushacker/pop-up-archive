@@ -20,4 +20,11 @@ describe FeedPopUp do
     fpu.parse(url, collection.id)
   end
 
+  it "adds audio files with entity encoded urls" do
+    fpu = FeedPopUp.new(true)
+    item = FactoryGirl.create :item
+    audio = fpu.add_audio_file(item, "http://fake.prx.org/audio.mp3?foo=bar&amp;bar=foo", item.collection)
+    audio.url.should eq "http://fake.prx.org/audio.mp3?foo=bar&bar=foo"
+  end
+
 end

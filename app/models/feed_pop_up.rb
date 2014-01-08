@@ -49,7 +49,7 @@ class FeedPopUp
     author = author(entry)
     item.creators         = [author] if author
 
-    add_audio_files(item, entry)
+    add_audio_files(item, entry, collection)
   
     item.save! unless dry_run
     item
@@ -74,20 +74,23 @@ class FeedPopUp
     Digest::MD5.hexdigest(uniq)
   end
 
-  def add_audio_files(item, entry)
+  def add_audio_files(item, entry, collection)
     if entry['media_contents'] && entry.media_contents.size > 0
-      entry.media_contents.each{ |mc| add_audio_file(item, mc.url) }
+      entry.media_contents.each{ |mc| add_audio_file(item, mc.url, collection) }
     elsif entry['enclosure_url']
-      add_audio_file(item, entry.enclosure_url)
+      add_audio_file(item, entry.enclosure_url, collection)
     end
   end
 
-  def add_audio_file(item, url)
+  def add_audio_file(item, url, collection)
+    url = CGI.unescapeHTML(url)
     return unless Utils.is_audio_file?(url)
     audio = AudioFile.new
+    audio.user            = collection.creator
     audio.identifier      = url
     audio.remote_file_url = url
     item.audio_files << audio
+    audio
   end
 
   def sanitize_text(text)
