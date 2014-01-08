@@ -4,6 +4,7 @@ FactoryGirl.define do
     title "test collection"
     items_visible_by_default true
     association :default_storage, factory: :storage_configuration_popup
+    association :creator, factory: :user
   
     factory :collection_public do
       items_visible_by_default true
