@@ -23,4 +23,36 @@ class Organization < ActiveRecord::Base
     SubscriptionPlan.organization
   end
 
+  def set_amara_team(options={})
+    options    = amara_team_defaults.merge(options)
+    amara_team = find_or_create_amara_team(options)
+    update_attribute(:amara_team, amara_team.slug)
+  end
+
+  def find_or_create_amara_team(options)
+    amara_team = amara_client.teams.get(options[:slug]) rescue nil
+    unless amara_team
+      response = amara_client.teams.create(options)
+      amara_team = response.object
+    end
+    amara_team
+  end
+
+  def amara_team_defaults
+    {
+      name: self.name,
+      slug: self.name.parameterize,
+      is_visible: false,
+      membership_policy: Amara::TEAM_POLICIES[:invite]
+    }
+  end
+
+  def amara_client
+    Amara::Client.new(
+      api_key:      amara_key || ENV['AMARA_KEY'],
+      api_username: amara_username || ENV['AMARA_USERNAME'],
+      endpoint:     "https://#{ENV['AMARA_HOST']}/api2/partners"
+    )
+  end
+
 end
