@@ -14,8 +14,8 @@ PopUpArchive::Application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations', omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions' }
 
   namespace :admin do
-    resources :taskList
-    resources :soundcloudCallback
+    resources :task_list
+    resources :soundcloud_callback
     resources :accounts
   end
 
