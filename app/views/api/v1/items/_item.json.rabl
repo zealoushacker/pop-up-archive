@@ -1,4 +1,4 @@
-attributes :id, :title, :description, :date_created, :identifier, :collection_id, :collection_title, :episode_title, :series_title, :date_broadcast, :physical_format, :digital_format, :digital_location, :physical_location, :music_sound_used, :date_peg, :rights, :duration, :tags, :notes, :token, :language
+attributes :id, :title, :description, :date_created, :identifier, :collection_id, :collection_title, :episode_title, :series_title, :date_broadcast, :physical_format, :digital_format, :digital_location, :physical_location, :music_sound_used, :date_peg, :rights, :duration, :tags, :notes, :token, :language, :updated_at
 
 Item::STANDARD_ROLES.each{|r| attribute r.pluralize.to_sym}
 
