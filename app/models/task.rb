@@ -75,8 +75,10 @@ class Task < ActiveRecord::Base
       FinishTaskWorker.perform_async(id) unless Rails.env.test?
     when 'error'
       failure!
+    when 'retrying'
+      logger.debug "task #{params['label']} retrying"
     else
-      raise "task #{params['label']} unrecognized result: #{result}"
+      logger.error "task #{params['label']} unrecognized result: #{result}"
     end
     true
   end
