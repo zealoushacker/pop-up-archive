@@ -40,7 +40,7 @@ PopUpArchive::Application.routes.draw do
 
       post '/credit_card' => 'credit_cards#save_token'
 
-      resource :lastItems
+      resource :last_items
       resource :search
       resources :items do
         resources :audio_files do

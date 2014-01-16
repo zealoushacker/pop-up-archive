@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   has_one  :uploads_collection_grant, class_name: 'CollectionGrant', as: :collector, conditions: {uploads_collection: true}, autosave: true
 
   has_one  :uploads_collection, through: :uploads_collection_grant, source: :collection
-  has_many :collections, through: :collection_grants
+  has_many :collections, through: :collection_grants, include: :default_storage
   has_many :items, through: :collections
   has_many :audio_files, through: :items
   has_many :csv_imports
