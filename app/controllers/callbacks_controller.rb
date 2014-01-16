@@ -16,7 +16,11 @@ class CallbacksController < ApplicationController
 
   def fixer
     @audio_file = AudioFile.find(params[:audio_file_id])
-    @audio_file.update_from_fixer(params[:task]) if params[:task].present?
+    if params[:task].present? && @audio_file.update_from_fixer(params[:task])
+      head 202
+    else
+      head 200
+    end    
   end
 
 end
