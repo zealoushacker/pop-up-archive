@@ -1976,14 +1976,15 @@ a.featurebtn:nth-child(3){
 //plans
 #plan-header {
   text-align: center;
-  color: #8581a1;
+  color: #7C7B81;
+  font-size: 24px;
   a {
-    color: #5e5692;
+    color: #c9b936;
   }
 }
 .subtitle{
   text-align: center;
-  color: #8581a1;
+  color: #000;
   font-size: 16px;
 }
 
@@ -2088,111 +2089,75 @@ dd.usage-meter {
   padding: 10px;
   border: 10px solid #FFF;
   margin-bottom: 20px;
+  h2 {
+    margin-top: 0px;
+    color: #FFF;
+    padding: 10px;
+  }
   h4 {
     color: #F9A732;
   }
   h5 {
     text-align: center;
   }
+  
+  table {
+    width: 100%;
+  }
+  
+  col ~ col {
+    width: 130px;
+  }
+  
+  tr {
+    border-bottom: #FFF solid 3px;
+  }
+  
+  p {
+    margin-bottom: 0px;
+  }
+  
+  .save .btn {
+  margin-left: 3px;
+  }
+  
+  .strong {
+    font-weight: 600;
+    font-size: 16px;
+  }
 
-  ul.plan-features {
-    list-style-type: none;
-    margin: 0;
-    li {
-      display: inline-block;
-      &:after {
-        content: '***'
-      }
-      &:last-child:after {
-        content: ''
-      }
+  #rowhead {
+    padding: 20px;
+  }
+  
+  thead th{
+    background-color: #7c7b81;
+  }
+  
+  thead th:first-child {
+   background-color: #FFF; 
+  }
+  
+  tbody td:first-child { 
+    background-color: #FFF;
+    text-align: right;
+    padding: 20px;
+    font-weight: 600; 
     }
+  
+  tbody td {
+    background-color: #ebebeb;
   }
 
-  h3 {
-    margin-top: 0px;
+  .current {
+    background-color: rgba(139, 241, 219, .4);
   }
-
-  &.span4 h3:after {
-    content: '';
-    display: block;
-    width: 100px;
-    height: 100px;
-    margin: 3px auto 0;
-  }
-
-  &.span4:nth-child(1) h3:after {
-    background: image-url('hourglass_small.svg');
-  }
-
-  &.span4:nth-child(2) h3:after {
-    background: image-url('hourglass_medium.svg');
-  }
-
-  &.span4:nth-child(3) h3:after {
-    background: image-url('hourglass_large.svg');
-  }
-
-  &.soft {
-    border: none;
-  }
-
-  &.current {
-    border: 10px solid #CCC;
-  }
-  &.selected {
-    border: 10px solid #FFB959;
-    background: #FFF;
+  .selected {
+    background: #8BF1DB;
     &.current {
-      border: 10px solid #8581A1;
+      background: #8BF1DB;
     }
   }
-}
-
-ul.paid-plan-features {
-  list-style-type: none;
-  margin: 0;
-  vertical-align: top;
-  text-align: center;
-
-  li {
-    padding: 0 0 0 10px;
-    vertical-align: top;
-    margin: 0;
-    display: inline-block;
-    width: 165px;
-    height: 180px;
-    &:before {
-      content: '+';
-      display: inline-block;
-      margin: 0 5px;
-      font-size: 1.5em;
-      line-height: 125px;
-      float: left;
-      position: relative;
-      left: -15px;
-      font-weight: 800;
-    }
-    &:first-child {
-      padding: 0;
-      margin: 0 -10px 0 -10px;
-      &:before {
-        display: none;
-      }
-      h6 {
-        margin-left: 0px;
-      }
-    }
-    h6 {
-      margin-left: 20px;
-    }
-  }
-}
-
-.explain {
-  background: #DB995D;
-  padding: 15px;
-  text-align: left;
 }
 
 ul.great-list {

@@ -288,8 +288,16 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
   };
 
   $scope.changePlan = function (plan) {
-    window.location = "/users/sign_up?plan_id=" + plan.id;
+    $scope.pendingPlan=plan.id;
   };
+  
+  $scope.hasPendingChange = function () {
+     return $scope.pendingPlan;
+   };
+  
+  $scope.subscribe = function () {
+    window.location = "/users/sign_up?plan_id=" + $scope.pendingPlan;
+  }
 
   function getPendingPlan() {
     var returnPlan;

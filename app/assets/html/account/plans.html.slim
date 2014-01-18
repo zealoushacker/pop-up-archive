@@ -1,11 +1,9 @@
 .row-fluid
-  #plan-header
-    h3
-      a href="/account" My Account
-      |  &raquo; Plans
+  h1#plan-header
+    a href="/account" My Account
+    |  &raquo; Plans
+.row-fluid
+  p.subtitle To change your plan, choose an option below and select submit.
     
 .row-fluid
-  .page-nav.pull-right
-    a.btn ng-click="cancel()" Cancel
-    a.btn.btn-danger ng-disabled="!hasPendingChange()" ng-click="subscribe()" Save Changes
-ng-include src="'/assets/plans/_plans.html'"
+  ng-include src="'/assets/plans/_plans.html'"

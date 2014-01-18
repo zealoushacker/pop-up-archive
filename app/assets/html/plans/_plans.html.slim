@@ -1,37 +1,89 @@
-.row-fluid
-  p.subtitle Choose from our terrific paid plans or get started with our free Community Plan
 .row-fluid ng-hide="hasSpecialPlan()"
   .plan-well
-    h4 All Paid Plans Include
-    ul.paid-plan-features 
-      li ng-repeat="feature in features" ng-click="explain(feature.explain) || showExplain()"
-        object type="image/svg+xml" data="#{asset_path('{{feature.image}}')}"
-        br {{feature.headline}}
-    .explain ng-show="showExplain"
-      p  {{explanation}}
+    .row-fluid
+      .save.pull-left
+        a.btn ng-click="cancel()" Cancel
+        a.btn.btn-danger ng-disabled="!hasPendingChange()" ng-click="subscribe()" Submit
+      select.pull-right ng-model='interval' ng-options="interval as intervalName for (interval, intervalName) in {month: 'Monthly Plans', year: 'Annual Plans'}" 
+    .row-fluid
+      table 
+        colgroup
+          col#rowhead
+          col.community 
+          col ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3"
+        thead
+          tr
+            th
+            th ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)" 
+              h2 Free
+            th ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+              h2 ${{plan.amount/100}}/{{plan.interval|shortInterval}}
+        tbody
+          tr
+            td Public or Private Audio Storage
+            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+              p.strong 2 hours 
+              p of audio
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)"
+              p.strong {{plan.hours}} hours
+              p of audio
+          tr
+            td Public or Private Auto Transcripts and Keywords
+            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)" 
+              p.strong 2 min 
+              p per file
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)"
+              p.strong full length
+              p per file
+          tr
+            td Easy-to-Use Audio Management Tools
+            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+              img src="#{asset_path('green_check.png')}"
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+              img src="#{asset_path('green_check.png')}"
+          tr 
+            td Unlimited Internet Archive Uploads
+            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+              img src="#{asset_path('green_check.png')}"
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+              img src="#{asset_path('green_check.png')}"
+          tr
+            td 
+              |Full-Length Internet Archive 
+              br
+              |Auto Transcripts and Keywords
+            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+              img src="#{asset_path('green_check.png')}"
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+              img src="#{asset_path('green_check.png')}"
+          tr 
+            td Community Support Forum
+            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+              img src="#{asset_path('green_check.png')}"
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+              img src="#{asset_path('green_check.png')}"
+          tr
+            td Guaranteed E-Mail Customer Support
+            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+              img src="#{asset_path('red_x.png')}"
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+              img src="#{asset_path('green_check.png')}"
+          tr 
+            td 
+              |Professional Transcripts
+              br
+              | ($2/Minute, 48-Hour Turnaround)
+            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+              img src="#{asset_path('red_x.png')}"
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+              img src="#{asset_path('green_check.png')}"
 
 .row-fluid ng-show="hasSpecialPlan()"
   .plan-well.current ng-click="changePlan({id: me.plan.id})" ng-class="{selected: isSelectedPlan({id: me.plan.id})}"
     h3 {{me.plan.popUpHours}} hours
     h4 ${{me.plan.amount/100}}/{{me.plan.interval|shortInterval}}
     h5 Special Plan
-.row-fluid
-  select.pull-right ng-model='interval' ng-options="interval as intervalName for (interval, intervalName) in {month: 'Monthly Plans', year: 'Annual Plans'}"
-.row-fluid
-  .plan-well.span4 ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)"
-    h3 {{plan.hours}} hours
-    h5 of your sounds made searchable with full transcripts, tags, and timestamps
-    h4 ${{plan.amount/100}}/{{plan.interval|shortInterval}}
     
-.row-fluid
-  .plan-well.soft ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
-    h4 Or get started with our free Community Plan.
-    ul.plan-features
-      li Easy-to-use audio management tools
-      li Two hours of storage at Pop Up Archive
-      li Two minutes of automatic transcripts and keywords per file
-      li Publish to the Internet Archive to free up storage and get full transcripts and keywords
-      li Access to the Pop Up Archive support forum
 .row-fluid
   .plan-well
     h4 Have more audio than you can handle?
