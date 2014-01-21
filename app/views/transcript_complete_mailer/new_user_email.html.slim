@@ -1,0 +1,13 @@
+.email-header
+  | Hello 
+  = @user.name
+  |,
+
+.email-body
+  p
+    | Thanks for joining Pop Up Archive! We're glad to have you.
+  p
+    | Reply to this email anytime with questions. You can reach us anytime at edison@popuparchive.org. We'd love to hear from you!
+
+.email-footer
+  = render('signature')

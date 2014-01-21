@@ -250,6 +250,9 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mailchimp-api (2.0.4)
+      excon (>= 0.16.0)
+      json (>= 1.7.7)
     media_monster_client (2.0.5)
       activesupport
       i18n
@@ -537,6 +540,7 @@ DEPENDENCIES
   jplayer-rails
   language_list
   listen
+  mailchimp-api (~> 2.0.4)
   media_monster_client
   multi_json (~> 1.5.0)
   newrelic_rpm!

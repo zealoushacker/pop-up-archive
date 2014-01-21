@@ -10,5 +10,10 @@ class TranscriptCompleteMailer < ActionMailer::Base
     @user, @audio_file, @item = user, audio_file, item
     mail(to: @user.email, subject: 'New transcript for audio')
   end
+  
+  def new_user_email(user)
+  	@user = user
+  	mail(to: @user.email, subject: 'Welcome to Pop Up Archive')
+  end
 
 end

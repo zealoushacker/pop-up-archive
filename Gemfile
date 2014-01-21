@@ -89,6 +89,8 @@ gem 'redis-rails'
 
 gem 'jplayer-rails'
 
+gem 'mailchimp-api', '~> 2.0.4'
+
 group :assets do
   gem 'sprockets'
   gem 'sass-rails', '~> 3.2.3'
