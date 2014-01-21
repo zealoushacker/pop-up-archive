@@ -138,7 +138,7 @@ describe AudioFile do
 
     it "should use s3 for private item in copy_media=true collection" do
       audio_file = FactoryGirl.create :audio_file_private
-      audio_file.process_audio_url.should match("s3://(.*).popuparchive.prx.org/untitled.(.*).popuparchive.org/test.mp3")
+      audio_file.process_audio_url.should match("s3://(.*)/untitled.(.*).popuparchive.org/test.mp3")
     end
 
     it "should use http for public item in copy_media=true collection" do
