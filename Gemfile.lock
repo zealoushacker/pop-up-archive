@@ -23,14 +23,6 @@ GIT
       sax-machine (~> 0.2.0.rc1)
 
 GIT
-  remote: git://github.com/pduersteler/font-awesome-sass-rails.git
-  revision: acd4bb637e1655bd6404c708c443915af0b482ba
-  specs:
-    font-awesome-sass-rails (3.2.1.0)
-      railties (>= 3.1.1)
-      sass-rails (>= 3.1.1)
-
-GIT
   remote: git://github.com/rails/etagger.git
   revision: 0a6c1e3ee66fb6926c06660538766530fa675c2f
   specs:
@@ -180,6 +172,8 @@ GEM
       net-ssh (>= 2.1.3)
       nokogiri (~> 1.5.0)
       ruby-hmac
+    font-awesome-rails (4.0.3.0)
+      railties (>= 3.2, < 5.0)
     foreman (0.63.0)
       dotenv (>= 0.7)
       thor (>= 0.13.6)
@@ -527,7 +521,7 @@ DEPENDENCIES
   factory_girl_rails
   feedzirra!
   fog (~> 1.11.1)
-  font-awesome-sass-rails!
+  font-awesome-rails
   foreman
   geocoder
   growl
