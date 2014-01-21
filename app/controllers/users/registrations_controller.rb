@@ -9,6 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       yield resource if block_given?
       if resource.active_for_authentication?
         sign_up(resource_name, resource)
+        notify_user
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
         expire_data_after_sign_in!
@@ -83,4 +84,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
       user.subscribe!(SubscriptionPlan.find(plan_id), session.delete(:offer_code))
     end
   end
+  
+  def notify_user
+    TranscriptCompleteMailer.new_user_email(@user).deliver
+  end
+  
 end
