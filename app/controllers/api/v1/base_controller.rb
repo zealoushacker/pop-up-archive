@@ -21,4 +21,13 @@ class Api::V1::BaseController < Api::BaseController
 
   alias_method_chain :current_user, :oauth
 
+  def items_index_name
+    if current_user.present? && current_user.id == 1 && Tire.index('items_st').exists?
+      @debug = true
+      'items_st'
+    else
+      'items'
+    end
+  end
+
 end

@@ -3,7 +3,7 @@ class Api::V1::SearchesController < Api::V1::BaseController
     query_builder = QueryBuilder.new(params, current_user)
     page = params[:page].to_i
 
-    @search = ItemResultsPresenter.new(Tire.search(index_name) do
+    @search = ItemResultsPresenter.new(Tire.search(items_index_name) do
 
       if page.present? && page > 1
         from (page - 1) * RESULTS_PER_PAGE
@@ -28,14 +28,4 @@ class Api::V1::SearchesController < Api::V1::BaseController
     respond_with @search
   end
 
-  private
-
-  def index_name
-    if current_user.present? && current_user.id == 1 && Tire.index('items_st').exists?
-      @debug = true
-      'items_st'
-    else
-      'items'
-    end
-  end
 end

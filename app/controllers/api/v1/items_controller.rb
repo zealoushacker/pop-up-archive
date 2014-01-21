@@ -1,6 +1,10 @@
 class Api::V1::ItemsController < Api::V1::BaseController
   expose(:collection)
-  expose(:items, ancestor: :collection)
+
+  expose(:items, ancestor: :collection) do
+    collection.items.includes(:collection, :hosts, :creators, :interviewers, :interviewees, :producers, :guests, :contributors, :entities, :storage_configuration).includes(audio_files:[:tasks, :transcripts], contributions:[:person])
+  end
+
   expose(:item)
   expose(:contributions, ancestor: :item)
   expose(:users_item, ancestor: :current_users_items)
