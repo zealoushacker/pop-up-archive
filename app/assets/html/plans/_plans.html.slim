@@ -3,7 +3,7 @@
     .row-fluid
       .save.pull-left
         a.btn ng-click="cancel()" Cancel
-        a.btn.btn-danger ng-disabled="!hasPendingChange()" ng-click="subscribe()" Submit
+        a.btn.btn-info ng-disabled="!hasPendingChange()" ng-click="subscribe()" Submit
       select.pull-right ng-model='interval' ng-options="interval as intervalName for (interval, intervalName) in {month: 'Monthly Plans', year: 'Annual Plans'}" 
     .row-fluid
       table 
