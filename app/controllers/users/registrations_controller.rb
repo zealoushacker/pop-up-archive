@@ -91,14 +91,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
                    :double_optin => "false",
                    :replace_interests => "false",
                    :send_welcome => "false")
-       gb.lists.subscribe(:id => "34d17df69f",
--                   :email => {:email=> user.email},
--                   :merge_vars =>
--                     nil,
--                   :update_existing => "true",
--                   :double_optin => "false",
--                   :replace_interests => "false",
--                   :send_welcome => "false")
+      gb.lists.subscribe(:id => "34d17df69f",
+                   :email => {:email=> user.email},
+                   :merge_vars =>
+                     nil,
+                   :update_existing => "true",
+                   :double_optin => "false",
+                   :replace_interests => "false",
+                   :send_welcome => "false")
     end
   end
   
