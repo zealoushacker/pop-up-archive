@@ -185,6 +185,9 @@ GEM
       thor (>= 0.13.6)
     formatador (0.2.4)
     geocoder (1.1.8)
+    gibbon (1.1.1)
+      httparty
+      multi_json (>= 1.3.4)
     growl (1.0.3)
     guard (1.8.1)
       formatador (>= 0.2.4)
@@ -250,9 +253,6 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mailchimp-api (2.0.4)
-      excon (>= 0.16.0)
-      json (>= 1.7.7)
     media_monster_client (2.0.5)
       activesupport
       i18n
@@ -530,6 +530,7 @@ DEPENDENCIES
   font-awesome-sass-rails!
   foreman
   geocoder
+  gibbon
   growl
   guard-bundler (>= 1.0.0)
   guard-jasmine
@@ -540,7 +541,6 @@ DEPENDENCIES
   jplayer-rails
   language_list
   listen
-  mailchimp-api (~> 2.0.4)
   media_monster_client
   multi_json (~> 1.5.0)
   newrelic_rpm!

@@ -89,7 +89,7 @@ gem 'redis-rails'
 
 gem 'jplayer-rails'
 
-gem 'mailchimp-api', '~> 2.0.4'
+gem 'gibbon'
 
 group :assets do
   gem 'sprockets'

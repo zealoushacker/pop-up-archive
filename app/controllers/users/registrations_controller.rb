@@ -82,6 +82,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if session[:plan_id].present?
       plan_id = session.delete(:plan_id)
       user.subscribe!(SubscriptionPlan.find(plan_id), session.delete(:offer_code))
+      gb = Gibbon::API.new
+      gb.lists.subscribe(:id => "39650ec21b",
+                   :email => {:email=> user.email},
+                   :merge_vars =>
+                     nil,
+                   :update_existing => "true",
+                   :double_optin => "false",
+                   :replace_interests => "false",
+                   :send_welcome => "false")
     end
   end
   
