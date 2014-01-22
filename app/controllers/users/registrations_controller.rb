@@ -9,7 +9,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       yield resource if block_given?
       if resource.active_for_authentication?
         sign_up(resource_name, resource)
-        notify_user
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
         expire_data_after_sign_in!
@@ -91,11 +90,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
                    :double_optin => "false",
                    :replace_interests => "false",
                    :send_welcome => "false")
+	  gb.lists.subscribe(:id => "34d17df69f",
+                   :email => {:email=> user.email},
+                   :merge_vars =>
+                     nil,
+                   :update_existing => "true",
+                   :double_optin => "false",
+                   :replace_interests => "false",
+                   :send_welcome => "false")
     end
   end
-  
-  def notify_user
-    TranscriptCompleteMailer.new_user_email(@user).deliver
-  end
-  
 end
