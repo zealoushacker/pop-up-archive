@@ -24,6 +24,11 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
         href: "/api/items/" + $scope.item.id + "/audio_files/" + $scope.audioFile.id + "/transcript.json"
       }
   ];
+  
+  $scope.embedCode =
+     { "title": "Copy and Paste the Following Code to Embed This File on Your Site",
+       "content": "<xmp><iframe frameborder='0' width='508' height='95' scrolling='no' seamless='yes' name='"+ $scope.item.title + "' src='"+ $scope.my_path + "/embed_player/" + encodeURIComponent($scope.item.title.replace(/\./g, '&#46;')) + "/" + $scope.audioFile.id + "/" + $scope.item.id + "/" + $scope.collection.id + "'></iframe></xmp>",
+    };
 
   $scope.play = function () {
     Player.play($scope.fileUrl);

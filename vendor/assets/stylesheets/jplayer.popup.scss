@@ -10,7 +10,7 @@ body {
   height: 95px;
   position: absolute;
   left: -42px;
-  background-image: image-url('jplayer/player_tip_left.png');
+  background: image-url('jplayer/player_tip_left.png');
   content: '';
 }
 
@@ -20,7 +20,7 @@ body {
   height: 95px;
   position: absolute;
   left: 418px;
-  background-image: url(/assets/jplayer/player_tip_right.png);
+  background: image-url('jplayer/player_tip_right.png');
   content: '';
 }
 div.jp-audio {
@@ -107,7 +107,6 @@ div.jp-audio div.jp-type-playlist div.jp-progress {
 }
 
 div.jp-seek-bar {
-	background: image-url('jplayer/jplayer.blue.monday.jpg') 0 -202px repeat-x;
 	width:0px;
 	height:100%;
 	cursor: pointer;
