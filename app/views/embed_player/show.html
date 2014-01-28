@@ -7,12 +7,12 @@
       $("#jquery_jplayer_1").jPlayer({
         ready: function () {
           $(this).jPlayer("setMedia", {
-            m4a: "<%= @mp3 %>",
+            mp3: "<%= @mp3 %>",
             oga: "<%= @ogg %>",
           });
         },
-        // swfPath: <&= asset_path "Jplayer.swf" %>,
-        supplied: "m4a, oga"
+        swfPath: '<%= asset_path "Jplayer.swf" %>',
+        supplied: "mp3, oga"
       });
     });
   </script>
