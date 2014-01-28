@@ -97,5 +97,12 @@ module PopUpArchive
       Doorkeeper::AuthorizedApplicationsController.layout('oauth')
     end
 
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [:get, :post, :put, :delete, :options]
+      end
+    end
+
   end
 end

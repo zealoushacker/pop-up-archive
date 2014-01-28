@@ -91,6 +91,8 @@ gem 'jplayer-rails'
 
 gem 'gibbon'
 
+gem 'rack-cors'
+
 group :assets do
   gem 'sprockets'
   gem 'sass-rails', '~> 3.2.3'
