@@ -7,7 +7,7 @@ if [ -f "$rvm_path/scripts/rvm" ]; then
   fi
 
 fi
-#FOR USE WITH RBENV
+
 #if [ -f /tmp/powenvsetup ]; then
 #  rm -f /tmp/powenvsetup
 #fi
