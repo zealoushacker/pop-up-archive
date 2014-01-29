@@ -49,7 +49,7 @@ section ng-controller="ItemFormCtrl"
                 td.file-icon
                   .item-thumb ng-class="iconForFile(audioFile)"
                 td.file-name alt="{{audioFile.filename}}" {{audioFile.filename}}
-                / td.file-size {{readableFileSize(audioFile.size)}}
+                td.file-size {{readableFileSize(audioFile.size)}}
                 td.file-remove
                   a.btn.btn-danger href="#" ng-click="removeAudioFile(audioFile)" Delete
 
@@ -85,7 +85,14 @@ section ng-controller="ItemFormCtrl"
               i.icon-question-sign style="margin-left:8px" bs-popover="itemHelp['title']" data-placement="bottom"
             .controls 
               input.text.input-xlarge#title type='text' ng-model='item.title'
-
+          .control-group
+            label.control-label
+              | Image
+              i.icon-question-sign style="margin-left:8px" bs-popover="itemHelp['image']" data-placement="bottom"
+            .clearfix.controls
+              button.btn file-image="" Choose Image  
+              span &nbsp OR &nbsp
+              input.text.input#image type='text' placeholder="Insert Url"  ng-model='item.image'            
           .control-group
             label.control-label
               | Tags (hit enter to separate tags)
