@@ -1,3 +1,13 @@
+#FOR USE WITH RVM
+if [ -f "$rvm_path/scripts/rvm" ]; then
+  source "$rvm_path/scripts/rvm"
+
+  if [ -f ".ruby-version" ]; then
+    rvm use `cat .ruby-version`
+  fi
+
+fi
+#FOR USE WITH RBENV
 #if [ -f /tmp/powenvsetup ]; then
 #  rm -f /tmp/powenvsetup
 #fi
@@ -10,4 +20,4 @@
 
 #source /tmp/powenvsetup
 #rm -f /tmp/powenvsetup
-export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH
+#export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH
