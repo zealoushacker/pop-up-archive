@@ -8,11 +8,11 @@
         ready: function () {
           $(this).jPlayer("setMedia", {
             mp3: "<%= @mp3 %>",
-            oga: "<%= @ogg %>",
           });
         },
-        swfPath: '<%= asset_path "Jplayer.swf" %>',
-        supplied: "mp3, oga"
+        swfPath: "<%= asset_path 'Jplayer.swf' %>",
+        solution: "html, flash",
+        supplied: "mp3",
       });
     });
   </script>
