@@ -196,7 +196,9 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   }
 
   // used by the upload-button callback when new files are selected
-  $scope.setFiles = function(element) {
+  $scope.setFiles = function(event) {
+    element = angular.element(event.target);
+
     $scope.$apply(function($scope) {
 
       var newFiles = element[0].files;
