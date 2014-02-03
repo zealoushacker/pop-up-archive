@@ -7,8 +7,8 @@ class ImageUploader < CarrierWave::Uploader::Base
   include Sprockets::Helpers::IsolatedHelper
   
   # Include RMagick or MiniMagick support:
-  include CarrierWave::RMagick
-  include CarrierWave::MiniMagick
+  # include CarrierWave::RMagick
+  # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
   storage :file
@@ -75,10 +75,10 @@ class ImageUploader < CarrierWave::Uploader::Base
     end
   end  
 
-  # we're gonna make them on fixer, but define the versions
-  version_formats.keys.each do |label|
-    version label
-  end
+  # # we're gonna make them on fixer, but define the versions
+  # version_formats.keys.each do |label|
+  #   version label
+  # end
 
   def public_url
     if !asset_host && (provider == "InternetArchive")
