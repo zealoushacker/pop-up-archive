@@ -96,7 +96,7 @@ class Item < ActiveRecord::Base
     :description, :digital_format, :digital_location, :duration,
     :episode_title, :extra, :identifier, :music_sound_used, :notes,
     :physical_format, :physical_location, :rights, :series_title,
-    :tags, :title, :transcription, :adopt_to_collection, :language
+    :tags, :title, :transcription, :adopt_to_collection, :language, :image
 
   belongs_to :geolocation
   belongs_to :csv_import
@@ -132,7 +132,8 @@ class Item < ActiveRecord::Base
   delegate :title, to: :collection, prefix: true
 
   accepts_nested_attributes_for :contributions
-
+  
+  mount_uploader :image, ImageUploader
   def duration
     read_attribute(:duration) || audio_files.inject(0){|s,a| s + a.duration.to_i}
   end
