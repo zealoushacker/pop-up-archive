@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140128231229) do
+ActiveRecord::Schema.define(:version => 20140128232541) do
 
   add_extension "hstore"
 
