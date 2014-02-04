@@ -132,6 +132,20 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     });
     return result;
   }
+  
+  Item.prototype.addImageFile = function (file, options )
+    var options = options || {};
+    var item = this;
+    var imageFile = new ImageFile({itemId: item.id})
+    imageFile.create().then (function() {
+      imageFile.filename = imageFile.cleanFileName(file.name)
+      item.images = item.images || [];
+      item.images.push(imageFile);
+      options.token = item.token;
+      imageFile.upload(file, options);
+    });
+    return imageFile;
+  }  
 
   Item.prototype.addAudioFile = function (file, options) {
     var options = options || {};
