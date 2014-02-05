@@ -133,7 +133,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     return result;
   }
   
-  Item.prototype.addImageFile = function (file, options )
+  Item.prototype.addImageFile = function (file, options ){
     var options = options || {};
     var item = this;
     var imageFile = new ImageFile({itemId: item.id})
