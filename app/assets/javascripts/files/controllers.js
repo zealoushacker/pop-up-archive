@@ -92,36 +92,37 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
 
 
     $scope.initializeItem = function(force) {
-      // console.log('initializeItem', $scope.item, $scope);
+      console.log('initializeItem', $scope.item, $scope);
 
       if ($route.current.controller == 'ItemCtrl' && 
           $route.current.locals.$scope.item &&
           $route.current.locals.$scope.item.id > 0)
       {
         $scope.item = $route.current.locals.$scope.item;
-        // console.log('initializeItem set to', $route.current.locals.$scope.item.id, $route.current.locals.$scope.item);
+        console.log('initializeItem set to', $route.current.locals.$scope.item.id, $route.current.locals.$scope.item);
       } else {
 
         // start a new item if there is not one already in scope
         if(force || !$scope.item) {
-          // console.log('initializeItem new item', $scope.item);
+          console.log('initializeItem new item', $scope.item);
           var collectionId = parseInt($routeParams.collectionId, 10) || $scope.currentUser.uploadsCollectionId;
-          var newItem = new Item({collectionId:collectionId, title:'', files:[]});
+          var newItem = new Item({collectionId:collectionId, title:'', files:[], images:[angular.element('#image').value]});
           $scope.item = newItem;
-          // console.log('initializeItem make new', newItem);
+          console.log('initializeItem make new', newItem);
         }
       }
 
-      // console.log('initializeItem end', $scope.item);
+      console.log('initializeItem end', $scope.item);
       return $scope.item;
     };
 
     $scope.handleAudioFilesAdded = function (newFiles) {
-      // console.log('handleAudioFilesAdded', newFiles, $scope.item, $scope);
+      console.log('handleAudioFilesAdded', newFiles, $scope.item, $scope);
 
       var newFiles = newFiles || [];
-
+      var newImages = newImages || [];
       $scope.initializeItem();
+      console.log($scope);
 
       if (($scope.item.id > 0) && (newFiles.length > 0)) {
         if (me.canEdit($scope.item)) {
@@ -131,22 +132,25 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
           $q.when($scope.uploadModal).then( function (modalEl) {
 
             var modal = modalEl;
-            // console.log('$scope.uploadModal modalEl', modal);
+            console.log('$scope.uploadModal modalEl', modal);
 
-            // console.log('$scope.uploadModal check if it is hidden');
+            console.log('$scope.uploadModal check if it is hidden');
             if (modal.css('display') == 'none') {
 
-              // console.log('$scope.uploadModal hidden!');
+              console.log('$scope.uploadModal hidden!');
               $scope.uploadAudioFiles(uploadItem, newFiles);
 
             } else {
 
-              // console.log('$scope.uploadModal not hidden!');
+              console.log('$scope.uploadModal not hidden!');
               uploadItem.files = uploadItem.files || [];
+              uplaodItem.images = uploadItem.images || [];
               angular.forEach(newFiles, function (file) {
                 uploadItem.files.push(file);
               });
-
+              angular.forEach(newImages, function (image) {
+                uploadItem.images.push(image);
+              });
             }
           });
 
@@ -159,15 +163,23 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
         }
       } else {
 
-        // console.log('handleAudioFilesAdded - add files', newFiles, $scope.item, $scope);
+        console.log('handleAudioFilesAdded - add files', newFiles, $scope.item, $scope);
 
         // add files to the item
         if (!$scope.item.files) {
           $scope.item.files = [];
         }
 
+        if (!$scope.item.images) {
+          $scope.item.images = [];
+        }        
+
         angular.forEach(newFiles, function (file) {
           $scope.item.files.push(file);
+        });
+
+        angular.forEach(newImages, function (image){
+          $scope.item.images.push(image);
         });
 
         // default title to first file if not already set
@@ -182,12 +194,12 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
         
       }
 
-      // console.log('handleAudioFilesAdded - done', $scope.item, $scope);
+      console.log('handleAudioFilesAdded - done', $scope.item, $scope);
 
     };
 
     $scope.uploadAudioFiles = function (item, newFiles) {
-      // console.log('$scope.uploadAudioFiles', item, newFiles);
+      console.log('$scope.uploadAudioFiles', item, newFiles);
       angular.forEach(newFiles, function (file) {
         $scope.uploadAudioFile(item, file);
       });
@@ -213,7 +225,7 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
       var audioFile = item.addAudioFile(file,
       {
         onComplete: function () {
-          // console.log($scope.item.id, $scope.currentUser.uploadsCollectionId);
+          console.log($scope.item.id, $scope.currentUser.uploadsCollectionId);
           var msg = '"' + file.name + '" upload completed.';
           if (item.collectionId == $scope.currentUser.uploadsCollectionId && $route.current.controller == 'CollectionsCtrl') {
             msg = msg + ' To see transcripts and tags, move the item from My Uploads to a collection.';
@@ -247,11 +259,71 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
           alert.status   = "Error";
         },
         onProgress: function (progress) {
-          // console.log('uploadAudioFiles: onProgress', progress);
+          console.log('uploadAudioFiles: onProgress', progress);
           alert.progress = progress;
         }
       });
     }
+
+    $scope.uploadImageFile = function (item, file) {
+      var item = item;
+      var alert = new Alert();
+      alert.category = 'upload';
+      alert.status   = 'Uploading';
+      alert.progress = 1;
+      alert.message  = file.name;
+      alert.add();
+
+      if (item.collectionId == $scope.currentUser.uploadsCollectionId) {
+        alert.path = "/collections";
+      } else {
+        alert.path = item.link();
+      }
+
+      file.alert = alert;
+
+      var audioFile = item.addAudioFile(file,
+      {
+        onComplete: function () {
+          console.log($scope.item.id, $scope.currentUser.uploadsCollectionId);
+          var msg = '"' + file.name + '" upload completed.';
+          if (item.collectionId == $scope.currentUser.uploadsCollectionId && $route.current.controller == 'CollectionsCtrl') {
+            msg = msg + ' To see transcripts and tags, move the item from My Uploads to a collection.';
+          } else if (item.collectionId == $scope.currentUser.uploadsCollectionId && $route.current.controller != 'CollectionsCtrl'){
+            msg = msg + ' To see transcripts and tags, move the item from My Uploads to a collection. <a href="/collections">Click here to get back to My Collections.</a>';
+          } else {
+            msg = msg + '<a data-dismiss="alert" data-target=":parent" ng-href="' + item.link() + '"> View and edit the item!</a>';
+          }
+
+          $scope.addMessage({
+            'type': 'success',
+            'title': 'Congratulations!',
+            'content': msg
+          });
+
+          alert.progress = 100;
+          alert.status   = "Complete";
+
+          // let search results know that there is a new item
+          $timeout(function () { $scope.$broadcast('datasetChanged')}, 750);
+        },
+        onError: function () {
+          console.log('fileUploaded: addAudioFile: error', item);
+          $scope.addMessage({
+            'type': 'error',
+            'title': 'Oops...',
+            'content': '"' + file.name + '" upload failed. Hmmm... try again?'
+          });
+
+          alert.progress = 100;
+          alert.status   = "Error";
+        },
+        onProgress: function (progress) {
+          console.log('uploadAudioFiles: onProgress', progress);
+          alert.progress = progress;
+        }
+      });
+    }    
 
     $scope.hideUploadModal = function() {
       $q.when($scope.uploadModal).then( function (modalEl) {
@@ -261,7 +333,7 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
 
 
     $scope.$on("filesAdded", function (e, newFiles) {
-      // console.log('on filesAdded', newFiles);
+      console.log('on filesAdded', newFiles);
       $scope.handleAudioFilesAdded(newFiles);
     });
 
@@ -280,7 +352,7 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
       }
 
       if (newFiles.length > 0) {
-        // console.log('new files added', newFiles);
+        console.log('new files added', newFiles);
         $scope.$broadcast('filesAdded', newFiles);
       }
 

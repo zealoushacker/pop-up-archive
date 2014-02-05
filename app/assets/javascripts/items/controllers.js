@@ -11,6 +11,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
 
   $scope.startUpload = function() {
     var newFiles = [];
+    var newImages = [];
     $scope.$emit('filesAdded', newFiles);
   }
 
@@ -142,14 +143,19 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   }
 
   $scope.submit = function () {
-    // console.log('ItemFormCtrl submit: ', $scope.item);
+    console.log('ItemFormCtrl submit: ', $scope.item);
     var saveItem = $scope.item;
     this.item = $scope.initializeItem(true);
     $scope.clear();
 
     var uploadFiles = saveItem.files;
     saveItem.files = [];
-    
+    var uploadImageFiles = saveItem.images;
+    saveItem.images = [];
+
+    var imageFiles = saveItem.images;
+    // alert($scope.item);
+
     var audioFiles = saveItem.audioFiles;
     var contributions = saveItem.contributions;
 
@@ -164,6 +170,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
       saveItem.update().then(function (data) {
         // reset tags
         saveItem.tagList2Tags();
+        $scope.uploadImageFiles(saveitem, uploadImageFiles);        
 
         $scope.uploadAudioFiles(saveItem, uploadFiles);
         $scope.updateAudioFiles(saveItem, audioFiles);
@@ -221,6 +228,33 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
 
     });
   };
+
+  $scope.setImageFiles = function(event) {
+    element = angular.element(event.target);
+
+    $scope.$apply(function($scope) {
+
+      var newImageFile = element[0].images;
+
+      // default image to first image if not already set
+      if (!$scope.item.images || $scope.item.images == "") {
+        $scope.item.images = newImageFile;
+      }
+
+      if (!$scope.item.images) {
+        $scope.item.images = [];
+      }
+
+      // add image files to the item
+      angular.forEach(newImageFile, function (file) {
+        $scope.item.images.push(file);
+      });
+
+      // element[0].value = "";
+
+    });
+  };
+
 
   $scope.removeAudioFile = function(file) {
     if (file.id && (file.id > 0)) {

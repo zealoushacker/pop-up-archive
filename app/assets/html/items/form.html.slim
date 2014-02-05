@@ -90,9 +90,10 @@ section ng-controller="ItemFormCtrl"
               | Image
               i.icon-question-sign style="margin-left:8px" bs-popover="itemHelp['image']" data-placement="bottom"
             .clearfix.controls
-              button.btn file-button="setImageFiles" Choose Image  
+              button.btn image-file-button="setImageFiles" Choose Image              
               span &nbsp OR &nbsp
               input.text.input#image type='text' placeholder="Insert Url"  ng-model='item.image'            
+
           .control-group
             label.control-label
               | Tags (hit enter to separate tags)

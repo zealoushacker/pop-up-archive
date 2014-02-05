@@ -17,10 +17,16 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     angular.forEach(dataList, function(value, key){
 
       value.tags = [];
+      value.images = [];
       angular.forEach((value.tag_list || []), function (v,k) {
         value.tags.push(v['text']);
       });
+
+      angular.forEach((value.images || []), function (v,k) {
+        value.images.push(v['imageFiles']);
+      });      
       delete value.tag_list;
+      delete value.images;
 
       if ((!value.id || parseInt(value.id, 10) <= 0) || (value.adoptToCollection == value.collectionId)) {
         delete value.adoptToCollection;
@@ -38,12 +44,17 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   });
 
   Item.beforeResponse(function(data, resource) {
-
+    console.log("beforeResponse");
     data.tagList = [];
+    data.images = [];    
     angular.forEach((data.tags || []), function (v,k) {
       data.tagList.push({id:v, text:v});
     });
 
+    angular.forEach((data.images || []), function (v,k) {
+      data.images.push({id:v, imageFile:v});
+    });    
+    console.log(data, data.images);
     data.language = {id: data.language, text: Item.languageLookup[data.language]};
 
     if (data.id) {
@@ -133,19 +144,25 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     return result;
   }
   
-  Item.prototype.addImageFile = function (file, options ){
-    var options = options || {};
-    var item = this;
-    var imageFile = new ImageFile({itemId: item.id})
-    imageFile.create().then (function() {
-      imageFile.filename = imageFile.cleanFileName(file.name)
-      item.images = item.images || [];
-      item.images.push(imageFile);
-      options.token = item.token;
-      imageFile.upload(file, options);
-    });
-    return imageFile;
-  }  
+  Item.prototype.image = function (image) {
+    var images = [];
+    angular.forEach(this.images, function (images) {
+      images.push(image); 
+    })
+  }
+  // Item.prototype.addImageFile = function (file, options ){
+  //   var options = options || {};
+  //   var item = this;
+  //   var imageFile = new ImageFile({itemId: item.id, name:file.name})
+  //   imageFile.create().then (function() {
+  //     imageFile.filename = imageFile.cleanFileName(file.name)
+  //     item.images = item.images || [];
+  //     item.images.push(imageFile);
+  //     options.token = item.token;
+  //     item.images.upload(file, options);
+  //   });
+  //   return imageFile;
+  // }  
 
   Item.prototype.addAudioFile = function (file, options) {
     var options = options || {};
