@@ -272,6 +272,7 @@ function mule_upload(settings) {
                         "x-amz-date": date,
                         "x-amz-acl": settings.acl,
                         "Authorization": authorization,
+                        "Content-Type": u.settings.content_type,
                         "Content-Disposition": "attachment; filename=" + u.file.name
                     }
                 });
