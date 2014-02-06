@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131106132744) do
+ActiveRecord::Schema.define(:version => 20140206193153) do
 
   add_extension "hstore"
 
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20131106132744) do
     t.integer  "duration"
     t.boolean  "metered"
     t.integer  "user_id"
+    t.integer  "listens"
   end
 
   add_index "audio_files", ["item_id", "deleted_at"], :name => "index_audio_files_on_item_id_and_deleted_at"
@@ -176,6 +177,7 @@ ActiveRecord::Schema.define(:version => 20131106132744) do
     t.boolean  "is_public"
     t.string   "language"
     t.datetime "deleted_at"
+    t.string   "image"
   end
 
   add_index "items", ["collection_id"], :name => "index_items_on_collection_id"
