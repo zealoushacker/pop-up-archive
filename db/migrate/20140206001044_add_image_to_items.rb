@@ -3,7 +3,7 @@ class AddImageToItems < ActiveRecord::Migration
     add_column :items, :image, :string
   end
 
-  def down
-  	remove_column :items, :image, :string
+  def down 
+  	remove_column :items, :image
   end	
 end
