@@ -21,22 +21,36 @@ class Tasks::AnalyzeTask < Task
     ["entities", "locations", "relations", "tags", "topics"].each do |category|
       analysis[category].each{|analysis_entity|
         name = analysis_entity.delete('name')
-        next if (name.blank? || existing_names.include?(name))
-
-        entity = item.entities.build
-
-        entity.category     = category.try(:singularize)
-        entity.entity_type  = analysis_entity.delete('type')
-        entity.is_confirmed = false
-        entity.name         = name
-        entity.identifier   = analysis_entity.delete('guid')
-        entity.score        = analysis_entity.delete('score')
-
-        # anything left over, put it in the extra
-        entity.extra        = analysis_entity
-        entity.save
+        if category == "topics"
+          next if (name.blank? || existing_names.include?(name))
+          create_entity(name, item, category, analysis_entity)
+        else
+          next if (name.blank? || existing_names.include?(name) || control_the_vocab(name))
+          create_entity(name.try(:singularize), item, category, analysis_entity)
+        end
       }
     end
+  end
+  
+  def control_the_vocab(term)
+    #Check to see if term exists in DBPedia
+    results=Dbpedia.search(term).collect(&:label).map(&:downcase)
+    !results.include?(term.downcase)
+  end
+  
+  def create_entity(name, item, category, analysis_entity)
+    entity = item.entities.build
+
+    entity.category     = category.try(:singularize)
+    entity.entity_type  = analysis_entity.delete('type')
+    entity.is_confirmed = false
+    entity.name         = name
+    entity.identifier   = analysis_entity.delete('guid')
+    entity.score        = analysis_entity.delete('score')
+
+    # anything left over, put it in the extra
+    entity.extra        = analysis_entity
+    entity.save
   end
 
   def create_analyze_job
