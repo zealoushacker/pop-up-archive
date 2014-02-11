@@ -31,6 +31,12 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
     };
 
   $scope.play = function () {
+    $.ajax ({
+      type: 'POST',
+      url: "/api/items/" + $scope.item.id + "/audio_files/" + $scope.audioFile.id + '/increment.JSON',
+      data: { 'file': $scope.fileUrl.join().split('/')[5].split('?')[0] },
+      async: false  
+    });    
     Player.play($scope.fileUrl);
   }
 

@@ -262,6 +262,12 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   }
 
   Item.prototype.play = function () {
+    $.ajax ({
+      type: 'POST',
+      url: "/api/items/" + this.id + "/audio_files/" + this.audioFiles[0].id + '/play_count.JSON',
+      data: { 'file': this.audioFiles[0]},
+      async: false  
+    });     
     if (!this.loadedIntoPlayer()) {
       Player.play(this.audioFiles[0].url, this.getTitle());
     } else {
