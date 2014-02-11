@@ -260,13 +260,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     });
     item.contributions = keepContributions;
   }
-      // $http({
-      //   method: 'POST',
-      //   url: '/api/csv_imports',
-      //   data: fData,
-      //   headers: { "Content-Type": undefined },
-      //   transformRequest: angular.identity
-      // })
+
   Item.prototype.play = function () {
     $http ({
       method: 'POST',
