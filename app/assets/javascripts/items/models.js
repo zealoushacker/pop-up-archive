@@ -264,7 +264,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   Item.prototype.play = function () {
     $.ajax ({
       type: 'POST',
-      url: "/api/items/" + this.id + "/audio_files/" + this.audioFiles[0].id + '/play_count.JSON',
+      url: "/api/items/" + this.id + "/audio_files/" + this.audioFiles[0].id + '/listens.JSON',
       data: { 'file': this.audioFiles[0]},
       async: false  
     });     

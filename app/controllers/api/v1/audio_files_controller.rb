@@ -69,7 +69,7 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
     audio_file.upload_to
   end
 
-  def play_count 
+  def listens 
     AudioFile.increment_counter(:play_count, params[:id])
     render status: 200, json: {status: 'OK'}
   end  
