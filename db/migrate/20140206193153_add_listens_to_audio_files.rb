@@ -1,6 +1,6 @@
 class AddListensToAudioFiles < ActiveRecord::Migration
   def up
-    add_column :audio_files, :play_count, :integer, :null => false, :default => 0
+    add_column :audio_files, :play_count, :integer, :null => false, :default => 1
   end
 
   def down
