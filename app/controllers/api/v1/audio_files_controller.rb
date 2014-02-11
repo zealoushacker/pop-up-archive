@@ -70,10 +70,8 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
   end
 
   def play_count 
-    file = AudioFile.find(params[:audio_file_id])
-    file.play_count += 1 
-    file.save
-    render nothing:true
+    AudioFile.increment_counter(:play_count, params[:id])
+    render status: 200, json: {status: 'OK'}
   end  
 
   # these are for the request signing
