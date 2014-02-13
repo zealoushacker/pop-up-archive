@@ -142,6 +142,8 @@ GEM
     currencies (0.4.2)
     dalli (2.6.4)
     dante (0.1.5)
+    dbpedia (0.0.1)
+      nokogiri (>= 1.5.5)
     debug_inspector (0.0.2)
     decent_exposure (2.1.0)
     devise (3.0.0)
@@ -519,6 +521,7 @@ DEPENDENCIES
   countries
   coveralls
   dalli
+  dbpedia
   decent_exposure (~> 2.1.0)
   devise
   devise_invitable!
