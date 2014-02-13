@@ -24,9 +24,12 @@ class Tasks::AnalyzeTask < Task
         if category == "topics"
           next if (name.blank? || existing_names.include?(name))
           create_entity(name, item, category, analysis_entity)
+        elsif category == "tags"
+          next if (name.blank? || existing_names.include?(name) || control_the_vocab(name.try(:singularize)))
+          create_entity(name.try(:singularize), item, category, analysis_entity)
         else
           next if (name.blank? || existing_names.include?(name) || control_the_vocab(name))
-          create_entity(name.try(:singularize), item, category, analysis_entity)
+          create_entity(name, item, category, analysis_entity)
         end
       }
     end
