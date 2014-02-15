@@ -236,21 +236,12 @@ ul.jp-toggles li a {
 	line-height:100%; /* need this for IE6 */
 }
 
-
-/* @end */
 .jp-popuplink {
   position: absolute;
-  top: 35px;
-  right: 5px;
+  top: 7px;
+  right: 7px;
 }
-.jp-popuplink a {
-  float: right;
-  font-size: .6em;
-  margin-top: 20px;
-  text-decoration: none;
-  color: #f25a4c;
-  padding-right: 5px;
-}
+
 /* @group NO SOLUTION error feedback */
 
 .jp-no-solution {
