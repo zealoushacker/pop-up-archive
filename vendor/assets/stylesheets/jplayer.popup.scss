@@ -53,7 +53,7 @@ div.jp-audio div.jp-type-playlist div.jp-interface {
 .jp-controls {
   position: absolute;
   top: 23px;
-  left:25px;
+  left: 20px
 }
 
 div.jp-interface ul.jp-controls {
@@ -98,8 +98,8 @@ div.jp-audio div.jp-progress {
 	height:15px;
 }
 div.jp-audio div.jp-type-single div.jp-progress {
-	left:90px;
-	width:310px;
+	left:85px;
+	width:320px;
 }
 div.jp-audio div.jp-type-playlist div.jp-progress {
 	left:166px;
@@ -131,8 +131,8 @@ div.jp-audio div.jp-time-holder {
 	top:55px;
 }
 div.jp-audio div.jp-type-single div.jp-time-holder {
-	left:90px;
-	width:310px;
+	left:85px;
+	width:320px;
 }
 
 div.jp-current-time,
@@ -157,11 +157,11 @@ div.jp-duration {
 
 div.jp-title {
 	font-weight: bold;
-  left: 90px;
+  left: 85px;
   position: absolute;
-  top: 10px;
+  top: 15px;
   height: 26px;
-  width:310px;
+  width:320px;
   overflow:hidden;
 }
 
@@ -179,7 +179,7 @@ div.jp-title ul {
 
 div.jp-title li {
   color: #333;
-	padding:5px 0;
+	padding:0;
 	font-weight:bold;
 }
 
@@ -238,8 +238,12 @@ ul.jp-toggles li a {
 
 .jp-popuplink {
   position: absolute;
-  top: 7px;
-  right: 7px;
+  bottom: 5px;
+  right: 5px;
+  font-family: "soleil";
+  color: #f25a4c;
+  text-decoration: none;
+  font-size: 13px;
 }
 
 /* @group NO SOLUTION error feedback */
