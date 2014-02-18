@@ -93,6 +93,8 @@ gem 'gibbon'
 
 gem 'rack-cors'
 
+gem "text-table"
+
 group :assets do
   gem 'sprockets'
   gem 'sass-rails', '~> 3.2.3'
