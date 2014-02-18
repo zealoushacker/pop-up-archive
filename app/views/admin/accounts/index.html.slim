@@ -20,7 +20,7 @@ html
             tr
               th user id
               th plan limit
-              th private storage used
+              th total hours stored on S3 on pua
               th.important overage (s)
               th.important overage (h)
               th.important overage (%)
@@ -31,8 +31,9 @@ html
           - @accounts.each do |account|
             tr
               td = account.id
-              td = account.pop_up_hours_cache.to_i * 3600
-              td = account.used_metered_storage_cache
+              td = account.pop_up_hours_cache.to_s + " hrs"
+              - metered_hours_and_minutes = account.used_metered_storage.divmod(3600)
+              td = metered_hours_and_minutes[0].to_s + " hrs" + " " + metered_hours_and_minutes[1].ceil.to_s + " secs"              
               td.important = account[:overage]
               td.important = (account[:overage].to_i * 100 / 3600) / 100.0
               td.important = (account[:overage].to_i * 100 / (account.pop_up_hours_cache.to_i * 3600)) / 100.0

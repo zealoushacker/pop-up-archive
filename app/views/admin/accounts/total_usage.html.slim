@@ -76,7 +76,11 @@ html
               th.empty
               th user name
               th email
-          tbody          
+          tbody
+          - @accounts = User.paginate(:page => params[:page],
+                                   :per_page => 5,
+                                   :order => ('used_metered_storage_cache DESC,
+                                                               created_at DESC'))
           - @accounts.each do |account|
             tr
               td = account.id
