@@ -33,7 +33,10 @@ namespace :reports do
   desc "audio files most played"
   task play_count: [:environment] do
     afs = AudioFile.order('play_count desc').limit(25).includes(:item)
-    File.open('tmp/most_played' + Time.now.strftime("%m%d%Y") + '.yml', 'w') {|f| f.puts(afs.to_json)}
-    afs.each{|a| puts "#{a.play_count} #{a.item.title}"}    
-  end  
+    afs_important_attrs = afs.map{|a| [a.play_count, a.item.title, a.item.collection.title, a.item.url] }
+    array = [["Count", "ItemTitle", "Collection Title", "URL"], *afs_important_attrs]
+    File.open('tmp/most_played' + Time.now.strftime("%m%d%Y") + '.yml', 'w') {|f| f.write(array) }    
+    puts array.to_table  
+  end 
+
 end
