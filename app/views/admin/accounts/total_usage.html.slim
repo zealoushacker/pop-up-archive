@@ -1,0 +1,103 @@
+doctype html
+html
+  head
+    title Pop Up Archive Admin
+    css:
+      table { border-collapse:collapse; }
+      table, th, td { border: 1px solid black; }
+      th { min-width: 25px }
+      td, th { padding: 5px 10px}
+      .empty { background: #eee }
+      .important { background: #ECC }
+      .digg_pagination {
+        background: white;
+        cursor: default;
+        /* self-clearing method: */ }
+        .digg_pagination a, .digg_pagination span, .digg_pagination em {
+          padding: 0.2em 0.5em;
+          display: block;
+          float: left;
+          margin-right: 1px; }
+        .digg_pagination .disabled {
+          color: #999999;
+          border: 1px solid #dddddd; }
+        .digg_pagination .current {
+          font-style: normal;
+          font-weight: normal;
+          background: #2e6ab1;
+          color: white;
+          border: 1px solid #2e6ab1; }
+        .digg_pagination a {
+          text-decoration: none;
+          color: #105cb6;
+          border: 1px solid #9aafe5; }
+          .digg_pagination a:hover, .digg_pagination a:focus {
+            color: #000033;
+            border-color: #000033; }
+        .digg_pagination .page_info {
+          background: #2e6ab1;
+          color: white;
+          padding: 0.4em 0.6em;
+          width: 22em;
+          margin-bottom: 0.3em;
+          text-align: center; }
+          .digg_pagination .page_info b {
+            color: #000033;
+            background: #6aa6ed;
+            padding: 0.1em 0.25em; }
+        .digg_pagination:after {
+          content: ".";
+          display: block;
+          height: 0;
+          clear: both;
+          visibility: hidden; }
+        * html .digg_pagination {
+          height: 1%; }
+        *:first-child + html .digg_pagination {
+          overflow: hidden; }
+  body
+    h1 Accounts and Total Usage
+    #content
+      p Showing all the Users and the Total Hours of sound
+      == yield    
+      - unless @accounts.empty?
+        .digg_pagination        
+          .page_info  
+            == page_entries_info @accounts
+          == will_paginate @accounts, :container => false  
+      br       
+        table
+          thead
+            tr
+              th user id
+              th plan limit
+              th total hours stored on S3 on pua
+              th total hours stored on IA on pua
+              th.empty
+              th user name
+              th email
+          tbody          
+          - @accounts.each do |account|
+            tr
+              td = account.id
+              td = account.pop_up_hours_cache.to_s + " hrs"
+              - metered_hours_and_minutes = account.used_metered_storage.divmod(3600)
+              td = metered_hours_and_minutes[0].to_s + " hrs" + " " + metered_hours_and_minutes[1].ceil.to_s + " secs"
+              - unmetered_hours_and_minutes = account.used_unmetered_storage.divmod(3600)
+              td = unmetered_hours_and_minutes[0].to_s + " hrs" + " " + unmetered_hours_and_minutes[1].ceil.to_s + "secs"
+              td.empty
+              td = account.name
+              td = link_to account.email, "mailto:#{account.email}"
+        table
+          thead
+            tr 
+              th Total Hours of Sound on Pop Up Archive
+              td = total_time_in_hours 
+              td = total_hours_on_pua 
+      br      
+        .digg_pagination        
+          .page_info  
+            == page_entries_info @accounts
+          == will_paginate @accounts, :container => false 
+
+ 
