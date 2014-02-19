@@ -95,6 +95,8 @@ gem 'rack-cors'
 
 gem "text-table"
 
+gem 'dbpedia'
+
 group :assets do
   gem 'sprockets'
   gem 'sass-rails', '~> 3.2.3'
