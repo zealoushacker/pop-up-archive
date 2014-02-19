@@ -50,6 +50,8 @@ gem 'will_paginate'
 
 gem 'carrierwave'
 
+gem 'rmagick'
+
 gem 'fog', '~> 1.11.1'
 
 gem 'heroku-api', '~> 0.3.10'
