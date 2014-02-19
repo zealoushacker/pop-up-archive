@@ -144,25 +144,26 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     return result;
   }
   
-  Item.prototype.image = function (image) {
-    var images = [];
-    angular.forEach(this.images, function (images) {
-      images.push(image); 
-    })
-  }
-  // Item.prototype.addImageFile = function (file, options ){
-  //   var options = options || {};
-  //   var item = this;
-  //   var imageFile = new ImageFile({itemId: item.id, name:file.name})
-  //   imageFile.create().then (function() {
-  //     imageFile.filename = imageFile.cleanFileName(file.name)
-  //     item.images = item.images || [];
-  //     item.images.push(imageFile);
-  //     options.token = item.token;
-  //     item.images.upload(file, options);
-  //   });
-  //   return imageFile;
-  // }  
+  // Item.prototype.image = function (image) {
+  //   var images = [];
+  //   angular.forEach(this.images, function (images) {
+  //     images.push(image); 
+  //   })
+  // }
+  Item.prototype.addImageFile = function (file, options ){
+    var options = options || {};
+    var item = this;
+    imageFile.filename = imageFile.cleanFileName(file.name)
+
+    var imageFile = new ImageFile({itemId: item.id, name:file.name})
+    imageFile.create().then (function() {
+      item.imageFiles = item.imageFiles || [];
+      item.imageFiles.push(imageFile);
+      options.token = item.token;
+      item.imageFiles.upload(file, options);
+    });
+    return imageFile;
+  }  
 
   Item.prototype.addAudioFile = function (file, options) {
     var options = options || {};

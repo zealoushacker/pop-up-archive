@@ -109,6 +109,7 @@ class Item < ActiveRecord::Base
   has_many   :instances, dependent: :destroy
   has_many   :audio_files, dependent: :destroy
   has_many   :transcripts, through: :audio_files
+  has_many   :image_files, dependent: :destroy
 
   has_many   :contributions, dependent: :destroy
   has_many   :contributors, through: :contributions, source: :person
@@ -133,7 +134,6 @@ class Item < ActiveRecord::Base
 
   accepts_nested_attributes_for :contributions
   
-  mount_uploader :image, ImageUploader
   def duration
     read_attribute(:duration) || audio_files.inject(0){|s,a| s + a.duration.to_i}
   end

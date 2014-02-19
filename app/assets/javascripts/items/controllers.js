@@ -234,23 +234,19 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
 
     $scope.$apply(function($scope) {
 
-      var newImageFile = element[0].images;
-
-      // default image to first image if not already set
-      if (!$scope.item.images || $scope.item.images == "") {
-        $scope.item.images = newImageFile;
-      }
+      var newImageFiles = element[0].files;
+      console.log('image files',element[0].files);
 
       if (!$scope.item.images) {
         $scope.item.images = [];
       }
 
       // add image files to the item
-      angular.forEach(newImageFile, function (file) {
+      angular.forEach(newImageFiles, function (file) {
         $scope.item.images.push(file);
       });
 
-      // element[0].value = "";
+      element[0].value = "";
 
     });
   };

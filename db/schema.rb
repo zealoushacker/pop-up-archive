@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140206001044) do
+ActiveRecord::Schema.define(:version => 20140219192629) do
 
   add_extension "hstore"
 
   create_table "audio_files", :force => true do |t|
     t.integer  "item_id"
     t.string   "file"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
     t.string   "original_file_url"
     t.string   "identifier"
     t.integer  "instance_id"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20140206001044) do
     t.integer  "duration"
     t.boolean  "metered"
     t.integer  "user_id"
+    t.integer  "play_count",                     :default => 1, :null => false
   end
 
   add_index "audio_files", ["item_id", "deleted_at"], :name => "index_audio_files_on_item_id_and_deleted_at"
@@ -123,6 +124,15 @@ ActiveRecord::Schema.define(:version => 20140206001044) do
     t.datetime "updated_at", :null => false
     t.decimal  "latitude"
     t.decimal  "longitude"
+  end
+
+  create_table "image_files", :force => true do |t|
+    t.integer  "item_id"
+    t.string   "file"
+    t.boolean  "is_uploaded"
+    t.string   "upload_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "import_mappings", :force => true do |t|

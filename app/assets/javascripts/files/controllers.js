@@ -282,7 +282,7 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
 
       file.alert = alert;
 
-      var audioFile = item.addAudioFile(file,
+      var audioFile = item.addImageFile(file,
       {
         onComplete: function () {
           console.log($scope.item.id, $scope.currentUser.uploadsCollectionId);
