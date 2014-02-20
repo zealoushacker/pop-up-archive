@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140220173626) do
+ActiveRecord::Schema.define(:version => 20140220190534) do
 
   add_extension "hstore"
 
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(:version => 20140220173626) do
     t.integer  "duration"
     t.boolean  "metered"
     t.integer  "user_id"
-    t.integer  "play_count",                     :default => 1, :null => false
     t.integer  "listens",                        :default => 0, :null => false
   end
 
