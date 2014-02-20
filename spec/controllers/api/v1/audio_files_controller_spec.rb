@@ -59,6 +59,11 @@ describe Api::V1::AudioFilesController do
       delete 'destroy', :id => @audio_file.id, :item_id => @audio_file.item.id
       response.should be_success
     end
+    
+    it 'listens' do
+      put 'listens', :id => @audio_file.id, :item_id => @audio_file.item.id
+      response.should be_success
+    end      
 
   end
 
