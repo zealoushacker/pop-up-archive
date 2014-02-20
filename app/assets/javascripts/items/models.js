@@ -268,15 +268,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
       data: { 'file': this.audioFiles[0]},
       headers: {"Content-Type": undefined },
       transformRequest: angular.identity
-    });
-    console.log(this);
-    // $http ({
-    //   method: 'POST',
-    //   url: "/api/items/" + this.id + "/audio_files/" + this.audioFiles[0].id + '/listens.JSON',
-    //   data: { 'file': this.audioFiles[0]},
-    //   headers: {"Content-Type": undefined },
-    //   transformRequest: angular.identity
-    // });    
+    });  
 
     if (!this.loadedIntoPlayer()) {
       Player.play(this.audioFiles[0].url, this.getTitle());
