@@ -53,7 +53,7 @@ div.jp-audio div.jp-type-playlist div.jp-interface {
 .jp-controls {
   position: absolute;
   top: 23px;
-  left: 20px
+  left:25px;
 }
 
 div.jp-interface ul.jp-controls {
@@ -98,8 +98,8 @@ div.jp-audio div.jp-progress {
 	height:15px;
 }
 div.jp-audio div.jp-type-single div.jp-progress {
-	left:85px;
-	width:320px;
+	left:90px;
+	width:310px;
 }
 div.jp-audio div.jp-type-playlist div.jp-progress {
 	left:166px;
@@ -131,8 +131,8 @@ div.jp-audio div.jp-time-holder {
 	top:55px;
 }
 div.jp-audio div.jp-type-single div.jp-time-holder {
-	left:85px;
-	width:320px;
+	left:90px;
+	width:310px;
 }
 
 div.jp-current-time,
@@ -157,11 +157,11 @@ div.jp-duration {
 
 div.jp-title {
 	font-weight: bold;
-  left: 85px;
+  left: 90px;
   position: absolute;
-  top: 15px;
+  top: 10px;
   height: 26px;
-  width:320px;
+  width:310px;
   overflow:hidden;
 }
 
@@ -179,7 +179,7 @@ div.jp-title ul {
 
 div.jp-title li {
   color: #333;
-	padding:0;
+	padding:5px 0;
 	font-weight:bold;
 }
 
@@ -236,16 +236,21 @@ ul.jp-toggles li a {
 	line-height:100%; /* need this for IE6 */
 }
 
+
+/* @end */
 .jp-popuplink {
   position: absolute;
-  bottom: 5px;
+  top: 35px;
   right: 5px;
-  font-family: "soleil";
-  color: #f25a4c;
-  text-decoration: none;
-  font-size: 13px;
 }
-
+.jp-popuplink a {
+  float: right;
+  font-size: .6em;
+  margin-top: 20px;
+  text-decoration: none;
+  color: #f25a4c;
+  padding-right: 5px;
+}
 /* @group NO SOLUTION error feedback */
 
 .jp-no-solution {

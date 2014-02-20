@@ -1,6 +1,7 @@
 require "digest/sha1"
 
 class Api::V1::AudioFilesController < Api::V1::BaseController
+
   expose :item
   expose :audio_files, ancestor: :item
   expose :audio_file
@@ -68,11 +69,6 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
   def upload_to_storage
     audio_file.upload_to
   end
-
-  def listens 
-    AudioFile.increment_counter(:play_count, params[:audio_file_id])
-    render status: 200, json: {status: 'OK'}
-  end  
 
   # these are for the request signing
   # really need to see if this is an AWS or IA item/collection

@@ -1,5 +1,5 @@
 angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.models'])
-.factory('Item', ['Model', '$http', '$q', 'Contribution', 'Person', 'AudioFile', 'Player', '$http', function (Model, $http, $q, Contribution, Person, AudioFile, Player) {
+.factory('Item', ['Model', '$http', '$q', 'Contribution', 'Person', 'AudioFile', 'Player', function (Model, $http, $q, Contribution, Person, AudioFile, Player) {
 
   var attrAccessible = "dateBroadcast dateCreated datePeg description digitalFormat digitalLocation episodeTitle identifier language musicSoundUsed notes physicalFormat physicalLocation rights seriesTitle tags title transcription adoptToCollection tagList text id".split(' ');
 
@@ -262,13 +262,6 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   }
 
   Item.prototype.play = function () {
-    $http ({
-      method: 'POST',
-      url: "/api/items/" + this.id + "/audio_files/" + this.audioFiles[0].id + '/listens.JSON',
-      data: { 'file': this.audioFiles[0]},
-      headers: {"Content-Type": undefined },
-      transformRequest: angular.identity
-    });     
     if (!this.loadedIntoPlayer()) {
       Player.play(this.audioFiles[0].url, this.getTitle());
     } else {

@@ -93,10 +93,6 @@ gem 'gibbon'
 
 gem 'rack-cors'
 
-gem "text-table"
-
-gem 'dbpedia'
-
 group :assets do
   gem 'sprockets'
   gem 'sass-rails', '~> 3.2.3'
@@ -115,7 +111,6 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem "guard-bundler", ">= 1.0.0"
-  gem 'rails-footnotes'
  end
 
 group :development, :test do
