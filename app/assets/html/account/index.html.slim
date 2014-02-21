@@ -43,11 +43,11 @@
     h4 Storage Information
     hr/  
     dl.dl-horizontal
-      dt Public Storage
+      dt Internet Archive
       dd.usage-meter
         .bar ng-style="{width: me.usedUnmeteredStorage / 36000000 + '%'}"
         .meter-words {{me.usedUnmeteredStorage | timeCode: 'words'}} / UNLIMITED
-      dt Private Storage
+      dt Pop Up Archive 
       dd.usage-meter ng-class="{warning: me.usedMeteredStorage >= me.totalMeteredStorage, full: me.usedMeteredStorage >= me.totalMeteredStorage }"
         .bar ng-style="{width: me.usedMeteredStorage / me.totalMeteredStorage * 100 + '%'}"
         .meter-words {{me.usedMeteredStorage | timeCode: 'words'}} / {{me.totalMeteredStorage | timeCode: 'words'}}

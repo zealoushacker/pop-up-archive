@@ -2153,13 +2153,7 @@ dd.usage-meter {
   }
 
   .current {
-    background-color: rgba(139, 241, 219, .4);
-  }
-  .selected {
-    background: #8BF1DB;
-    &.current {
-      background: #8BF1DB;
-    }
+    background-color: #8BF1DB;
   }
 }
 

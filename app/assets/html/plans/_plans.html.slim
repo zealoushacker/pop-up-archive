@@ -1,9 +1,6 @@
 .row-fluid ng-hide="hasSpecialPlan()"
   .plan-well
     .row-fluid
-      .save.pull-left
-        a.btn ng-click="cancel()" Cancel
-        a.btn.btn-info ng-disabled="!hasPendingChange()" ng-click="subscribe()" Submit
       select.pull-right ng-model='interval' ng-options="interval as intervalName for (interval, intervalName) in {month: 'Monthly Plans', year: 'Annual Plans'}" 
     .row-fluid
       table 
@@ -14,69 +11,76 @@
         thead
           tr
             th
-            th ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)" 
+            th ng-class="{current: isCurrentPlan(community)}" 
               h2 Free
-            th ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+            th ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"  
               h2 ${{plan.amount/100}}/{{plan.interval|shortInterval}}
         tbody
           tr
             td Public or Private Audio Storage
-            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+            td ng-class="{current: isCurrentPlan(community)}" 
               p.strong 2 hours 
               p of audio
-            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)"
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}" 
               p.strong {{plan.hours}} hours
               p of audio
           tr
             td Public or Private Auto Transcripts and Keywords
-            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)" 
+            td ng-class="{current: isCurrentPlan(community)}"  
               p.strong 2 min 
               p per file
-            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)"
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}" 
               p.strong full length
               p per file
           tr
             td Easy-to-Use Audio Management Tools
-            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+            td ng-class="{current: isCurrentPlan(community)}" 
               img src="#{asset_path('green_check.png')}"
-            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"  
               img src="#{asset_path('green_check.png')}"
           tr 
             td Unlimited Internet Archive Uploads
-            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+            td ng-class="{current: isCurrentPlan(community)}" 
               img src="#{asset_path('green_check.png')}"
-            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"  
               img src="#{asset_path('green_check.png')}"
           tr
             td 
               |Full-Length Internet Archive 
               br
               |Auto Transcripts and Keywords
-            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+            td ng-class="{current: isCurrentPlan(community)}" 
               img src="#{asset_path('green_check.png')}"
-            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"  
               img src="#{asset_path('green_check.png')}"
           tr 
             td Community Support Forum
-            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+            td ng-class="{current: isCurrentPlan(community)}" 
               img src="#{asset_path('green_check.png')}"
-            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"  
               img src="#{asset_path('green_check.png')}"
           tr
             td Guaranteed E-Mail Customer Support
-            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+            td ng-class="{current: isCurrentPlan(community)}" 
               img src="#{asset_path('red_x.png')}"
-            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"  
               img src="#{asset_path('green_check.png')}"
           tr 
             td 
               |Professional Transcripts
               br
               | ($2/Minute, 48-Hour Turnaround)
-            td ng-class="{current: isCurrentPlan(community), selected: isSelectedPlan(community)}" ng-click="changePlan(community)"
+            td ng-class="{current: isCurrentPlan(community)}" 
               img src="#{asset_path('red_x.png')}"
-            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan), selected: isSelectedPlan(plan)}" ng-click="changePlan(plan)" 
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"  
               img src="#{asset_path('green_check.png')}"
+          tr
+            td
+            td ng-class="{current: isCurrentPlan(community)}"
+              button.btn.btn-info ng-click="subscribe(community)" ng-disabled="isCurrentPlan(community)" Pick Me
+            td ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"
+              button.btn.btn-info ng-click="subscribe(plan)" ng-disabled="isCurrentPlan(plan)" Pick Me
+
 
 .row-fluid ng-show="hasSpecialPlan()"
   .plan-well.current ng-click="changePlan({id: me.plan.id})" ng-class="{selected: isSelectedPlan({id: me.plan.id})}"

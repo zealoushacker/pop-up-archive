@@ -49,20 +49,8 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
     return plan && $scope.me && $scope.me.plan && plan.id == $scope.me.plan.id;
   };
 
-  $scope.isSelectedPlan = function (plan) {
-    return plan && $scope.pendingPlan == plan.id;
-  }
-
   $scope.isPaidPlan = function (plan) {
     return plan && plan.amount > 0;
-  };
-
-  $scope.changePlan = function (plan) {
-    $scope.pendingPlan = plan.id;
-  };
-
-  $scope.hasPendingChange = function () {
-    return $scope.me && $scope.me.plan && $scope.pendingPlan != $scope.me.plan.id;
   };
 
   $scope.toggleInterval = function () {
@@ -83,45 +71,30 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
     });
     return special;
   };
+  
+  $scope.subscribe = function (plan) {
+    $scope.plan = plan;
+    $modal({template: '/assets/account/signup_verify.html', persist: true, show: true, backdrop: 'static', scope: $scope});
+  };
 
-  function getPendingPlan() {
-    if ($scope.hasPendingChange()) {
-      var returnPlan;
-      angular.forEach($scope.plans, function (plan) {
-        if ($scope.pendingPlan == plan.id) {
-          returnPlan = plan;
-        }
-      });
-      return returnPlan;
-    } else {
-      return {
-        id: $scope.me.plan.id,
-        hours: $scope.me.plan.popUpHours,
-        amount: $scope.me.plan.amount,
-        interval: $scope.me.plan.interval
-      };
-    }
-  }
-
-  $scope.subscribe = function () {
-    $scope.pendingPlanObj = getPendingPlan();
+  $scope.completeSubscribe = function (plan) {
+    $scope.pendingPlanObj = plan;
     if ($scope.me.creditCard || $scope.pendingPlanObj.amount == 0) {
-      $scope.me.plan.id = $scope.pendingPlan;
-      $scope.me.subscribe($scope.pendingPlan, $scope.offer.code).then(function () {
+      $scope.me.plan.id = $scope.pendingPlanObj.id;
+      $scope.me.subscribe($scope.pendingPlanObj.id, $scope.offer.code).then(function () {
         $location.path('/account');
       });
     } else {
       var unregister = $scope.$on('creditCardSubmit', function () {
         unregister();
-        $scope.me.plan.id = $scope.pendingPlan;
-        $scope.me.subscribe($scope.pendingPlan, $scope.offer.code).then(function () {
+        $scope.me.plan.id = $scope.pendingPlanObj.id;
+        $scope.me.subscribe($scope.pendingPlanObj.id, $scope.offer.code).then(function () {
           $location.path('/account');
         });
       });
       $modal({template: '/assets/account/credit_card.html', persist: true, show: true, backdrop: 'static', scope: $scope});
     }
   };
-
 }])
 .controller('PRXAccountPlanCtrl', ['$scope', 'Me', 'Plan', '$location', function ($scope, Me, Plan, $location) {
   $scope.me = true;
@@ -279,24 +252,12 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
     return plan && $scope.me && $scope.me.plan && plan.id == $scope.me.plan.id;
   };
 
-  $scope.isSelectedPlan = function (plan) {
-    return plan && $scope.pendingPlan == plan.id;
-  }
-
   $scope.isPaidPlan = function (plan) {
     return plan && plan.amount > 0;
   };
-
-  $scope.changePlan = function (plan) {
-    $scope.pendingPlan=plan.id;
-  };
   
-  $scope.hasPendingChange = function () {
-     return $scope.pendingPlan;
-   };
-  
-  $scope.subscribe = function () {
-    window.location = "/users/sign_up?plan_id=" + $scope.pendingPlan;
+  $scope.subscribe = function (plan) {
+    window.location = "/users/sign_up?plan_id=" + plan.id;
   }
 
   function getPendingPlan() {
@@ -308,5 +269,4 @@ angular.module('Directory.account.controllers', ['stripe', 'Directory.account.mo
     });
     return returnPlan;
   }
-}])
-;
+}]);
