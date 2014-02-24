@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/prx/pop-up-archive.png)](https://waffle.io/prx/pop-up-archive)  
 # Pop-Up Archive
 
 [![Build Status](https://travis-ci.org/PRX/pop-up-archive.png?branch=master)](https://travis-ci.org/PRX/pop-up-archive)
