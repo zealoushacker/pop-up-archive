@@ -262,6 +262,10 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   }
 
   Item.prototype.play = function () {
+    var audioFile = new AudioFile(this.audioFiles[0]);
+    audioFile.itemId = this.id;
+    audioFile.createListen();    
+
     if (!this.loadedIntoPlayer()) {
       Player.play(this.audioFiles[0].url, this.getTitle());
     } else {

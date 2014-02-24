@@ -118,6 +118,10 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
     });
   };
 
+  AudioFile.prototype.createListen = function () {
+    $http.post(this.$url() + '/listens');
+  };    
+
   AudioFile.prototype.durationMinutes = function () {
     return $window.Math.ceil(this.duration / 60);
   }

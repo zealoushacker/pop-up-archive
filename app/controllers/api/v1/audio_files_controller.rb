@@ -70,6 +70,10 @@ class Api::V1::AudioFilesController < Api::V1::BaseController
     audio_file.upload_to
   end
 
+  def listens 
+    AudioFile.increment_counter(:listens, params[:audio_file_id])
+    render status: 200, json: {status: 'OK'}
+  end  
   # these are for the request signing
   # really need to see if this is an AWS or IA item/collection
   # and depending on that, use a specific bucket/key
