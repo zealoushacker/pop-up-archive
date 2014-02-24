@@ -40,9 +40,15 @@ xmp { white-space: pre-wrap }
 
     ul.alert-showers, .alert-showers li.alert-shower {
       width: 300px;
+      max-height: 700px;
+      overflow-y: scroll;
       
       a {
         text-decoration:underline;
+      };
+      
+      a.dismiss {
+        text-decoration: none;
       };
 
       a:hover, li a:hover {

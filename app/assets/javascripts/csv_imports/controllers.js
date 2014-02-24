@@ -75,13 +75,6 @@ angular.module('Directory.csvImport.controllers', ['fileButton', 'Directory.aler
   $scope.alertData = {};
   $scope.alertData.alerts = Alert.getAlerts();
 
-  $scope.dismissIfDone = function(alert) {
-    $scope.forceAlertsShow = false;
-    if (alert.path || alert.done) {
-      alert.dismiss();
-    }
-  }
-
   // Wrap that method up - middleware style
   var oldAddAlert = Alert.prototype.add;
   Alert.prototype.add = function () {
