@@ -7,15 +7,6 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
   expose :image_file
   expose :upload_to_storage
 
-  # def update
-  #   if params[:task].present?
-  #     image_file.update_from_fixer(params[:task])
-  #   else
-  #     image_file.update_attributes(params[:image_file])
-  #   end
-  #   respond_with :api, image_file.item, image_file
-  # end
-
   def create
     if params[:file]
       image_file.file = params[:file]
@@ -25,7 +16,7 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
   end
 
   def show
-    redirect_to image_file.url
+    redirect_to item.url
   end
 
   def destroy
@@ -33,36 +24,9 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
     respond_with :api, image_file
   end
 
-  # def transcript_text
-  #   response.headers['Content-Disposition'] = 'attachment'
-  #   render text: image_file.transcript_text, content_type: 'text/plain'
-  # end
-
-  # def order_transcript
-  #   authorize! :order_transcript, image_file
-    
-  #   # make call to amara to create the video
-  #   logger.debug "order_transcript for image_file: #{image_file}"
-  #   self.task = image_file.order_transcript(current_user)
-  #   respond_with :api
-  # end
-
-  # def add_to_amara
-  #   authorize! :add_to_amara, image_file
-
-  #   # make call to amara to create the video
-  #   logger.debug "add_to_amara image_file: #{image_file}"
-  #   self.task = image_file.add_to_amara(current_user)
-  #   respond_with :api
-  # end
-
   def upload_to
     respond_with :api
   end
-
-  # def latest_task
-  #   image_file.tasks.last
-  # end
 
   def upload_to_storage
     image_file.upload_to
