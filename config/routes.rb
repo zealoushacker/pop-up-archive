@@ -16,6 +16,7 @@ PopUpArchive::Application.routes.draw do
   namespace :admin do
     resources :task_list
     resources :soundcloud_callback
+    get 'total_usage', to: 'accounts#total_usage'
     resources :accounts
   end
 
