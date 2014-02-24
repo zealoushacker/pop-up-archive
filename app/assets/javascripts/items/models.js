@@ -262,13 +262,9 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   }
 
   Item.prototype.play = function () {
-    $http ({
-      method: 'POST',
-      url: "/api/items/" + this.id + "/audio_files/" + this.audioFiles[0].id + '/listens.JSON',
-      data: { 'file': this.audioFiles[0]},
-      headers: {"Content-Type": undefined },
-      transformRequest: angular.identity
-    });  
+    var audioFile = new AudioFile(this.audioFiles[0]);
+    audioFile.itemId = this.id;
+    audioFile.createListen();    
 
     if (!this.loadedIntoPlayer()) {
       Player.play(this.audioFiles[0].url, this.getTitle());

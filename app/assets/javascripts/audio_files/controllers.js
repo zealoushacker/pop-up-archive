@@ -31,14 +31,9 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
     };
 
   $scope.play = function () {
-    $http ({
-      method: 'POST',
-      url: "/api/items/" + this.id + "/audio_files/" + $scope.audioFile.id + '/listens.JSON',
-      data: { 'file': $scope.audioFile},
-      headers: {"Content-Type": undefined },
-      transformRequest: angular.identity
-    });
-
+    $scope.audioFile = new AudioFile($scope.audioFile);
+    $scope.audioFile.itemId = $scope.item.id;
+    $scope.audioFile.createListen();
     Player.play($scope.fileUrl);
   }
 

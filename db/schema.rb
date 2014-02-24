@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(:version => 20140220190534) do
     t.integer  "storage_id"
     t.string   "path"
     t.time     "deleted_at"
-    t.datetime "transcoded_at"
     t.integer  "duration"
+    t.datetime "transcoded_at"
     t.boolean  "metered"
     t.integer  "user_id"
     t.integer  "listens",                        :default => 0, :null => false
@@ -186,7 +186,6 @@ ActiveRecord::Schema.define(:version => 20140220190534) do
     t.boolean  "is_public"
     t.string   "language"
     t.datetime "deleted_at"
-    t.string   "image"
   end
 
   add_index "items", ["collection_id"], :name => "index_items_on_collection_id"
