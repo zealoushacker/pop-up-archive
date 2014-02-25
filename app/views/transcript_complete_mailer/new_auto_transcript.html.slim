@@ -6,7 +6,7 @@
 .email-body
   p
     | The automatated speech-to-text has completed for item: '
-    = link_to @item.title, @item.url
+    = link_to @item.title + ' (file: ' + @audio_file.filename + ')', @item.url
     |'.
   p
     | Check it out!
