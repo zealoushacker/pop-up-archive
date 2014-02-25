@@ -44,7 +44,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   });
 
   Item.beforeResponse(function(data, resource) {
-    console.log("beforeResponse");
+    // console.log("beforeResponse");
     data.tagList = [];
     data.images = [];    
     angular.forEach((data.tags || []), function (v,k) {
@@ -54,7 +54,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     angular.forEach((data.images || []), function (v,k) {
       data.images.push({id:v, imageFile:v});
     });    
-    console.log(data, data.images);
+    // console.log(data, data.images);
     data.language = {id: data.language, text: Item.languageLookup[data.language]};
 
     if (data.id) {

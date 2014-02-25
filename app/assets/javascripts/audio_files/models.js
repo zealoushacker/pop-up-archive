@@ -102,7 +102,7 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
     var self = this;
     // console.log('orderTranscript', this);
     return AudioFile.processResponse($http.post(self.$url() + '/order_transcript')).then(function (orderTranscriptTask) {
-      console.log('orderTranscript result', orderTranscriptTask, self);
+      // console.log('orderTranscript result', orderTranscriptTask, self);
       self.tasks.push(orderTranscriptTask);
       return orderTranscriptTask;
     });
@@ -112,7 +112,7 @@ angular.module('Directory.audioFiles.models', ['RailsModel', 'S3Upload'])
     var self = this;
     // console.log('addToAmara', this);
     return AudioFile.processResponse($http.post(self.$url() + '/add_to_amara')).then(function (addToAmaraTask) {
-      console.log('addToAmara result', addToAmaraTask, self);
+      // console.log('addToAmara result', addToAmaraTask, self);
       self.tasks.push(addToAmaraTask);
       return addToAmaraTask;
     });

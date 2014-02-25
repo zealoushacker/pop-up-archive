@@ -143,7 +143,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   }
 
   $scope.submit = function () {
-    console.log('ItemFormCtrl submit: ', $scope.item);
+    // console.log('ItemFormCtrl submit: ', $scope.item);
     var saveItem = $scope.item;
     this.item = $scope.initializeItem(true);
     $scope.clear();
@@ -235,7 +235,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     $scope.$apply(function($scope) {
 
       var newImageFiles = element[0].files;
-      console.log('image files',element[0].files);
+      // console.log('image files',element[0].files);
 
       if (!$scope.item.images) {
         $scope.item.images = [];
