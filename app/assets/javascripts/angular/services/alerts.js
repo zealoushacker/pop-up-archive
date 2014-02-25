@@ -102,18 +102,16 @@ angular.module('Directory.alerts', ['ngLoadingIndicators'])
 }]).directive('popUpAlertsDropdown', ['$parse', '$compile', function($parse, $compile) {
 
   var template = '' +
-  '<ul class="dropdown-menu alert-showers pull-right" role="menu" aria-labelledby="alerts-dropdown">' +
-    '<li class="pending" ng-show="alerts.length == 0">' +
-      '<a> No pending tasks.</a>' +
-    '</li>' +
-    '<li class="alert-shower" ng-repeat="alert in alerts" ng-class="{pending:!(alert.done || alert.path)}">' +
-      '<a ng-click="dismissIfDone(alert)" ng-href="{{alert.path}}">' +
-        '<div class="message">' +
-          '<span class="status">{{alert.status}}:</span> {{alert.message}}' +
-        '</div>' +
-        '<div class="progress progress-striped" ng-class="{active:alert.progress && alert.progress < 100}">' +
-          '<div class="bar" ng-style="{width:alert.progress+\'%\'}"></div>' +
-        '</div>' +
+  '<ul class="dropdown-menu alert-showers pull-right" role="menu" aria-labelledby="alerts-dropdown" ng-hide="alerts.length == 0">' +
+    '<li class="alert-shower" ng-repeat="alert in alerts" ng-class="{pending:!(alert.done)}">' +
+      '<a class="pull-right dismiss" ng-click="alert.dismiss(); $event.stopPropagation()" ><i class="icon-remove-circle"></i></a></br>' +
+      '<a ng-href="{{alert.path}}">' +
+          '<div class="message">' +
+            '<span class="status">{{alert.status}}:</span> {{alert.message}}' +
+          '</div>' +
+          '<div class="progress progress-striped" ng-class="{active:alert.progress && alert.progress < 100}">' +
+            '<div class="bar" ng-style="{width:alert.progress+\'%\'}"></div>' +
+          '</div>' +
       '</a>' +
     '</li>' +
   '<ul>';
