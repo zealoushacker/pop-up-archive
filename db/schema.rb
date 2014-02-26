@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(:version => 20140220190534) do
     t.datetime "transcoded_at"
     t.boolean  "metered"
     t.integer  "user_id"
-    t.integer  "play_count",                     :default => 1, :null => false
   end
 
   add_index "audio_files", ["item_id", "deleted_at"], :name => "index_audio_files_on_item_id_and_deleted_at"
