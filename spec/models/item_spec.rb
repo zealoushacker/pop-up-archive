@@ -37,7 +37,7 @@ describe Item do
   it "public url" do
     item = FactoryGirl.create :item
     item.url.should_not be_nil
-    item.url.should eq "http://test.popuparchive.org/collections/#{item.collection_id}/items/#{item.id}"
+    item.url.should eq "http://test.popuparchive.com/collections/#{item.collection_id}/items/#{item.id}"
   end
 
   it "should allow writing to the extra attributes" do
