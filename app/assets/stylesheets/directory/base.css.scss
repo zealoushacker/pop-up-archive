@@ -788,7 +788,17 @@ h5.result-count {
 
     padding: 0px;
     display: block;
-
+    
+    .clear_all {
+      font-size: 12px;
+      background: #ddd !important;
+      color: #333 !important;
+      padding: 3px 5px;
+      font-weight: 900;
+      margin-top: 3px;
+      display: inline-block;
+    }
+    
     ul {
       list-style: none;
       margin: 0;

@@ -55,6 +55,14 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
       modalEl.modal('show');
     });
   };
+  
+  $scope.clearEntities = function() {
+    $scope.item.entities.forEach(function(entity) {
+      if (entity.isConfirmed === false) {
+    	  $scope.deleteEntity(entity);
+      }
+    });
+  };
 
   $scope.deleteEntity = function(entity) {
     var e = new Entity(entity);
