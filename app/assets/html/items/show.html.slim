@@ -165,7 +165,7 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
       .well ng-show="(item.entities| filter:{isConfirmed:false}).length"
         section.entities
           b Suggested
-          button.btn.pull-right.clear_all type="button" ng-click="clearEntities()" Clear Suggested
+          button.btn.pull-right.clear_all type="button" ng-click="clearEntities()" ng-show="currentUser.canEdit(item)" Clear Suggested
           ul
             li.entity ng-repeat="entity in item.entities| filter:{category:'!relation'} | filter:{isConfirmed:false}| orderBy:'score':true"
               .btn-group
