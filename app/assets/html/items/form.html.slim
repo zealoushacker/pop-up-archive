@@ -76,6 +76,31 @@ section ng-controller="ItemFormCtrl"
                 strong {{selectedCollection.privateOrPublic()}}
                 |  collection.
               div All audio stored at Internet Archive will be available to stream and download at archive.org and will be visible to all users of Pop Up Archive.
+      section ng-show='item.collectionId != uploadsCollection.id'
+        .control-group
+          label.control-label
+            | Title
+            i.icon-question-sign style="margin-left:8px" bs-popover="itemHelp['title']" data-placement="bottom"
+          .controls 
+            input.text.input-xlarge#title type='text' ng-model='item.title'
+        .control-group  
+          label.control-label
+            | Upload Images
+            i.icon-question-sign style="margin-left:8px" bs-popover="itemHelp['image']" data-placement="bottom"
+          .controls ng-show="item.images.length > 0"
+            table.table.file-table
+              tr.file ng-repeat="image in item.images"
+                td.file-thumb {{image.thumb}}              
+                td.file-name alt="{{image.name}}" {{image.name}}
+                td.file-size {{readableFileSize(image.size)}}
+                td.file-remove
+                  a href="#" ng-click="removeImageFile(image)" style='text-decoration: none; color: #da4f49;'
+                    i.icon-remove-sign
+          .clearfix.controls
+            button.btn file-button="setImageFiles" Choose Images              
+            span &nbsp OR &nbsp
+            input.text.input#image type='text' placeholder="Insert Url" ng-model='urlForImage' 
+            button.btn  ng-click="setImageFromUrl()" Add Image
 
 
         section ng-show='item.collectionId != uploadsCollection.id'
@@ -93,6 +118,7 @@ section ng-controller="ItemFormCtrl"
           //     button.btn file-button="setImageFiles" Choose Image              
           //     span &nbsp OR &nbsp
           //     input.text.input#image type='text' placeholder="Insert Url"  ng-model='item.image'            
+
 
           .control-group
             label.control-label

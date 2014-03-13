@@ -1,7 +1,7 @@
-angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.models'])
-.factory('Item', ['Model', '$http', '$q', 'Contribution', 'Person', 'AudioFile', 'Player', function (Model, $http, $q, Contribution, Person, AudioFile, Player) {
+angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.models', 'Directory.imageFiles.models'])
+.factory('Item', ['Model', '$http', '$q', 'Contribution', 'Person', 'AudioFile', 'Player', 'ImageFile', function (Model, $http, $q, Contribution, Person, AudioFile, Player, ImageFile) {
 
-  var attrAccessible = "dateBroadcast dateCreated datePeg description digitalFormat digitalLocation episodeTitle identifier language musicSoundUsed notes physicalFormat physicalLocation rights seriesTitle tags title transcription adoptToCollection tagList text id".split(' ');
+  var attrAccessible = "dateBroadcast dateCreated datePeg description digitalFormat digitalLocation episodeTitle identifier language musicSoundUsed notes physicalFormat physicalLocation rights seriesTitle tags title transcription adoptToCollection tagList text id originalFileUrl".split(' ');
 
   var Item = Model({url:'/api/collections/{{collectionId}}/items/{{id}}', name: 'item', only: attrAccessible});
 
@@ -151,16 +151,21 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   //   })
   // }
   Item.prototype.addImageFile = function (file, options ){
+    if file.url 
     var options = options || {};
     var item = this;
-    imageFile.filename = imageFile.cleanFileName(file.name)
+    var originalFileUrl = null;
+    if (angular.isDefined(file.url)) {
+      originalFileUrl = file.url;
+    }
+    var imageFile = new ImageFile({itemId: item.id, originalFileUrl: originalFileUrl});
 
-    var imageFile = new ImageFile({itemId: item.id, name:file.name})
-    imageFile.create().then (function() {
+    imageFile.create().then( function() {
+      imageFile.filename = imageFile.cleanFileName(file.name);      
       item.imageFiles = item.imageFiles || [];
       item.imageFiles.push(imageFile);
       options.token = item.token;
-      item.imageFiles.upload(file, options);
+      imageFile.upload(file, options);
     });
     return imageFile;
   }  
