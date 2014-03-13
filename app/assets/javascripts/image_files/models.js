@@ -36,4 +36,6 @@ angular.module('Directory.imageFiles.models', ['RailsModel', 'S3Upload'])
     });
   };
 
+  return ImageFile;
+}]);
  

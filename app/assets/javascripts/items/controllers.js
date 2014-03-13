@@ -161,7 +161,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     var uploadImageFiles = saveItem.images;
     saveItem.images = [];
 
-    var imageFiles = saveItem.images;
+    // var imageFiles = saveItem.images;
     // alert($scope.item);
 
     var audioFiles = saveItem.audioFiles;
@@ -194,7 +194,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
       saveItem.create().then(function (data) {
         // reset tags
         saveItem.tagList2Tags();
-
+        $scope.uploadImageFiles(saveItem, uploadImageFiles);
         $scope.uploadAudioFiles(saveItem, uploadFiles);
         $scope.updateAudioFiles(saveItem, audioFiles);
         $scope.updateContributions(saveItem, contributions);
@@ -259,12 +259,29 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     });
   };
 
+  $scope.setImageFromUrl = function (){
+    if (!$scope.urlForImage)
+      return;
+
+    $scope.item.images.push({ name: 'name', url: $scope.urlForImage, size: '', thumb: $scope.urlForImage });
+    console.log("url link", $scope.urlForImage);
+    $scope.urlForImage = "";
+  };
+
 
   $scope.removeAudioFile = function(file) {
     if (file.id && (file.id > 0)) {
       file._delete = true;
     } else {
       $scope.item.files.splice($scope.item.files.indexOf(file), 1);
+    }
+  }
+
+  $scope.removeImageFile = function(imageFile) {
+    if (imageFile.id && (imageFile.id > 0)) {
+      imageFile._delete = true;
+    } else {
+      $scope.item.images.splice($scope.item.images.indexOf(imageFile), 1);
     }
   }
 

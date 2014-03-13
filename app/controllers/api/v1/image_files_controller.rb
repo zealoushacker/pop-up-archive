@@ -8,9 +8,6 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
   expose :upload_to_storage
 
   def create
-    if params[:file]
-      image_file.file = params[:file]
-    end
     image_file.save
     respond_with :api, image_file.item, image_file
   end
@@ -50,7 +47,7 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
   end
 
   def all_signatures
-    image_file = ImageFile.find(params[:id])
+    image_file = ImageFile.find(params[:image_file_id])
     image_file.update_attribute(:upload_id, params[:upload_id])
 
     render json: all_signatures_hash
@@ -61,7 +58,7 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
   end
 
   def upload_finished
-    image_file = ImageFile.find(params[:id])
+    image_file = ImageFile.find(params[:image_file_id])
     image_file.update_attribute(:is_uploaded, true)
     render json: {}
   end
