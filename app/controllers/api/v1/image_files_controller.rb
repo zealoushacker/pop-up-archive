@@ -4,7 +4,7 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
 
   expose :item
   expose :image_files, ancestor: :item
-  expose :image_file
+  expose :image_file, ancestor: :item
   expose :upload_to_storage
 
   def create
