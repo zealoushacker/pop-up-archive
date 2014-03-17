@@ -4,7 +4,7 @@ require "digest/md5"
 class AudioFile < ActiveRecord::Base
 
   include PublicAsset
-
+  include FileStorage
   acts_as_paranoid
 
   before_validation :set_metered
@@ -34,10 +34,6 @@ class AudioFile < ActiveRecord::Base
 
   def collection
     instance.try(:item).try(:collection) || item.try(:collection)
-  end
-
-  def has_file?
-    !self.file.try(:path).nil?
   end
 
   def copy_media?
@@ -73,21 +69,9 @@ class AudioFile < ActiveRecord::Base
     end
   end
 
-  def storage
-    storage_configuration || item.try(:storage)
-  end
-
-  def store_dir(stor=storage)
-    stor.use_folders? ? "#{item.try(:token)}/#{path}" : nil
-  end
-
   def remote_file_url=(url)
     self.original_file_url = url
     self.should_trigger_fixer_copy = !!url
-  end
-
-  def upload_to
-    storage.direct_upload? ? storage : item.upload_to
   end
 
   def update_file!(name, sid)
@@ -157,41 +141,6 @@ class AudioFile < ActiveRecord::Base
     result
   end
 
-  def copy_original
-    return false unless (should_trigger_fixer_copy && copy_media? && original_file_url)
-    create_copy_task(original_file_url, destination, storage)
-    self.should_trigger_fixer_copy = false
-  end
-
-  def copy_to_item_storage
-    # refresh storage related
-    audio_file_storage = self.storage_configuration
-    item_storage = item(true).storage
-    # audio_file_storage = self.storage_configuration
-    # item_storage = item.storage
-    # puts "\ncopy_to_item_storage: storage(#{audio_file_storage.inspect}) == item.storage(#{item_storage.inspect})\n"
-    return false if (!audio_file_storage || (audio_file_storage == item_storage))
-
-    orig = destination
-    dest = destination(storage: item_storage)
-    # puts "\ncopy_to_item_storage: create task: orig: #{orig}, dest: #{dest}, stor: #{item_storage.inspect}\n"
-    create_copy_task(orig, dest, item_storage)
-    return true
-  end
-
-  def order_transcript(user=self.user)
-    raise 'cannot create transcript when duration is 0' if (duration.to_i <= 0)
-    task = Tasks::OrderTranscriptTask.new(
-      identifier: 'order_transcript',
-      extras: {
-        user_id: user.id,
-        amount:  amount_for_transcript
-      }
-    )
-    self.tasks << task
-    task
-  end
-
   def amount_for_transcript
     (duration.to_i / 60.0).ceil * TRANSCRIBE_RATE_PER_MINUTE
   end
@@ -211,25 +160,6 @@ class AudioFile < ActiveRecord::Base
 
     task = Tasks::AddToAmaraTask.new(options)
     self.tasks << task
-    task
-  end
-
-  def create_copy_task(orig, dest, stor)
-    # see if there is already a copy task
-    if task = tasks.copy.where(identifier: dest).last
-      logger.debug "copy task #{task.id} already exists for audio_file #{self.id}"
-    else
-      task = Tasks::CopyTask.new(
-        identifier: dest,
-        storage_id: stor.id,
-        extras: {
-          user_id:     user.try(:id),
-          original:    orig,
-          destination: dest
-        }
-      )
-      self.tasks << task
-    end
     task
   end
 
@@ -339,80 +269,6 @@ class AudioFile < ActiveRecord::Base
 
   def transcript_text_url
     Rails.application.routes.url_helpers.api_item_audio_file_transcript_text_url(item_id, id)
-  end
-
-  def call_back_url
-    Rails.application.routes.url_helpers.fixer_callback_url(model_name: self.class.model_name.underscore, id: id)
-  end
-
-  def use_original_file_url?
-    !copy_media? || !has_file?
-  end
-
-  def process_file_url
-    return original_file_url if use_original_file_url?
-    return file.url          if storage.is_public?
-    destination
-  end
-
-  def destination_options(options={})
-    stor = options[:storage] || storage
-    dest_opts = options[:options] || {}
-    da = stor.provider_attributes || {}
-    da.reverse_merge!(dest_opts)
-
-    if stor.at_internet_archive?
-      if Rails.env.production?
-        da[:collections] = [] unless da.has_key?(:collections)
-        da[:collections] << 'popuparchive' unless da[:collections].include?('popuparchive')
-      end
-
-      default_subject = item.try(:collection).try(:title)
-      da[:subjects] = [] unless da.has_key?(:subjects)
-      da[:subjects] << default_subject unless da[:subjects].include?(default_subject)
-
-      da[:metadata] = {} unless da.has_key?(:metadata)
-      da[:metadata]['x-archive-meta-title'] ||= item.try(:title)
-      da[:metadata]['x-archive-meta-mediatype'] ||= 'audio'
-    end
-
-    da
-  end
-
-  def destination_path(options={})
-    dir = store_dir(options[:storage] || storage) || ''
-    version = options.delete(:version)
-    File.join("/", dir, filename(version))
-  end
-
-  def destination_directory(options={})
-    stor = options[:storage] || storage
-    stor.use_folders? ? stor.bucket : item.token
-  end
-
-  def destination(options={})
-    stor   = options[:storage] || storage
-    suffix = options[:suffix]  || ''
-
-    scheme = case stor.provider.downcase
-    when 'aws' then 's3'
-    when 'internetarchive' then 'ia'
-    else 's3'
-    end
-
-    opts = destination_options(options)
-    query = opts.inject({}){|h, p| h["x-fixer-#{p[0]}"] = p[1]; h}.to_query if !opts.blank?
-
-    host = destination_directory(options)
-    path = destination_path(options) + suffix
-
-    # logger.debug("audio_file: destination: scheme: #{scheme}, host:#{host}, path:#{path}")
-    uri = URI::Generic.build scheme: scheme, host: host, path: path, query: query
-    if scheme == 'ia'
-      uri.user = stor.key
-      uri.password = stor.secret
-    end
-    uri.to_s
   end
 
   private
