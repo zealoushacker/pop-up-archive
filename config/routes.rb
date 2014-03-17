@@ -24,7 +24,9 @@ PopUpArchive::Application.routes.draw do
   
   get 'embed_player/:name/:file_id/:item_id/:collection_id', to: 'embed_player', action: 'show'
 
-  post 'fixer_callback/:audio_file_id', controller: 'callbacks', action: 'fixer', as: 'fixer_callback'
+  post 'fixer_callback/:id', controller: 'callbacks', action: 'fixer', as: 'audio_file_fixer_callback', model_name: 'audio_file'
+
+  post 'fixer_callback/files/:model_name/:id', controller: 'callbacks', action: 'fixer', as: 'fixer_callback'
 
   post 'amara_callback', controller: 'callbacks', action: 'amara', as: 'amara_callback'
 

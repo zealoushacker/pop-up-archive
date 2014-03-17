@@ -151,7 +151,7 @@ class AudioFile < ActiveRecord::Base
     if !force && task = tasks.analyze_audio.without_status(:failed).last
       logger.debug "analyze task #{task.id} already exists for audio_file #{self.id}"
     else
-      result = Tasks::AnalyzeAudioTask.new(extras: { original: process_audio_url })
+      result = Tasks::AnalyzeAudioTask.new(extras: { original: process_file_url })
       self.tasks << result
     end
     result
@@ -242,7 +242,7 @@ class AudioFile < ActiveRecord::Base
 
   def start_transcribe_job(user, identifier, options={})
     extras =  {
-      original: process_audio_url,
+      original: process_file_url,
       user_id:  user.try(:id)
     }.merge(options)
 
@@ -342,14 +342,14 @@ class AudioFile < ActiveRecord::Base
   end
 
   def call_back_url
-    Rails.application.routes.url_helpers.fixer_callback_url(audio_file_id: id)
+    Rails.application.routes.url_helpers.fixer_callback_url(model_name: self.class.model_name.underscore, id: id)
   end
 
   def use_original_file_url?
     !copy_media? || !has_file?
   end
 
-  def process_audio_url
+  def process_file_url
     return original_file_url if use_original_file_url?
     return file.url          if storage.is_public?
     destination
