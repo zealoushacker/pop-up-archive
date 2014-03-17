@@ -20,7 +20,7 @@ describe Tasks::AnalyzeAudioTask do
     @task.extras['original'] = 'original'
     @task.original.should eq 'original'
     @task.extras.delete('original')
-    @task.original.should eq @audio_file.process_audio_url
+    @task.original.should eq @audio_file.process_file_url
   end
 
   it 'audio_file' do

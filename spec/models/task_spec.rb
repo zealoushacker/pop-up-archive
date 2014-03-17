@@ -33,7 +33,7 @@ describe Task do
 
   it 'should get the original from the owner' do
     task = FactoryGirl.create :task
-    task.original.should eq task.owner.process_audio_url
+    task.original.should eq task.owner.process_file_url
   end
 
   describe 'fixer call backs' do
@@ -55,7 +55,7 @@ describe Task do
 
     it 'should get the call_back_url from owner' do
       @task.extras.delete('call_back_url')
-      @task.call_back_url.should  end_with(".popuparchive.com/fixer_callback/#{@task.owner.id}?cbt=#{@task.extras['cbt']}")
+      @task.call_back_url.should end_with(".popuparchive.org/fixer_callback/files/audio_file/#{@task.owner.id}?cbt=#{@task.extras['cbt']}")
     end
 
     # it "should not update from fixer without call_back_token" do

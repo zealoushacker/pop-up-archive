@@ -59,10 +59,10 @@ describe Api::V1::ImageFilesController do
       # end
   
       it 'chunk_loaded' do
-        get 'chunk_loaded', {:id => @image_file.id}
+        get 'chunk_loaded', {:image_file_id => @image_file.id}
       end
       it 'upload_finished' do
-        get 'upload_finished', {:id => @image_file.id}
+        get 'upload_finished', {:image_file_id => @image_file.id}
         response.should be_success
       end
     end 
