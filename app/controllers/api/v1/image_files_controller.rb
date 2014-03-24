@@ -4,7 +4,7 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
 
   expose :item
   expose :image_files, ancestor: :item
-  expose :image_file, ancestor: :item
+  expose :image_file
   expose :upload_to_storage
 
   def create
@@ -59,7 +59,8 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
 
   def upload_finished
     image_file = ImageFile.find(params[:image_file_id])
-    image_file.update_attribute(:is_uploaded, true)
+    file_name = File.basename(params[:key])
+    image_file.file_uploaded(file_name)    
     render json: {}
   end
 

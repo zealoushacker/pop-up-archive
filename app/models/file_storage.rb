@@ -27,7 +27,8 @@ module FileStorage
   end
 
   def store_dir(stor=storage)
-    stor.use_folders? ? "#{item.try(:token)}/#{path}" : nil
+    p = self.respond_to?(:path) ? self.path : ''
+    stor.use_folders? ? "#{item.try(:token)}/#{p}" : nil
   end
 
   def upload_to

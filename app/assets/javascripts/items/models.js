@@ -151,7 +151,6 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   //   })
   // }
   Item.prototype.addImageFile = function (file, options ){
-    if file.url 
     var options = options || {};
     var item = this;
     var originalFileUrl = null;
