@@ -1595,6 +1595,7 @@ form.with-tags {
   -ms-filter: blur(5px);
 }
 .background {
+  position: relative;
   background-color: #fff;
   .blur{
     filter: blur(5px) saturate(40%);
