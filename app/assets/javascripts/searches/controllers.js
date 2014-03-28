@@ -48,6 +48,22 @@ angular.module('Directory.searches.controllers', ['Directory.loader', 'Directory
     $location.path('/search');
     $scope.query.add(args.field+":"+'"'+args.term+'"');
   };
+  
+  $scope.sortOptions = [{name: "Relevancy", sort_by: "_score", sort_order: "desc"},
+                        {name: "Newest Added to Oldest Added", sort_by: "date_added", sort_order: "desc"}, 
+                        {name: "Oldest Added to Newest Added", sort_by: "date_added", sort_order: "asc"},
+                        {name: "Newest Created to Oldest Created", sort_by: "date_created", sort_order: "desc"},
+                        {name: "Oldest Created to Newest Created", sort_by: "date_created", sort_order: "asc"}];
+                        
+  $scope.selectedSort = $scope.sortOptions[0];
+  
+  $scope.sortResults = function (args) {
+    $location.search('sortBy', args.sort_by);
+    $location.search('sortOrder', args.sort_order);
+    $scope.$on('$locationChangeSuccess', function () {
+        fetchPage();
+    });
+  };
 
   function fetchPage () {
     searchParams = {};
@@ -58,6 +74,14 @@ angular.module('Directory.searches.controllers', ['Directory.loader', 'Directory
 
     if (typeof $routeParams.collectionId !== 'undefined') {
       searchParams['filters[collection_id]'] = $routeParams.collectionId;
+    }
+    
+    if (typeof $routeParams.sortBy) {
+      searchParams['sort_by'] = $routeParams.sortBy;
+    }
+    
+    if (typeof $routeParams.sortOrder) {
+      searchParams['sort_order'] = $routeParams.sortOrder;
     }
 
     if ($scope.query) {
@@ -126,11 +150,8 @@ angular.module('Directory.searches.controllers', ['Directory.loader', 'Directory
     if (args.letter){
       letter= args.letter;
     };
-    
-    console.log($scope.field, letter);
     $http.get('/api/search?facets['+$scope.field+'][regex]='+letter+'.*&facets['+$scope.field+'][regex_flags]=CASE_INSENSITIVE&facets['+$scope.field+'][size]=100').success(function(data) {
         $scope.terms = data.facets[$scope.field].terms;
-        console.log($scope.terms);
     });
   };
   

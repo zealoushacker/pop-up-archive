@@ -26,19 +26,19 @@ class QueryBuilder
       yield filter[0] if block_given? && filter[0].present?
     end
   end
+  
+  def sort_column
+    params[:sort_by] || '_score'
+  end
+
+  def sort_order
+    params[:sort_order] || 'desc'
+  end
 
   private
 
   def query_string
     params[:query]
-  end
-
-  def sort_column
-    params[:sort_by] || :date_created
-  end
-
-  def sort_order
-    params[:sort_order] || 'desc'
   end
 
   def facet_params

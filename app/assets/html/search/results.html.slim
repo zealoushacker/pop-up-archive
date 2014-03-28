@@ -21,7 +21,10 @@ ul.pager
           small.pull-right ({{entry.count}}) 
           .label.label-info ng-click="addSearchFilter(entry)" {{entry.nameForPresenting()}}
   .span8
-    h5.center.result-count {{search.firstItemNumber()}} to {{search.lastItemNumber()}} of {{search.totalHits}} items    
+    h5.result-count.pull-left {{search.firstItemNumber()}} to {{search.lastItemNumber()}} of {{search.totalHits}} items 
+    .sort-options
+      select ng-model="selectedSort" ng-options="item.name for item in sortOptions" ng-change="sortResults(selectedSort)" ui-select2="{width: 250px, margin: 5px 0}"
+      
     /.result-count-header
       ul.pager ng-show="search.hasMoreResults() || search.page > 1"     
         li.previous ng-class="{disabled: search.page <= 1}"
@@ -40,9 +43,9 @@ ul.pager
           img.media-object src="#{asset_path('minimark.png')}"
         a.pull-left ng-hide="item.playable()" ng-href="{{item.link()}}"
           img.media-object src="#{asset_path('minimark.png')}"
-				.media
-					h4.media-heading ng-show="item.getTitle()"
-						a ng-href="{{item.link()}}" {{item.getTitle()}}
+        .media
+          h4.media-heading ng-show="item.getTitle()"
+            a ng-href="{{item.link()}}" {{item.getTitle()}}
           h5 ng-bind-html-unsafe="item.collectionTitle"
           p ng-show="item.getDescription()" ng-bind-html-unsafe="item.getDescription()"
           .transcripts ng-show="item.highlights.audioFiles.length"

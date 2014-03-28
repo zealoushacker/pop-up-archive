@@ -597,6 +597,14 @@ h5.result-count {
   border-bottom: 4px solid white;
   padding-bottom: 10px;
   margin-bottom: 10px;
+  width: 50%;
+}
+
+.sort-options {
+  width: 50%;
+  border-bottom: 4px solid white;
+  float: left;
+  text-align: right;
 }
 
 .result-count-footer {

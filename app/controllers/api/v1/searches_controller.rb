@@ -22,6 +22,10 @@ class Api::V1::SearchesController < Api::V1::BaseController
         filter my_filter.type, my_filter.value
       end
 
+      sort do
+        by query_builder.sort_column, query_builder.sort_order 
+      end
+
       highlight transcript: { number_of_fragments: 0 }
     end.results)
 
