@@ -180,7 +180,7 @@ class CsvImport < ActiveRecord::Base
       when /phy(.*)location|hardcopy/ then ['physical_location', 'short_text']
       when /(music|sound)(.*)used|music/ then ['music_sound_used', 'short_text']
       when /date(.*)peg/ then ['date_peg', 'short_text']
-      when /tags/ then ['tags', 'arrya']
+      when /tags/ then ['tags', 'array']
       when /geo|location/ then ['geographic_location', 'geolocation']
       when /notes/ then ['notes', 'text']
       else [make_column_name(header), "*"]
