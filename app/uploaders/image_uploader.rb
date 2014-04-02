@@ -11,7 +11,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   
   version :thumb do
-    process :resize_to_limit => [50, 50]
+    process :resize_to_fill => [75, 75]
   end
   # Choose what kind of storage to use for this uploader:
   # storage :file
@@ -41,7 +41,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
-  process :resize_to_fit => [800, 800]
+  process :resize_to_fit => [200, 200]
 
   # Create different versions of your uploaded files:
 

@@ -21,16 +21,15 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
         a ng-href='/collections' Pop Up Archive
         |  &raquo; 
         a ng-href="/collections/{{collection.id}}" {{collection.title}}
-      
-      h1 {{item.title}}
+      .thumb-and-title 
+        img ng-src="{{item.imageFiles[0].file.file.thumb.url}}"
+        h1 {{item.title}} 
 
-      p ng-show="item.description" ng-bind-html-unsafe="item.description"
+      p.clear ng-show="item.description" ng-bind-html-unsafe="item.description"
       
 .row-fluid.item-detail ng-show="item.audioFiles.length"
   .span12
     .well
-      p ng-repeat="imageFile in item.imageFiles"
-        img src="{{imageFile.file.file.thumb.url}}"
       a.pull-right ng-show="item.audioFiles[0].transcript" ng-click="toggleTranscript()"
         |{{!transcriptExpanded && 'Expand Transcript' || 'Collapse Transcript' }}
 

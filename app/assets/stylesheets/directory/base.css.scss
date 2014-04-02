@@ -1117,6 +1117,19 @@ form.with-tags {
   }
 }
 
+.thumb{
+  margin-right: 10px;
+  width: 20%;
+}
+.thumb-and-title{
+  h1 {max-width:80%; float:left;}
+  img {max-width: 20%; float:left; margin-right:20px; margin-top:15px; }
+}
+
+.clear{
+  clear: both;
+}
+
 .message-expanded {
   border-top: 1px solid #edeff2;
   text-align:center;
@@ -1984,6 +1997,7 @@ a.featurebtn:nth-child(3){
   color: #000;
   font-size: 16px;
 }
+
 
 .credit-card, .plan-pricing {
   font-size: 2.0em;
