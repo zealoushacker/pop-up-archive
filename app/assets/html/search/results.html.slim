@@ -34,7 +34,7 @@ ul.pager
       .media-body
         a.pull-left ng-click="item.play()" ng-show="item.paused()"
           i.play-overlay.icon-play
-          img.media-object src="#{asset_path('minimark.png')}"
+          img.media-object ng-src=" {{item.imageFiles.length > 0 && item.imageFiles[0].file.file.thumb.url || '/assets/minimark.png' }}"
         a.pull-left ng-click="item.pause()" ng-show="item.playing()"
           i.play-overlay.icon-pause
           img.media-object src="#{asset_path('minimark.png')}"
