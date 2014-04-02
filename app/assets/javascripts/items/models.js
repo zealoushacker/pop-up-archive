@@ -104,7 +104,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   }
 
   Item.prototype.getImages = function () {
-    if (this.image) {return this.image}
+    if (this.imageFiles) {return this.imageFiles}
   }
 
   Item.prototype.getThumbClass = function () {
