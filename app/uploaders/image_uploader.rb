@@ -7,12 +7,12 @@ class ImageUploader < CarrierWave::Uploader::Base
   include Sprockets::Helpers::IsolatedHelper
   
   # Include RMagick or MiniMagick support:
-  include CarrierWave::RMagick
+  # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
+  # storage :file
+  storage :fog
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
@@ -38,7 +38,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :thumb do
-    process :scale => [50, 50]
+    process :resize_to_fill => [50, 50]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
@@ -52,6 +52,39 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+  def fog_attributes
+    # build off these options, set rest that are needed (some are defaults in fixer already)
+    fa = model.destination_options
+    fa ||= {}
+
+    if provider == 'InternetArchive'
+      fa[:collections] = [] unless fa.has_key?(:collections)
+      fa[:collections] << 'test_collection' if !Rails.env.production?
+      fa[:ignore_preexisting_bucket] = 0
+      fa[:interactive_priority] = 1
+      fa[:auto_make_bucket] = 1
+      fa[:cascade_delete] = 1
+    end
+
+    fa
+  end
+
+  def fog_directory
+    model.destination_directory
+  end
+
+  def fog_public
+    model.storage.is_public?
+  end
+
+  def provider
+    model.storage.credentials[:provider].to_s
+  end
+
+  def fog_credentials
+    model.storage.credentials
+  end
+
   private
 
   def full_filename(for_file)
@@ -92,38 +125,7 @@ class ImageUploader < CarrierWave::Uploader::Base
     model.store_dir
   end
 
-  def fog_attributes
-    # build off these options, set rest that are needed (some are defaults in fixer already)
-    fa = model.destination_options
-    fa ||= {}
 
-    if provider == 'InternetArchive'
-      fa[:collections] = [] unless fa.has_key?(:collections)
-      fa[:collections] << 'test_collection' if !Rails.env.production?
-      fa[:ignore_preexisting_bucket] = 0
-      fa[:interactive_priority] = 1
-      fa[:auto_make_bucket] = 1
-      fa[:cascade_delete] = 1
-    end
-
-    fa
-  end
-
-  def fog_directory
-    model.destination_directory
-  end
-
-  def fog_public
-    model.storage.is_public?
-  end
-
-  def provider
-    model.storage.credentials[:provider].to_s
-  end
-
-  def fog_credentials
-    model.storage.credentials
-  end
 
 end
 

@@ -4,7 +4,9 @@ class ImageFile < ActiveRecord::Base
 
   attr_accessible :file, :item_id, :original_file_url, :storage_id, :is_uploaded
   belongs_to :item
+  belongs_to :storage_configuration, class_name: "StorageConfiguration", foreign_key: :storage_id
 
+  attr_accessible :storage_id
   mount_uploader :file, ImageUploader
 
   after_commit :process_file, on: :create
@@ -13,6 +15,10 @@ class ImageFile < ActiveRecord::Base
   def process_update_file
     # logger.debug "af #{id} call copy_to_item_storage"
     copy_to_item_storage
+  end
+
+  def detect_urls
+    ImageFileUploader.version_formats.keys.inject({}){|h, k| h[k] = { url: file.send(k).url, detected_at: nil }; h}
   end
 
   def process_file
