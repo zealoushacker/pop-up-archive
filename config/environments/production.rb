@@ -100,4 +100,8 @@ PopUpArchive::Application.configure do
       chain.add(Autoscaler::Sidekiq::Server, Autoscaler::HerokuScaler.new, 300)
     end
   end
+  
+  #Prerender.io
+  config.middleware.use Rack::Prerender, prerender_token: ENV['PRERENDER_TOKEN']
+  
 end

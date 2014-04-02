@@ -2,7 +2,8 @@ doctype html
 html lang='en' ng-app='Directory' ng-controller='DirectoryCtrl'
   head
     meta charset='utf-8'
-    title ng-bind-html-unsafe="breadcrumbsTitle()" PopUpArchive
+    title ng-bind-html-unsafe="breadcrumbsTitle()" Pop Up Archive 
+    meta name="description" content="Simple tools to manage sound. Pop Up Archive organizes sound so it can be found and reused. Search your sound to the second, transcribe and tag automatically, and explore the public archive and rediscover lost voices."
 
     = stylesheet_link_tag 'directory/base', media: 'all'
     = javascript_include_tag 'directory/application'
@@ -38,6 +39,7 @@ html lang='en' ng-app='Directory' ng-controller='DirectoryCtrl'
 
     script(type='text/javascript' src='//use.typekit.net/kcl6vml.js')
     script(type='text/javascript') try{Typekit.load();}catch(e){}
+    script(type='text/javascript') window.prerenderReady = false;
     
     / div#getsat-widget-5439
     / script(type="text/javascript" src="//loader.engage.gsfn.us/loader.js")

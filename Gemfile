@@ -79,6 +79,9 @@ gem 'sanitize'
 gem 'soundcloud'
 
 gem 'amara', "~> 0.1.1"
+
+gem 'prerender_rails'
+
 # gem 'amara', :path => '../amara'
 # gem 'amara', github: 'PRX/amara'
 
