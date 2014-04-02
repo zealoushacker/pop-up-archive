@@ -29,8 +29,8 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
 .row-fluid.item-detail ng-show="item.audioFiles.length"
   .span12
     .well
-      p ng-repeat="imageFiles in item.imageFiles"
-        img src="{{item.imageFiles[0].file.file.url}}"
+      p ng-repeat="imageFile in item.imageFiles"
+        img src="{{imageFile.file.file.thumb.url}}"
       a.pull-right ng-show="item.audioFiles[0].transcript" ng-click="toggleTranscript()"
         |{{!transcriptExpanded && 'Expand Transcript' || 'Collapse Transcript' }}
 

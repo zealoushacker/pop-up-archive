@@ -6,7 +6,6 @@ class ImageFile < ActiveRecord::Base
   belongs_to :item
   belongs_to :storage_configuration, class_name: "StorageConfiguration", foreign_key: :storage_id
 
-  attr_accessible :storage_id
   mount_uploader :file, ImageUploader
 
   after_commit :process_file, on: :create
@@ -18,7 +17,7 @@ class ImageFile < ActiveRecord::Base
   end
 
   def detect_urls
-    ImageFileUploader.version_formats.keys.inject({}){|h, k| h[k] = { url: file.send(k).url, detected_at: nil }; h}
+    ImageUploader.version_formats.keys.inject({}){|h, k| h[k] = { url: file.send(k).url, detected_at: nil }; h}
   end
 
   def process_file
@@ -32,6 +31,12 @@ class ImageFile < ActiveRecord::Base
     logger.error e.backtrace.join("\n")
   end
 
+  def save_thumb_version(file_name)
+    image_file = ImageFile.find_by_file(file_name)
+    image_file.file.recreate_versions!
+    image_file.save!
+  end
+   
   def file_uploaded(file_name)
     update_attributes(:is_uploaded => true, :file => file_name)
     upload_id = upload_to.id
@@ -39,6 +44,7 @@ class ImageFile < ActiveRecord::Base
     # now copy it to the right place if it needs to be (e.g. s3 -> ia)
     # or if it is in the right spot, process it!
     copy_to_item_storage
+    save_thumb_version(file_name)
     # logger.debug "Tasks::UploadTask: after_tr       
   end
 end
