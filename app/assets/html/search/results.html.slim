@@ -40,12 +40,12 @@ ul.pager
           img.media-object ng-src=" {{item.imageFiles.length > 0 && item.imageFiles[0].file.file.thumb.url || '/assets/minimark.png' }}"
         a.pull-left ng-click="item.pause()" ng-show="item.playing()"
           i.play-overlay.icon-pause
-          img.media-object src="#{asset_path('minimark.png')}"
+          img.media-object ng-src=" {{item.imageFiles.length > 0 && item.imageFiles[0].file.file.thumb.url || '/assets/minimark.png' }}"
         a.pull-left ng-hide="item.playable()" ng-href="{{item.link()}}"
-          img.media-object src="#{asset_path('minimark.png')}"
-        .media
-          h4.media-heading ng-show="item.getTitle()"
-            a ng-href="{{item.link()}}" {{item.getTitle()}}
+          img.media-object ng-src=" {{item.imageFiles.length > 0 && item.imageFiles[0].file.file.thumb.url || '/assets/minimark.png' }}"
+				.media
+					h4.media-heading ng-show="item.getTitle()"
+						a ng-href="{{item.link()}}" {{item.getTitle()}}
           h5 ng-bind-html-unsafe="item.collectionTitle"
           p ng-show="item.getDescription()" ng-bind-html-unsafe="item.getDescription()"
           .transcripts ng-show="item.highlights.audioFiles.length"
