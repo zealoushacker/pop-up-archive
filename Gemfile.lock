@@ -262,6 +262,8 @@ GEM
       oauth
     method_source (0.8.2)
     mime-types (1.23)
+    mini_magick (3.7.0)
+      subexec (~> 0.2.1)
     multi_json (1.5.1)
     multi_xml (0.5.4)
     multipart-post (1.2.0)
@@ -463,6 +465,7 @@ GEM
       actionpack (~> 3.0)
       activemodel (~> 3.0)
       railties (~> 3.0)
+    subexec (0.2.3)
     temple (0.6.5)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
@@ -548,6 +551,7 @@ DEPENDENCIES
   language_list
   listen
   media_monster_client
+  mini_magick
   multi_json (~> 1.5.0)
   newrelic_rpm!
   ng_player_hater-rails (~> 0.0.4)

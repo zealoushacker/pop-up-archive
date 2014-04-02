@@ -53,7 +53,7 @@ module FileStorage
         self.storage_configuration = StorageConfiguration.find(sid)
       end
     end
-
+    
     save!
   end  
 
@@ -147,7 +147,8 @@ module FileStorage
 
   def destination_path(options={})
     dir = store_dir(options[:storage] || storage) || ''
-    version = options.delete(:version)
+    # version = options.delete(:version)
+    version = options[:version] || ''
     File.join("/", dir, filename(version))
   end
 
