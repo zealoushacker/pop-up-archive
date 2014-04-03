@@ -24,8 +24,8 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
       .thumb-and-title 
         img ng-src="{{item.imageFiles[0].file.file.thumb.url}}"
         h1 {{item.title}} 
-
-      p.clear ng-show="item.description" ng-bind-html-unsafe="item.description"
+        .clear
+      p ng-show="item.description" ng-bind-html-unsafe="item.description"
       
 .row-fluid.item-detail ng-show="item.audioFiles.length"
   .span12
