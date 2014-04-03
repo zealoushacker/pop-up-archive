@@ -92,26 +92,26 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   private
 
-  def full_filename(for_file)
-    if !version_name
-      return super(for_file)
-    else
-      ext = File.extname(for_file)
-      base = File.basename(for_file, ext)
-      "#{base}.#{version_name}"
-    end
-  end
+  # def full_filename(for_file)
+  #   if !version_name
+  #     return super(for_file)
+  #   else
+  #     ext = File.extname(for_file)
+  #     base = File.basename(for_file, ext)
+  #     "#{version_name}.#{base}"
+  #   end
+  # end
 
-  def full_original_filename
-    if !version_name
-      super
-    else
-      fn = super
-      ext = File.extname(fn)
-      base = File.basename(fn, ext)
-      "#{base}.#{version_name}"
-    end
-  end  
+  # def full_original_filename
+  #   if !version_name
+  #     super
+  #   else
+  #     fn = super
+  #     ext = File.extname(fn)
+  #     base = File.basename(fn, ext)
+  #     "#{base}.#{version_name}"
+  #   end
+  # end  
 
   # # we're gonna make them on fixer, but define the versions
   # version_formats.keys.each do |label|
