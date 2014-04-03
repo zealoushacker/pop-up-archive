@@ -57,11 +57,6 @@ module FileStorage
     save!
   end  
 
-  def remote_file_url=(url)
-    self.original_file_url = url
-    self.should_trigger_fixer_copy = !!url
-  end
-
   def copy_original
     return false unless (should_trigger_fixer_copy && copy_media? && original_file_url)
     create_copy_task(original_file_url, destination, storage)

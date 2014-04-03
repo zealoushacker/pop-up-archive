@@ -96,7 +96,9 @@ section ng-controller="ItemFormCtrl"
                   a href="#" ng-click="removeImageFile(image)" style='text-decoration: none; color: #da4f49;'
                     i.icon-remove-sign
           .clearfix.controls
-            button.btn file-button="setImageFiles" Choose Images             
+            button.btn file-button="setImageFiles" Choose Images 
+            span &nbsp OR &nbsp
+            input.text.input#image type='text' placeholder="Insert Url" ng-model='urlForImage'                         
 
         section ng-show='item.collectionId != uploadsCollection.id'
           .control-group

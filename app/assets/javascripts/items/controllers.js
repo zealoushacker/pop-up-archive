@@ -112,7 +112,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   };
 
 }])
-.controller('ItemFormCtrl', ['$window', '$cookies', '$scope', '$http', '$q', '$timeout', '$route', '$routeParams', '$modal', 'Me', 'Loader', 'Alert', 'Collection', 'Item', 'Contribution', function FilesCtrl($window, $cookies, $scope, $http, $q, $timeout, $route, $routeParams, $modal, Me, Loader, Alert, Collection, Item, Contribution) {
+.controller('ItemFormCtrl', ['$window', '$cookies', '$scope', '$http', '$q', '$timeout', '$route', '$routeParams', '$modal', 'Me', 'Loader', 'Alert', 'Collection', 'Item', 'Contribution', 'ImageFile', function FilesCtrl($window, $cookies, $scope, $http, $q, $timeout, $route, $routeParams, $modal, Me, Loader, Alert, Collection, Item, Contribution, ImageFile) {
 
   $scope.$watch('item', function (is) {
     if (!angular.isUndefined(is) && (is.id > 0) && angular.isUndefined(is.adoptToCollection)) {
@@ -194,6 +194,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
       saveItem.create().then(function (data) {
         // reset tags
         saveItem.tagList2Tags();
+        $scope.addRemoteImageFile(saveItem, $scope.urlForImage);
         $scope.uploadImageFiles(saveItem, uploadImageFiles);
         $scope.uploadAudioFiles(saveItem, uploadFiles);
         $scope.updateAudioFiles(saveItem, audioFiles);
@@ -205,6 +206,17 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     }
 
   };
+
+  $scope.addRemoteImageFile = function (saveItem, imageUrl){
+    if (!$scope.urlForImage)
+      return;
+    new ImageFile({remoteFileUrl: imageUrl, itemId: saveItem.id} ).create();      
+    $scope.item.images.push({ name: 'name', remoteFileUrl: imageUrl, size: ''});
+    console.log("url link", $scope.urlForImage);
+    $scope.urlForImage = "";
+  };
+
+
 
   $scope.clear = function() {
     $scope.hideUploadModal();
@@ -258,16 +270,6 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
 
     });
   };
-
-  $scope.setImageFromUrl = function (){
-    if (!$scope.urlForImage)
-      return;
-
-    $scope.item.images.push({ name: 'name', url: $scope.urlForImage, size: '', thumb: $scope.urlForImage });
-    console.log("url link", $scope.urlForImage);
-    $scope.urlForImage = "";
-  };
-
 
   $scope.removeAudioFile = function(file) {
     if (file.id && (file.id > 0)) {

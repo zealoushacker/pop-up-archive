@@ -1,6 +1,6 @@
 angular.module('Directory.imageFiles.models', ['RailsModel', 'S3Upload'])
 .factory('ImageFile', ['$window', 'Model', 'S3Upload', '$http', function ($window, Model, S3Upload, $http) {
-  var ImageFile = Model({url:'/api/items/{{itemId}}/image_files/{{id}}', name: 'image_file', only: ['url', 'filename']});
+  var ImageFile = Model({url:'/api/items/{{itemId}}/image_files/{{id}}', name: 'image_file', only: ['url', 'filename', 'remoteFileUrl']});
 
   ImageFile.prototype.cleanFileName = function (fileName) {
     return fileName.replace(/[^a-z0-9\.]+/gi,'_');

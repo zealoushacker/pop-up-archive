@@ -2,7 +2,7 @@ class ImageFile < ActiveRecord::Base
 
   include FileStorage
 
-  attr_accessible :file, :item_id, :original_file_url, :storage_id, :is_uploaded
+  attr_accessible :file, :item_id, :original_file_url, :storage_id, :is_uploaded, :remote_file_url
   belongs_to :item
   belongs_to :storage_configuration, class_name: "StorageConfiguration", foreign_key: :storage_id
 
