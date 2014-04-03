@@ -90,18 +90,13 @@ section ng-controller="ItemFormCtrl"
           .controls ng-show="item.images.length > 0"
             table.table.file-table
               tr.file ng-repeat="image in item.images"
-                td.file-thumb {{image.thumb}}              
                 td.file-name alt="{{image.name}}" {{image.name}}
                 td.file-size {{readableFileSize(image.size)}}
                 td.file-remove
                   a href="#" ng-click="removeImageFile(image)" style='text-decoration: none; color: #da4f49;'
                     i.icon-remove-sign
           .clearfix.controls
-            button.btn file-button="setImageFiles" Choose Images              
-            span &nbsp OR &nbsp
-            input.text.input#image type='text' placeholder="Insert Url" ng-model='urlForImage' 
-            button.btn  ng-click="setImageFromUrl()" Add URL Image
-
+            button.btn file-button="setImageFiles" Choose Images             
 
         section ng-show='item.collectionId != uploadsCollection.id'
           .control-group
