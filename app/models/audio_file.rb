@@ -185,6 +185,19 @@ class AudioFile < ActiveRecord::Base
       )
     end
   end
+  
+  def order_transcript(user=self.user)
+    raise 'cannot create transcript when duration is 0' if (duration.to_i <= 0)
+    task = Tasks::OrderTranscriptTask.new(
+      identifier: 'order_transcript',
+      extras: {
+        user_id: user.id,
+        amount:  amount_for_transcript
+      }
+    )
+    self.tasks << task
+    task
+  end  
 
   def transcode_audio(user=self.user)
     return if transcoded_at
