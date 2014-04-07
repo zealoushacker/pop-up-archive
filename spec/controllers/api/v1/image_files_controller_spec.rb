@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe Api::V1::ImageFilesController do
   extend ControllerMacros
-
+  include FileStorage
   before { StripeMock.start }
   after { StripeMock.stop }
 
