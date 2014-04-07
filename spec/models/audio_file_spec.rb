@@ -218,7 +218,7 @@ describe AudioFile do
     }
 
     it 'generate callback for fixer' do
-      @audio_file.call_back_url.should end_with(".popuparchive.org/fixer_callback/files/audio_file/#{@audio_file.id}")
+      @audio_file.call_back_url.should end_with(".popuparchive.com/fixer_callback/files/audio_file/#{@audio_file.id}")
     end
 
     it 'updates job id and results' do
