@@ -3,6 +3,8 @@ Doorkeeper.configure do
   # Currently supported options are :active_record, :mongoid2, :mongoid3, :mongo_mapper
   orm :active_record
 
+  wildcard_redirect_uri true
+
   # This block will be called to check whether the resource owner is authenticated or not.
   # resource_owner_authenticator do
   #   raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
