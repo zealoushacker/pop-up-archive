@@ -79,7 +79,7 @@ module FileStorage
     return true
   end
   def resource_user
-    self.user if self.defined?(:user)
+    self.user if self.respond_to?(:user)
   end
 
   def create_copy_task(orig, dest, stor)

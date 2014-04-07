@@ -161,9 +161,6 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     var uploadImageFiles = saveItem.images;
     saveItem.images = [];
 
-    // var imageFiles = saveItem.images;
-    // alert($scope.item);
-
     var audioFiles = saveItem.audioFiles;
     var contributions = saveItem.contributions;
 
