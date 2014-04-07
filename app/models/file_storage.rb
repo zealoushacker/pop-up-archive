@@ -78,6 +78,9 @@ module FileStorage
     create_copy_task(orig, dest, item_storage)
     return true
   end
+  def resource_user
+    self.user if self.defined?(:user)
+  end
 
   def create_copy_task(orig, dest, stor)
     # see if there is already a copy task
@@ -88,10 +91,11 @@ module FileStorage
         identifier: dest,
         storage_id: stor.id,
         extras: {
-          user_id:     self.try(:user).try(:id),
+          user_id:     resource_user.try(:id),
           original:    orig,
           destination: dest
         }
+
       )
       self.tasks << task
     end

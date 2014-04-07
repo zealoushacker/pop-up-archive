@@ -1,7 +1,6 @@
 require 'spec_helper'
 describe Api::V1::ImageFilesController do
   extend ControllerMacros
-  include FileStorage
   before { StripeMock.start }
   after { StripeMock.stop }
 
@@ -62,7 +61,7 @@ describe Api::V1::ImageFilesController do
         get 'chunk_loaded', {:image_file_id => @image_file.id}
       end
       it 'upload_finished' do
-        get 'upload_finished', {:image_file_id => @image_file.id}
+        get 'upload_finished', {:image_file_id => @image_file.id, :key => @image_file.file.path}
         response.should be_success
       end
     end 
