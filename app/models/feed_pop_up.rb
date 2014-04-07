@@ -45,7 +45,7 @@ class FeedPopUp
     item.digital_location = entry.url
     item.date_broadcast   = entry.published
     item.date_created     = entry.published
-    item.tags			  = entry.categories
+    item.tags			        = entry.categories
 
     author = author(entry)
     item.creators         = [author] if author

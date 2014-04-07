@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '~> 3.2.0'
+gem 'rails', '~> 3.2.17'
 
 # Rails 4 pre-prep
 gem 'strong_parameters'
@@ -104,7 +104,7 @@ gem 'text-table'
 
 group :assets do
   gem 'sprockets'
-  gem 'sass-rails', '~> 3.2.3'
+  gem 'sass-rails', '~> 3.2'
   gem 'uglifier', '>= 1.0.3'
   gem 'bootstrap-sass'
   gem 'angularjs-rails-resource'
