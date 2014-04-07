@@ -178,7 +178,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
       saveItem.update().then(function (data) {
         // reset tags
         saveItem.tagList2Tags();
-        $scope.uploadImageFiles(saveitem, uploadImageFiles);        
+        $scope.uploadImageFiles(saveItem, uploadImageFiles);        
 
         $scope.uploadAudioFiles(saveItem, uploadFiles);
         $scope.updateAudioFiles(saveItem, audioFiles);
