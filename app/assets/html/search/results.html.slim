@@ -23,7 +23,7 @@ ul.pager
   .span8
     h5.result-count.pull-left {{search.firstItemNumber()}} to {{search.lastItemNumber()}} of {{search.totalHits}} items 
     .sort-options
-      select ng-model="selectedSort" ng-options="item.name for item in sortOptions" ng-change="sortResults(selectedSort)" ui-select2="{width: 250px, margin: 5px 0}"
+      select ng-model="selectedSort" ng-options="item.name for item in sortOptions" ng-change="sortResults(selectedSort)" ui-select2="{width: 250}"
       
     /.result-count-header
       ul.pager ng-show="search.hasMoreResults() || search.page > 1"     
