@@ -33,7 +33,7 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
         |{{!transcriptExpanded && 'Expand Transcript' || 'Collapse Transcript' }}
 
       section ng-repeat="audioFile in item.audioFiles" ng-controller="AudioFileCtrl"
-        h4 {{audioFile.filename || 'audio file'}}
+        h4 {{audioFile.filename || 'no audio file'}}
         .player
           button.player-button ng-disabled="player.time == 0" ng-click="player.rewind()"
             i.icon-fast-backward
