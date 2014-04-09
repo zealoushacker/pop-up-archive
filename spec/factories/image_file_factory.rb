@@ -2,8 +2,9 @@ FactoryGirl.define do
   factory :image_file do 
     association :item, factory: :item
     file 'test.jpg'
-    is_uploaded true
+    is_uploaded false
     upload_id 1 
+
 
     after(:create) { |f|
       f.send(:raw_write_attribute, :file, 'test.jpg')
