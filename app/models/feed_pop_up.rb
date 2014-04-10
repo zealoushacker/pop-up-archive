@@ -45,10 +45,8 @@ class FeedPopUp
     item.digital_location = entry.url
     item.date_broadcast   = entry.published
     item.date_created     = entry.published
-      if entry.respond_to? :categories
-        item.tags = entry.categories 
-      else item.tags = []
-      end  
+    item.tags = entry.respond_to?(:categories) ? entry.categories : []
+    
     author = author(entry)
     item.creators         = [author] if author
 

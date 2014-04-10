@@ -53,7 +53,7 @@ class ImportMapping < ActiveRecord::Base
       when "string" then value.to_s
       when "geolocation" then value.to_s
       when "person" then Person.for_name(value)
-      when "array" then value.split(',').map{|x| x.gsub(/(?:^\s+)|(?:\s$)/, '') }
+      when "array" then transform_array(value)
       when "short_text" then value.to_s
       when "number" then parse_to_i(value)
       when "text" then value.to_s
@@ -63,6 +63,12 @@ class ImportMapping < ActiveRecord::Base
     else
       value
     end
+  end
+
+  def transform_array(value)
+    csv = value.gsub(/,\s+\"/,',"')
+    v = CSV.parse(csv).try(:first) || []
+    v.map{|x| x.gsub(/(?:^\s+)|(?:\s$)/, '') }
   end
 
   def put_value(model, key, value)
