@@ -30,10 +30,10 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
        "content": "<xmp><iframe frameborder='0' width='508' height='95' scrolling='no' seamless='yes' name='"+ $scope.item.title + "' src='"+ $scope.my_path + "/embed_player/" + encodeURIComponent($scope.item.title.replace(/\./g, '&#46;')) + "/" + $scope.audioFile.id + "/" + $scope.item.id + "/" + $scope.collection.id + "'></iframe></xmp>",
     };
   $scope.keyCommands =
-    { "title": "Following Are Commands To Make Transcription Easier",
-      "content": "<table><tr><td><em>Next Input:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Enter</strong></span></td></tr><tr><td><em>Prev Input:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Up Arrow</strong></span></td></tr></table>",    
+    { "title": "Transcription Key Commands",
+      "content": "<table><tr><td class='icon-ok'><em>&nbsp;Next Input:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Enter</strong></span></td></tr><tr><td class='icon-arrow-up'><em>&nbsp;Prev Input:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Up Arrow</strong></span></td></tr></table>",    
       // "content": "<dl><dt>Next Input</dt><dd style="display:inline;"><span>Press <em>Enter</em></span></dd><dt>Previous Input</dt><dd>Press <em>Up Arrow<em></dd></dl>",
-    }  
+    };  
 
   $scope.play = function () {
     $scope.audioFile = new AudioFile($scope.audioFile);
