@@ -49,12 +49,12 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (3.2.14)
-      actionpack (= 3.2.14)
+    actionmailer (3.2.17)
+      actionpack (= 3.2.17)
       mail (~> 2.5.4)
-    actionpack (3.2.14)
-      activemodel (= 3.2.14)
-      activesupport (= 3.2.14)
+    actionpack (3.2.17)
+      activemodel (= 3.2.17)
+      activesupport (= 3.2.17)
       builder (~> 3.0.0)
       erubis (~> 2.7.0)
       journey (~> 1.0.4)
@@ -62,21 +62,21 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
-    activemodel (3.2.14)
-      activesupport (= 3.2.14)
+    activemodel (3.2.17)
+      activesupport (= 3.2.17)
       builder (~> 3.0.0)
-    activerecord (3.2.14)
-      activemodel (= 3.2.14)
-      activesupport (= 3.2.14)
+    activerecord (3.2.17)
+      activemodel (= 3.2.17)
+      activesupport (= 3.2.17)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
     activerecord-postgres-hstore (0.6.0)
       rails
       rake
-    activeresource (3.2.14)
-      activemodel (= 3.2.14)
-      activesupport (= 3.2.14)
-    activesupport (3.2.14)
+    activeresource (3.2.17)
+      activemodel (= 3.2.17)
+      activesupport (= 3.2.17)
+    activesupport (3.2.17)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
     acts_as_list (0.2.0)
@@ -92,7 +92,7 @@ GEM
       multi_json
     angularjs-rails-resource (0.2.0)
     ansi (1.4.3)
-    arel (3.0.2)
+    arel (3.0.3)
     atomic (1.1.10)
     autoscaler (0.2.1)
       heroku-api
@@ -152,8 +152,8 @@ GEM
       railties (>= 3.2.6, < 5)
       warden (~> 1.2.3)
     diff-lcs (1.2.4)
-    doorkeeper (0.6.7)
-      railties (~> 3.1)
+    doorkeeper (1.1.0)
+      railties (>= 3.1)
     dotenv (0.8.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
@@ -222,7 +222,7 @@ GEM
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
     httpauth (0.2.0)
-    i18n (0.6.5)
+    i18n (0.6.9)
     jasmine (1.3.2)
       jasmine-core (~> 1.3.1)
       rack (~> 1.0)
@@ -261,7 +261,7 @@ GEM
       json
       oauth
     method_source (0.8.2)
-    mime-types (1.23)
+    mime-types (1.25.1)
     mini_magick (3.7.0)
       subexec (~> 0.2.1)
     multi_json (1.5.1)
@@ -302,7 +302,7 @@ GEM
       capybara (~> 2.1.0)
       faye-websocket (>= 0.4.4, < 0.5.0)
       http_parser.rb (~> 0.5.3)
-    polyglot (0.3.3)
+    polyglot (0.3.4)
     postgres_ext (0.4.0)
       activerecord (~> 3.2.0)
       pg_array_parser (~> 0.0.8)
@@ -324,32 +324,32 @@ GEM
     rack-cors (0.2.9)
     rack-protection (1.5.0)
       rack
-    rack-ssl (1.3.3)
+    rack-ssl (1.3.4)
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-    rails (3.2.14)
-      actionmailer (= 3.2.14)
-      actionpack (= 3.2.14)
-      activerecord (= 3.2.14)
-      activeresource (= 3.2.14)
-      activesupport (= 3.2.14)
+    rails (3.2.17)
+      actionmailer (= 3.2.17)
+      actionpack (= 3.2.17)
+      activerecord (= 3.2.17)
+      activeresource (= 3.2.17)
+      activesupport (= 3.2.17)
       bundler (~> 1.0)
-      railties (= 3.2.14)
+      railties (= 3.2.17)
     rails_12factor (0.0.2)
       rails_serve_static_assets
       rails_stdout_logging
     rails_serve_static_assets (0.0.1)
     rails_stdout_logging (0.0.3)
-    railties (3.2.14)
-      actionpack (= 3.2.14)
-      activesupport (= 3.2.14)
+    railties (3.2.17)
+      actionpack (= 3.2.17)
+      activesupport (= 3.2.17)
       rack-ssl (~> 1.3.2)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     raindrops (0.11.0)
-    rake (10.1.1)
+    rake (10.2.2)
     rb-fchange (0.0.6)
       ffi
     rb-fsevent (0.9.3)
@@ -473,7 +473,7 @@ GEM
       tins (~> 0.8)
     terminal-notifier-guard (1.5.3)
     text-table (1.2.3)
-    thor (0.18.1)
+    thor (0.19.1)
     thread_safe (0.1.2)
       atomic
     tilt (1.4.1)
@@ -487,10 +487,10 @@ GEM
       multi_json (~> 1.3)
       rake
       rest-client (~> 1.6)
-    treetop (1.4.14)
+    treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.37)
+    tzinfo (0.3.39)
     uglifier (2.1.2)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
@@ -571,7 +571,7 @@ DEPENDENCIES
   quiet_assets
   rabl
   rack-cors
-  rails (~> 3.2.0)
+  rails (~> 3.2.17)
   rails_12factor
   rb-fchange
   rb-fsevent
@@ -583,7 +583,7 @@ DEPENDENCIES
   rspec-rails (~> 2.4)
   ruby_gntp
   sanitize
-  sass-rails (~> 3.2.3)
+  sass-rails (~> 3.2)
   shoulda-matchers
   sidekiq
   simplecov
