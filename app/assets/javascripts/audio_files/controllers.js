@@ -31,8 +31,7 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
     };
   $scope.keyCommands =
     { "title": "Transcription Key Commands",
-      "content": "<table><tr><td class='icon-ok'><em>&nbsp;Next Input:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Enter</strong></span></td></tr><tr><td class='icon-arrow-up'><em>&nbsp;Prev Input:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Up Arrow</strong></span></td></tr></table>",    
-      // "content": "<dl><dt>Next Input</dt><dd style="display:inline;"><span>Press <em>Enter</em></span></dd><dt>Previous Input</dt><dd>Press <em>Up Arrow<em></dd></dl>",
+      "content": "<table><tr><td class='icon-ok'> <em> &nbsp;Next Input:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Enter</strong></span></td></tr><tr><td class='icon-arrow-up'><em>&nbsp;Prev Input:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Up Arrow</strong></span></td></tr><tr><td class='icon-chevron-up'>&nbsp;<span class='icon-hand-right'></span><em>&nbsp;Pause Playback:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Shft + Tab</strong></span></td></tr><tr><td class='icon-chevron-up'>&nbsp;<span class='icon-arrow-right'></span><em>&nbsp;Continue Playback:&nbsp;&nbsp;&nbsp;&nbsp;</em></td><td><strong>Press <span>Shft + Right Arrow</strong></span></td></tr></table>",    
     };  
 
   $scope.play = function () {
