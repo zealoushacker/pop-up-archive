@@ -322,7 +322,7 @@
       }
     }
   }])
-  .directive("transcript", ['Player','$parse', function (Player, $parse) {
+  .directive("transcript", ['Player','$parse','$timeout', function (Player, $parse, $timeout) {
     return {
       restrict: 'C',
       replace: true,
@@ -345,7 +345,7 @@
                       '<td ng-show="!editorEnabled"><a ng-click="seekTo(text.startTime)"><div class="file-transcript-text" ng-bind-html-unsafe="text.text"></div></a></td>' +
                       '<td ng-show="canShowEditor()" style="width: 8px; padding-right: 10px; text-align: right">'+
                         '<a href="#" ng-click="enableEditor()"><i class="icon-pencil"></i></a></td>' +
-                      '<td ng-show="editorEnabled"><input ng-model="editableTranscript" ng-show="editorEnabled"></td>' +
+                      '<td ng-show="editorEnabled"><input ng-model="editableTranscript" ng-enter="updateText(text)" ng-up-arrow="enableEditorPreviousField(text)" ng-tab="playerPausePlay()" ng-show="editorEnabled" ></td>' +
                       '<td ng-show="editorEnabled" style="width: 50px;">' +
                         '<a href="#" ng-click="updateText(text)" style="width: 8px; float: left; padding: 0 8px">' +
                           '<i class="icon-ok"></i></a>' +
@@ -379,11 +379,68 @@
         }
 
         scope.updateText = function (text) {
-          text.text = this.editableTranscript;
-          this.disableEditor();
+          text.text = this.editableTranscript; 
+          this.disableEditor();          
           this.saveText({text: text});
+          nextField = this.$$nextSibling;
+          this.enableEditorNextField(nextField);
         };
 
+        scope.enableEditor = function() {
+          this.editorEnabled = true;
+          this.editableTranscript = this.text.text;
+          $timeout(function() {
+            var inp = el.find('input')[0];
+            inp.focus(); 
+          // *********************
+          // commenting this out for now ->. This code will set the cursor to the beginning of the input element but the input in enableEditorNextField is an array.  
+          // enableEditorNextField  will put the cursor at the beginning of the input if  "var inp = el.find('input');" is called like this "var inp = el.find('input')[1];"
+          // Trying to iterate the indexes and pass them from function to function proved to be more trouble than was worth it at the time. - L C
+          // *********************                           
+            // if (inp.createTextRange) {
+            //     var part = inp.createTextRange();
+            //     part.move("character", 0);
+            //     part.select();
+            // }else if (inp.setSelectionRange){
+            //     inp.setSelectionRange(0, 0);}   
+          });         
+        };        
+
+        scope.enableEditorNextField = function (nextField) {         
+          nextField.editorEnabled = true;
+          nextField.editableTranscript = nextField.text.text; 
+          $timeout(function() {
+            var inp = el.find('input');
+            // if (inp.createTextRange) {
+            //     var part = inp.createTextRange();
+            //     part.move("character", 0);
+            //     part.select();
+            // }else if (inp.setSelectionRange){
+            //     inp.setSelectionRange(0, 0);}
+             inp.focus();           
+          });
+        };  
+
+        scope.enableEditorPreviousField = function(text) {
+          text.text = this.editableTranscript; 
+          this.disableEditor();          
+          this.saveText({text: text});
+          prevField = this.$$prevSibling;
+          prevField.editorEnabled = true;
+          prevField.editableTranscript = prevField.text.text;
+          $timeout(function() {
+            var inp = el.find('input');
+            inp.focus();                      
+          });           
+        }
+        scope.playerPausePlay = function() {
+          if (scope.player.paused()){
+            scope.player.play();
+          } else {
+            scope.player.pause();
+          };
+        };   
+        
         scope.toTimestamp = function (seconds) {
           var d = new Date(seconds * 1000);
           if (seconds > 3600) {
@@ -411,11 +468,6 @@
           return (!this.editorEnabled && scope.canEdit && (parseInt(this.text.id, 10) > 0));
         };
 
-        scope.enableEditor = function() {
-          this.editorEnabled = true;
-          this.editableTranscript = this.text.text;
-        };
-
         scope.disableEditor = function() {
           this.editorEnabled = false;
         };
@@ -441,5 +493,8 @@
 
       }
     }
+
   }]);
+
+
 })();
