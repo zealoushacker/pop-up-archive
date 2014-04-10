@@ -98,7 +98,7 @@ class Task < ActiveRecord::Base
   end
 
   def original
-    extras['original'] || owner.try(:process_audio_url)
+    extras['original'] || owner.try(:process_file_url)
   end
 
   def call_back_url

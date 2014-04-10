@@ -21,9 +21,10 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
         a ng-href='/collections' Pop Up Archive
         |  &raquo; 
         a ng-href="/collections/{{collection.id}}" {{collection.title}}
-      
-      h1 {{item.title}}
-
+      .thumb-and-title 
+        img ng-src="{{item.imageFiles[0].file.file.thumb.url}}"
+        h1 {{item.title}} 
+        .clear
       p ng-show="item.description" ng-bind-html-unsafe="item.description"
       
 .row-fluid.item-detail ng-show="item.audioFiles.length"
@@ -52,6 +53,8 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
 
           input.search-query ng-class="{extended:!!transcriptFilter}" ng-model="transcriptFilter" placeholder="Search"
           a.clear-filter.icon-remove-sign ng-show="transcriptFilter.length > 0" ng-click="transcriptFilter=''"
+
+          button.btn.icon-fire ng-show="collection.itemsVisibleByDefault" type="button" bs-popover="keyCommands"  data-placement="bottom" Key Commands
 
           button.btn.icon-link ng-show="collection.itemsVisibleByDefault" type="button" bs-popover="embedCode"  data-placement="bottom" Embed Code
           

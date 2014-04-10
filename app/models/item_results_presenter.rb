@@ -40,6 +40,10 @@ class ItemResultsPresenter < BasicObject
       @_audio_files ||= ::AudioFile.where(item_id: @result.id)
     end
 
+    def image_files 
+      @_image_files ||= ::ImageFile.where(item_id: @result.id)
+    end  
+
     def highlighted_audio_files
       @_highlighted_audio_files ||= generate_highlighted_audio_files
     end

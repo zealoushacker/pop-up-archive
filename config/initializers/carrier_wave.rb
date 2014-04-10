@@ -3,7 +3,8 @@ CarrierWave.configure do |config|
   config.remove_previously_stored_files_after_update = false
 
   config.root = Rails.root.join('tmp')
-  config.cache_dir = 'carrierwave'
+  config.cache_dir = "#{Rails.root}/tmp/uploads"
+
 
   config.storage        = :fog
   config.fog_directory  = ENV['AWS_BUCKET']

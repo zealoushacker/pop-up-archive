@@ -205,6 +205,15 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
       });
     };
 
+    $scope.uploadImageFiles = function (item, newImageFiles) {
+      // console.log('$scope.uploadAudioFiles', item, newFiles);
+      angular.forEach(newImageFiles, function (file) {
+        $scope.uploadImageFile(item, file);
+      });
+    };
+
+
+
     $scope.uploadAudioFile = function (item, file) {
       var item = item;
       var alert = new Alert();
@@ -282,10 +291,10 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
 
       file.alert = alert;
 
-      var audioFile = item.addImageFile(file,
+      var imageFile = item.addImageFile(file,
       {
         onComplete: function () {
-          console.log($scope.item.id, $scope.currentUser.uploadsCollectionId);
+          // console.log($scope.item.id, $scope.currentUser.uploadsCollectionId);
           var msg = '"' + file.name + '" upload completed.';
           if (item.collectionId == $scope.currentUser.uploadsCollectionId && $route.current.controller == 'CollectionsCtrl') {
             msg = msg + ' To see transcripts and tags, move the item from My Uploads to a collection.';

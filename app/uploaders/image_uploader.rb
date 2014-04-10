@@ -8,16 +8,23 @@ class ImageUploader < CarrierWave::Uploader::Base
   
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
-
+  include CarrierWave::MiniMagick
+  
+  version :thumb do
+    process :resize_to_fill => [75, 75]
+  end
   # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
+  # storage :file
+  storage :fog
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
+  # def store_dir
+  #   "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+  # end
+
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    model.store_dir
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -34,12 +41,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
-  process :resize_to_fit => [800, 800]
+  process :resize_to_fit => [200, 200]
 
   # Create different versions of your uploaded files:
-  version :thumb do
-    process :scale => [50, 50]
-  end
+
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
@@ -52,46 +57,6 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
-  private
-
-  def full_filename(for_file)
-    if !version_name
-      return super(for_file)
-    else
-      ext = File.extname(for_file)
-      base = File.basename(for_file, ext)
-      "#{base}.#{version_name}"
-    end
-  end
-
-  def full_original_filename
-    if !version_name
-      super
-    else
-      fn = super
-      ext = File.extname(fn)
-      base = File.basename(fn, ext)
-      "#{base}.#{version_name}"
-    end
-  end  
-
-  # # we're gonna make them on fixer, but define the versions
-  # version_formats.keys.each do |label|
-  #   version label
-  # end
-
-  def public_url
-    if !asset_host && (provider == "InternetArchive")
-      "http://archive.org/download/#{model.destination_directory}#{model.destination_path}"
-    else
-      super
-    end
-  end
-
-  def store_dir
-    model.store_dir
-  end
-
   def fog_attributes
     # build off these options, set rest that are needed (some are defaults in fixer already)
     fa = model.destination_options
@@ -124,6 +89,46 @@ class ImageUploader < CarrierWave::Uploader::Base
   def fog_credentials
     model.storage.credentials
   end
+
+  private
+
+  # def full_filename(for_file)
+  #   if !version_name
+  #     return super(for_file)
+  #   else
+  #     ext = File.extname(for_file)
+  #     base = File.basename(for_file, ext)
+  #     "#{version_name}.#{base}"
+  #   end
+  # end
+
+  # def full_original_filename
+  #   if !version_name
+  #     super
+  #   else
+  #     fn = super
+  #     ext = File.extname(fn)
+  #     base = File.basename(fn, ext)
+  #     "#{base}.#{version_name}"
+  #   end
+  # end  
+
+  # # we're gonna make them on fixer, but define the versions
+  # version_formats.keys.each do |label|
+  #   version label
+  # end
+
+  def public_url
+    if !asset_host && (provider == "InternetArchive")
+      "http://archive.org/download/#{model.destination_directory}#{model.destination_path}"
+    else
+      super
+    end
+  end
+
+
+
+
 
 end
 

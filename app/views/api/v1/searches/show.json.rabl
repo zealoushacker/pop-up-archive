@@ -28,6 +28,10 @@ child @search.results do
     attributes :url, :filename, :id
   end
 
+  child :image_files do
+    attributes :file, :upload_id, :original_file_url
+  end  
+
   child(:entities, if: ->(o) { o.entities.present? }) do |e|
     extends 'api/v1/entities/entity'
   end

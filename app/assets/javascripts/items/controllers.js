@@ -112,7 +112,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   };
 
 }])
-.controller('ItemFormCtrl', ['$window', '$cookies', '$scope', '$http', '$q', '$timeout', '$route', '$routeParams', '$modal', 'Me', 'Loader', 'Alert', 'Collection', 'Item', 'Contribution', function FilesCtrl($window, $cookies, $scope, $http, $q, $timeout, $route, $routeParams, $modal, Me, Loader, Alert, Collection, Item, Contribution) {
+.controller('ItemFormCtrl', ['$window', '$cookies', '$scope', '$http', '$q', '$timeout', '$route', '$routeParams', '$modal', 'Me', 'Loader', 'Alert', 'Collection', 'Item', 'Contribution', 'ImageFile', function FilesCtrl($window, $cookies, $scope, $http, $q, $timeout, $route, $routeParams, $modal, Me, Loader, Alert, Collection, Item, Contribution, ImageFile) {
 
   $scope.$watch('item', function (is) {
     if (!angular.isUndefined(is) && (is.id > 0) && angular.isUndefined(is.adoptToCollection)) {
@@ -161,9 +161,6 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     var uploadImageFiles = saveItem.images;
     saveItem.images = [];
 
-    var imageFiles = saveItem.images;
-    // alert($scope.item);
-
     var audioFiles = saveItem.audioFiles;
     var contributions = saveItem.contributions;
 
@@ -178,7 +175,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
       saveItem.update().then(function (data) {
         // reset tags
         saveItem.tagList2Tags();
-        $scope.uploadImageFiles(saveitem, uploadImageFiles);        
+        $scope.uploadImageFiles(saveItem, uploadImageFiles);        
 
         $scope.uploadAudioFiles(saveItem, uploadFiles);
         $scope.updateAudioFiles(saveItem, audioFiles);
@@ -194,7 +191,8 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
       saveItem.create().then(function (data) {
         // reset tags
         saveItem.tagList2Tags();
-
+        $scope.addRemoteImageFile(saveItem, $scope.urlForImage);
+        $scope.uploadImageFiles(saveItem, uploadImageFiles);
         $scope.uploadAudioFiles(saveItem, uploadFiles);
         $scope.updateAudioFiles(saveItem, audioFiles);
         $scope.updateContributions(saveItem, contributions);
@@ -205,6 +203,17 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     }
 
   };
+
+  $scope.addRemoteImageFile = function (saveItem, imageUrl){
+    if (!$scope.urlForImage)
+      return;
+    new ImageFile({remoteFileUrl: imageUrl, itemId: saveItem.id} ).create();      
+    $scope.item.images.push({ name: 'name', remoteFileUrl: imageUrl, size: ''});
+    console.log("url link", $scope.urlForImage);
+    $scope.urlForImage = "";
+  };
+
+
 
   $scope.clear = function() {
     $scope.hideUploadModal();
@@ -259,12 +268,19 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     });
   };
 
-
   $scope.removeAudioFile = function(file) {
     if (file.id && (file.id > 0)) {
       file._delete = true;
     } else {
       $scope.item.files.splice($scope.item.files.indexOf(file), 1);
+    }
+  }
+
+  $scope.removeImageFile = function(imageFile) {
+    if (imageFile.id && (imageFile.id > 0)) {
+      imageFile._delete = true;
+    } else {
+      $scope.item.images.splice($scope.item.images.indexOf(imageFile), 1);
     }
   }
 
