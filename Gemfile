@@ -101,6 +101,7 @@ gem 'rack-cors'
 gem 'dbpedia'
 
 gem 'text-table'
+gem 'spring'
 
 group :assets do
   gem 'sprockets'
