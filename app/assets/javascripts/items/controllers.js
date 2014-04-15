@@ -158,10 +158,11 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
 
     var uploadFiles = saveItem.files;
     saveItem.files = [];
-    var uploadImageFiles = saveItem.images;
-    saveItem.images = [];
+    var uploadImageFiles = saveItem.imageFiles;
+    saveItem.imageFiles = [];
 
     var audioFiles = saveItem.audioFiles;
+    var imageFiles = saveItem.imageFiles;
     var contributions = saveItem.contributions;
 
     Collection.get(saveItem.collectionId).then(function (collection) {
@@ -176,7 +177,8 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
         // reset tags
         saveItem.tagList2Tags();
         $scope.uploadImageFiles(saveItem, uploadImageFiles);        
-
+        $scope.updateImageFiles(saveItem, imageFiles);
+        $scope.addRemoteImageFile(saveItem, $scope.urlForImage);        
         $scope.uploadAudioFiles(saveItem, uploadFiles);
         $scope.updateAudioFiles(saveItem, audioFiles);
         $scope.updateContributions(saveItem, contributions);
@@ -195,6 +197,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
         $scope.uploadImageFiles(saveItem, uploadImageFiles);
         $scope.uploadAudioFiles(saveItem, uploadFiles);
         $scope.updateAudioFiles(saveItem, audioFiles);
+        $scope.updateImageFiles(saveItem, imageFiles);
         $scope.updateContributions(saveItem, contributions);
         $timeout(function(){ $scope.$broadcast('datasetChanged')}, 750);
         delete $scope.item;
@@ -310,6 +313,12 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   $scope.updateAudioFiles = function(item, audioFiles) {
     item.audioFiles = audioFiles;
     item.updateAudioFiles();
+  };
+
+  $scope.updateImageFiles = function(item, imageFiles) {
+    console.log("this in updateImageFiles method in items/controllers.js", this)
+    item.imageFiles = imageFiles;
+    item.updateImageFiles();
   };
 
   $scope.tagSelect = function() {
