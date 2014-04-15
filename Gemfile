@@ -68,7 +68,7 @@ gem 'doorkeeper'
 
 gem "acts_as_paranoid", "~> 0.4.2"
 
-gem 'newrelic_rpm', :github => 'newrelic/rpm', :branch => 'RUBY-1180'
+gem 'newrelic_rpm'
 
 gem 'feedzirra', github: 'pauldix/feedzirra'
 
@@ -101,6 +101,7 @@ gem 'rack-cors'
 gem 'dbpedia'
 
 gem 'text-table'
+
 gem 'spring'
 
 group :assets do
@@ -132,7 +133,6 @@ group :development, :test do
   gem 'rb-inotify', require: false
   gem 'rb-fsevent', require: false
   gem 'rb-fchange', require: false
-  gem 'spring'
 
   # Test JS using Jasmine
   gem 'jasmine'

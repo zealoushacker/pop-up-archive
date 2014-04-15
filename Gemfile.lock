@@ -14,13 +14,6 @@ GIT
       sass-rails (>= 3.1.1)
 
 GIT
-  remote: git://github.com/newrelic/rpm.git
-  revision: e25d5c30e03f1e374db21d3bb6692c914c710398
-  branch: RUBY-1180
-  specs:
-    newrelic_rpm (3.6.6)
-
-GIT
   remote: git://github.com/pauldix/feedzirra.git
   revision: 80cd35766e40ee3058db1c5c0c25448baeea4212
   specs:
@@ -270,6 +263,7 @@ GEM
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.8)
+    newrelic_rpm (3.7.3.204)
     ng_player_hater-rails (0.0.4.2)
     nokogiri (1.5.10)
     oauth (0.4.7)
@@ -555,7 +549,7 @@ DEPENDENCIES
   media_monster_client
   mini_magick
   multi_json (~> 1.5.0)
-  newrelic_rpm!
+  newrelic_rpm
   ng_player_hater-rails (~> 0.0.4)
   omniauth
   omniauth-facebook
