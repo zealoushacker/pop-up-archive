@@ -186,7 +186,6 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   // update existing audioFiles
   Item.prototype.updateAudioFiles = function () {
     var item = this;
-
     var keepAudioFiles = [];
     angular.forEach(item.audioFiles, function (audioFile, index) {
 
@@ -206,6 +205,24 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
       // }
     });
     item.audioFiles = keepAudioFiles;
+  }
+
+  Item.prototype.updateImageFiles = function (){
+    var item = this;
+    var keepImageFiles = [];
+      // console.log("in updateImageFiles", item.id, "this in updateImageFiles", this, "item.imageFiles in updateImageFiles ", item.imageFiles)
+
+    angular.forEach(item.imageFiles, function (imageFile, index){
+      var iF = new ImageFile(imageFile);
+      iF.itemId = item.id;
+      if (iF._delete) {
+        iF.delete();
+      } else {
+        keepImageFiles.push(imageFile);
+
+      }
+    });
+    item.imageFiles = keepImageFiles;
   }
 
   Item.prototype.playable = function () {

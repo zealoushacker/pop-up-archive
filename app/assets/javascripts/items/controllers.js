@@ -316,7 +316,7 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
   };
 
   $scope.updateImageFiles = function(item, imageFiles) {
-    console.log("this in updateImageFiles method in items/controllers.js", this)
+    // console.log("this in updateImageFiles method in items/controllers.js", this)
     item.imageFiles = imageFiles;
     item.updateImageFiles();
   };
