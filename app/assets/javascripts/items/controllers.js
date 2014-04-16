@@ -162,7 +162,6 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
     saveItem.images = [];
 
     var audioFiles = saveItem.audioFiles;
-    var imageFiles = saveItem.imageFiles;
     var contributions = saveItem.contributions;
 
     Collection.get(saveItem.collectionId).then(function (collection) {
