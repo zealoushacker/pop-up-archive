@@ -207,6 +207,27 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     });
     item.audioFiles = keepAudioFiles;
   }
+  Item.prototype.updateImageFiles = function () {
+    var item = this;
+
+    var keepImageFiles = [];
+    angular.forEach(item.imageFiles, function (imageFile, index) {
+
+      // console.log('updateImageFiles', index, imageFile);
+      var iF = new imageFile(imageFile);
+      iF.itemId = item.id;
+
+      // delete c if marked for delete
+      if (iF._delete) {
+        // console.log('updateImageFiles delete', audioFile, item);
+        iF.delete();
+      } else {
+        keepImageFiles.push(imageFile);
+      }
+
+    });
+    item.imageFiles = keepImageFiles;
+  }
 
   Item.prototype.playable = function () {
     return this.audioFiles && this.audioFiles.length > 0;
