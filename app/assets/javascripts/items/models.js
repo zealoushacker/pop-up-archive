@@ -186,7 +186,6 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   // update existing audioFiles
   Item.prototype.updateAudioFiles = function () {
     var item = this;
-
     var keepAudioFiles = [];
     angular.forEach(item.audioFiles, function (audioFile, index) {
 
@@ -229,6 +228,24 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
     item.imageFiles = keepImageFiles;
   }
 
+  Item.prototype.updateImageFiles = function (){
+    var item = this;
+    var keepImageFiles = [];
+      // console.log("in updateImageFiles", item.id, "this in updateImageFiles", this, "item.imageFiles in updateImageFiles ", item.imageFiles)
+
+    angular.forEach(item.imageFiles, function (imageFile, index){
+      var iF = new ImageFile(imageFile);
+      iF.itemId = item.id;
+      if (iF._delete) {
+        iF.delete();
+      } else {
+        keepImageFiles.push(imageFile);
+
+      }
+    });
+    item.imageFiles = keepImageFiles;
+  }
+
   Item.prototype.playable = function () {
     return this.audioFiles && this.audioFiles.length > 0;
   }
@@ -262,7 +279,7 @@ angular.module('Directory.items.models', ['RailsModel', 'Directory.audioFiles.mo
   Item.prototype.loadedIntoPlayer = function () {
     var me = false;
     if (Player.nowPlayingUrl() && this.playable()) {
-      var nowPlaying = Player.nowPlayingUrl().split('?')[0];
+      var nowPlaying = Player.nowPlayingUrl().toString().split('?')[0];
       angular.forEach(this.audioFiles, function (file) {
         if (file.url && (nowPlaying == file.url.split('?')[0])) {
           me = true;
