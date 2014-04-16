@@ -120,7 +120,7 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
       console.log('handleAudioFilesAdded', newFiles, $scope.item, $scope);
 
       var newFiles = newFiles || [];
-      var newImageFiles = newImageFiles || [];
+      var newImages = newImages || [];
       $scope.initializeItem();
       console.log($scope);
 
@@ -139,18 +139,17 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
 
               console.log('$scope.uploadModal hidden!');
               $scope.uploadAudioFiles(uploadItem, newFiles);
-              $scope.uploadImageFiles(uploadItem, newImageFiles);
-
+              
             } else {
 
               console.log('$scope.uploadModal not hidden!');
               uploadItem.files = uploadItem.files || [];
-              uplaodItem.imageFiles = uploadItem.imageFiles || [];
+              uplaodItem.images = uploadItem.images || [];
               angular.forEach(newFiles, function (file) {
                 uploadItem.files.push(file);
               });
-              angular.forEach(newImageFiles, function (imageFile) {
-                uploadItem.imageFiles.push(imageFile);
+              angular.forEach(newImages, function (image) {
+                uploadItem.images.push(image);
               });
             }
           });
@@ -171,16 +170,16 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
           $scope.item.files = [];
         }
 
-        if (!$scope.item.imageFiles) {
-          $scope.item.imageFiles = [];
+        if (!$scope.item.images) {
+          $scope.item.images = [];
         }        
 
         angular.forEach(newFiles, function (file) {
           $scope.item.files.push(file);
         });
 
-        angular.forEach(newImageFiles, function (imageFile){
-          $scope.item.imageFiles.push(imageFile);
+        angular.forEach(newImages, function (image){
+          $scope.item.images.push(image);
         });
 
         // default title to first file if not already set
