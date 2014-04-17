@@ -31,10 +31,9 @@ class ImageFile < ActiveRecord::Base
     logger.error e.backtrace.join("\n")
   end
 
-  def save_thumb_version(file_name)
-    image_file = ImageFile.find_by_file(file_name)
-    image_file.file.recreate_versions!
-    image_file.save!
+  def save_thumb_version
+    file.recreate_versions!
+    logger.info "****************** created  thumb version" 
   end
    
   def file_uploaded(file_name)
@@ -44,7 +43,7 @@ class ImageFile < ActiveRecord::Base
     # now copy it to the right place if it needs to be (e.g. s3 -> ia)
     # or if it is in the right spot, process it!
     copy_to_item_storage
-    save_thumb_version(file_name)
+    save_thumb_version
     # logger.debug "Tasks::UploadTask: after_tr       
   end
 end
