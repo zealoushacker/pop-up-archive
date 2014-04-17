@@ -175,8 +175,8 @@ angular.module('Directory.items.controllers', ['Directory.loader', 'Directory.us
       saveItem.update().then(function (data) {
         // reset tags
         saveItem.tagList2Tags();
+        $scope.addRemoteImageFile(saveItem, $scope.urlForImage);        
         $scope.uploadImageFiles(saveItem, uploadImageFiles);        
-        $scope.addRemoteImageFile(saveItem, $scope.urlForImage)
         $scope.uploadAudioFiles(saveItem, uploadFiles);
         $scope.updateAudioFiles(saveItem, audioFiles);
         $scope.updateContributions(saveItem, contributions);
