@@ -583,6 +583,7 @@ DEPENDENCIES
   sinatra
   slim-rails (~> 1.0)
   soundcloud
+  spring
   sprockets
   state_machine
   stripe
