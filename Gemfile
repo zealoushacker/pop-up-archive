@@ -102,7 +102,6 @@ gem 'dbpedia'
 
 gem 'text-table'
 
-gem 'spring'
 
 group :assets do
   gem 'sprockets'
@@ -133,7 +132,6 @@ group :development, :test do
   gem 'rb-inotify', require: false
   gem 'rb-fsevent', require: false
   gem 'rb-fchange', require: false
-
   # Test JS using Jasmine
   gem 'jasmine'
   gem 'jasmine-rails'
