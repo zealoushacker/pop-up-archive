@@ -49,7 +49,7 @@ module FileStorage
         self.storage_id = nil
         self.storage_configuration = nil
       else
-        self.storage_id = sid ||= nil
+        self.storage_id(self) = sid ||= nil
         self.storage_configuration = StorageConfiguration.find(sid)
       end
     end

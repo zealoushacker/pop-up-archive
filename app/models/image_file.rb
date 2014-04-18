@@ -47,7 +47,7 @@ class ImageFile < ActiveRecord::Base
     # logger.debug "Tasks::UploadTask: after_tr       
   end
 
-  def storage_id= 
+  def storage_id=(self) 
     storage.id
   end  
 end
