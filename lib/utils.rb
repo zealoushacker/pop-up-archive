@@ -3,6 +3,7 @@ require 'excon'
 class Utils
 
   AUDIO_EXTENSIONS = ['aac', 'aif', 'aiff', 'alac', 'flac', 'm4a', 'm4p', 'mp2', 'mp3', 'mp4', 'ogg', 'raw', 'spx', 'wav', 'wma']
+  IMAGE_EXTENSIONS = ['gif', 'png', 'jpg', 'jpeg']
 
 	class<<self
 
@@ -74,6 +75,19 @@ class Utils
         uri = URI.parse(url)
         ext = (File.extname(uri.path)[1..-1] || "").downcase
         AUDIO_EXTENSIONS.include?(ext)
+      rescue URI::BadURIError
+        false
+      rescue URI::InvalidURIError
+        false
+      end
+    end
+    
+    def is_image_file?(url)
+      #puts "is_audio_file? url:#{url}"
+      begin
+        uri = URI.parse(url)
+        ext = (File.extname(uri.path)[1..-1] || "").downcase
+        IMAGE_EXTENSIONS.include?(ext)
       rescue URI::BadURIError
         false
       rescue URI::InvalidURIError

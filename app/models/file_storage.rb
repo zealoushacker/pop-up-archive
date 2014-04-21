@@ -49,7 +49,7 @@ module FileStorage
         self.storage_id = nil
         self.storage_configuration = nil
       else
-        self.storage_id = sid ||= nil
+        self.storage.id = sid
         self.storage_configuration = StorageConfiguration.find(sid)
       end
     end
@@ -78,6 +78,12 @@ module FileStorage
     create_copy_task(orig, dest, item_storage)
     return true
   end
+  
+  def remote_file_url=(url)
+    self.original_file_url = url
+    self.should_trigger_fixer_copy = !!url
+  end
+  
   def resource_user
     self.user if self.respond_to?(:user)
   end

@@ -82,11 +82,6 @@ class AudioFile < ActiveRecord::Base
     end
   end
 
-  def remote_file_url=(url)
-    self.original_file_url = url
-    self.should_trigger_fixer_copy = !!url
-  end
-
   def update_file!(name, sid)
     sid = sid.to_i
     file_will_change!
