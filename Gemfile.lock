@@ -441,7 +441,7 @@ GEM
       hashie
       httmultiparty (>= 0.3)
       httparty (>= 0.7.3)
-    spring (0.0.10)  
+    spring (0.0.10)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
