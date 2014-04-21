@@ -22,7 +22,7 @@ class ImageFile < ActiveRecord::Base
 
   def process_file
     # don't process file if no file to process yet (s3 upload)
-    return if !has_file? && original_file_url.blank?
+    return if !has_file? #&& original_file_url.blank?
 
     copy_original
 
