@@ -102,7 +102,6 @@ gem 'dbpedia'
 
 gem 'text-table'
 
-gem 'spring'
 
 group :assets do
   gem 'sprockets'
@@ -122,6 +121,7 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem "guard-bundler", ">= 1.0.0"
+
  end
 
 group :development, :test do
@@ -137,6 +137,8 @@ group :development, :test do
   # Test JS using Jasmine
   gem 'jasmine'
   gem 'jasmine-rails'
+  gem 'spring'
+  
 end
 
 group :test do
