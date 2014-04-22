@@ -6,7 +6,7 @@ class Api::V1::ImageFilesController < Api::V1::BaseController
   expose :image_files, ancestor: :item
   expose :image_file
   expose :upload_to_storage
-  expose :original_file_url 
+
   def create
     image_file.save
     respond_with :api, image_file.item, image_file
