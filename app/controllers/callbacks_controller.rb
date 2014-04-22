@@ -15,8 +15,9 @@ class CallbacksController < ApplicationController
   end
 
   def fixer
-    @audio_file = AudioFile.find(params[:id])
-    if params[:task].present? && @audio_file.update_from_fixer(params[:task])
+    @resource = params[:model_name].camelize.constantize.find(params[:id])
+    # @audio_file = AudioFile.find(params[:id])
+    if params[:task].present? && @resource.update_from_fixer(params[:task])
       head 202
     else
       head 200
