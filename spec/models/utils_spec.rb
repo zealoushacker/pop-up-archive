@@ -33,5 +33,19 @@ describe Utils do
       Utils.is_audio_file?(base+ext).should_not be_true
     end
   end
+  
+  it "checks for when a url is for an image file" do
+    base = 'http://prx.org/file.'
+    Utils::IMAGE_EXTENSIONS.each do |ext|
+      Utils.is_image_file?(base+ext).should be_true
+    end
+  end
+
+  it "checks for when a url is NOT for an image file" do
+    base = 'http://prx.org/file.'
+    ['mov', 'doc', 'txt', 'html'].each do |ext|
+      Utils.is_image_file?(base+ext).should_not be_true
+    end
+  end
 
 end

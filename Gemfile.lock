@@ -6,6 +6,13 @@ GIT
       omniauth-oauth2 (~> 1.1.0)
 
 GIT
+  remote: git://github.com/fschwahn/mini_magick.git
+  revision: 302aaa3b3e6a9a629d66fb32ecd07edfd8fbbe87
+  specs:
+    mini_magick (3.3)
+      subexec (~> 0.1.0)
+
+GIT
   remote: git://github.com/iterion/font-awesome-sass-rails.git
   revision: 346de665bbb07db4140257d59ae07ac0f79b45bf
   specs:
@@ -255,8 +262,6 @@ GEM
       oauth
     method_source (0.8.2)
     mime-types (1.25.1)
-    mini_magick (3.7.0)
-      subexec (~> 0.2.1)
     multi_json (1.5.1)
     multi_xml (0.5.4)
     multipart-post (1.2.0)
@@ -441,7 +446,7 @@ GEM
       hashie
       httmultiparty (>= 0.3)
       httparty (>= 0.7.3)
-    spring (0.0.10)
+    spring (1.1.2)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -461,7 +466,7 @@ GEM
       actionpack (~> 3.0)
       activemodel (~> 3.0)
       railties (~> 3.0)
-    subexec (0.2.3)
+    subexec (0.1.0)
     temple (0.6.5)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
@@ -547,7 +552,7 @@ DEPENDENCIES
   language_list
   listen
   media_monster_client
-  mini_magick
+  mini_magick!
   multi_json (~> 1.5.0)
   newrelic_rpm
   ng_player_hater-rails (~> 0.0.4)

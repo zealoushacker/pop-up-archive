@@ -51,7 +51,7 @@ gem 'will_paginate'
 gem 'carrierwave'
 
 gem 'rmagick'
-gem 'mini_magick'
+gem 'mini_magick', :git => 'git://github.com/fschwahn/mini_magick.git'
 gem 'fog', '~> 1.11.1'
 
 gem 'heroku-api', '~> 0.3.10'
@@ -102,7 +102,6 @@ gem 'dbpedia'
 
 gem 'text-table'
 
-
 group :assets do
   gem 'sprockets'
   gem 'sass-rails', '~> 3.2'
@@ -121,7 +120,7 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem "guard-bundler", ">= 1.0.0"
-
+  gem 'spring'
  end
 
 group :development, :test do
