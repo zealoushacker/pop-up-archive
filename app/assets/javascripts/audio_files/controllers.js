@@ -31,7 +31,7 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
     };
   $scope.keyCommands =
     { "title": "Transcription Key Commands",
-      "content": "<table><tr><td class='icon-hand-right'>&nbsp;<strong><span>Enter:</strong></span> </td><td><em>Next Field</em></td></tr><tr><td class='icon-arrow-up'><strong><span>&nbsp;Up:</strong></td><td><em>Prev Field</em></span></td></tr><tr><td>&nbsp;<span class='icon-step-forward'></span><strong><span>&nbsp;&nbsp;Tab:</strong></span></td><td><em>Pause/Play</em></td></tr></table>",    
+      "content": "<table><tr><td class='icon-hand-right'>&nbsp;<strong><span>Enter:</strong></span> </td><td><em>Next Line</em></td></tr><tr><td class='icon-arrow-up'><strong><span>&nbsp;Up:</strong></td><td><em>Prev Line</em></span></td></tr><tr><td>&nbsp;<span class='icon-step-forward'></span><strong><span>&nbsp;&nbsp;Tab:</strong></span></td><td><em>Pause/Play</em></td></tr><tr><td><span class='icon-chevron-up' ></span>&nbsp;<span class='icon-step-forward'></span><strong><span>&nbsp;Shift+Tab:</strong></span></td><td><em>Rewind 5 Secs</em></td></tr></table>",    
     };  
 
   $scope.play = function () {

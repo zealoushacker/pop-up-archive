@@ -712,6 +712,18 @@ angular.module('ui.directives').directive('uiKeyup', ['keypressHelper', function
     };
   }); 
 
+  app.directive('ngShiftTab', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.shiftKey && event.keyCode == 9) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngShiftTab)
+                });
+                event.preventDefault();
+            }
+        });
+    };
+  }); 
   /* 
    * Map overlay directives all work the same. Take map marker for example
    * <ui-map-marker="myMarker"> will $watch 'myMarker' and each time it changes,
