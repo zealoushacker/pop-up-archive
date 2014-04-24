@@ -256,6 +256,13 @@ section ng-controller="ItemFormCtrl"
                 i.icon-question-sign style="margin-left:8px" bs-popover="itemHelp['transcription']" data-placement="bottom"
               .controls 
                 textarea.span5 ng-model='item.transcription' rows="3"
+                
+            .control-group
+              label.control-label
+                | Notes
+                i.icon-question-sign style="margin-left:8px" bs-popover="itemHelp['notes']" data-placement="bottom"
+              .controls 
+                textarea.span5 ng-model='item.notes' rows="3"
 
 
   .modal-footer
