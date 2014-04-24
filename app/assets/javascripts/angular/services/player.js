@@ -382,8 +382,10 @@
           text.text = this.editableTranscript; 
           this.disableEditor();          
           this.saveText({text: text});
-          nextField = this.$$nextSibling;
-          this.enableEditorNextField(nextField);
+          if (this.$last !== true){
+            nextField = this.$$nextSibling;             
+            this.enableEditorNextField(nextField);            
+          }
         };
 
         scope.enableEditor = function() {
@@ -406,7 +408,7 @@
           });         
         };        
 
-        scope.enableEditorNextField = function (nextField) {         
+        scope.enableEditorNextField = function (nextField) { 
           nextField.editorEnabled = true;
           nextField.editableTranscript = nextField.text.text; 
           $timeout(function() {
