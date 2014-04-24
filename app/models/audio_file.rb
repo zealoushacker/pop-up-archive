@@ -104,18 +104,6 @@ class AudioFile < ActiveRecord::Base
     metered.nil? ? is_metered? : super
   end
 
-  def update_from_fixer(params)
-    # get the task id from the label
-    task = tasks.where(id: params['label']).last
-    return unless task
-
-    task.update_from_fixer(params)
-
-  rescue Exception => e
-    logger.error e.message
-    logger.error e.backtrace.join("\n")
-  end
-
   def process_update_file
     # logger.debug "af #{id} call copy_to_item_storage"
     copy_to_item_storage

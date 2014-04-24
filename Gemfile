@@ -138,6 +138,8 @@ group :development, :test do
   # Test JS using Jasmine
   gem 'jasmine'
   gem 'jasmine-rails'
+  gem 'spring'
+  
 end
 
 group :test do

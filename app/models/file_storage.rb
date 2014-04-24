@@ -199,4 +199,16 @@ module FileStorage
     uri.to_s
   end
 
+  def update_from_fixer(params)
+    # get the task id from the label
+    task = tasks.where(id: params['label']).last
+    return unless task
+
+    task.update_from_fixer(params)
+
+  rescue Exception => e
+    logger.error e.message
+    logger.error e.backtrace.join("\n")
+  end  
+
 end
