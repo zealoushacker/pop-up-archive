@@ -347,7 +347,7 @@
                         '<a href="#" ng-click="enableEditor()"><i class="icon-pencil"></i></a></td>' +
                       '<td ng-show="editorEnabled"><input ng-model="editableTranscript" ng-enter="updateText(text)" ng-up-arrow="enableEditorPreviousField(text)" ng-tab="playerPausePlay()" ng-shift-tab="seekTo(text.startTime)" ng-show="editorEnabled" ></td>' +
                       '<td ng-show="editorEnabled" style="width: 50px;">' +
-                        '<a href="#" ng-click="updateText(text)" style="width: 8px; float: left; padding: 0 8px">' +
+                        '<a href="#" ng-click="updateTextFromCheck(text)" style="width: 8px; float: left; padding: 0 8px">' +
                           '<i class="icon-ok"></i></a>' +
                         '<a href="#" ng-click="disableEditor()" style="width: 8px; float: left; padding: 0 10px 0 8px">' +
                           '<i class="icon-remove"></i></a></td>' +
@@ -377,6 +377,11 @@
           scope.showStart = true;
           scope.showRange = false;
         }
+        scope.updateTextFromCheck = function (text) {
+          text.text = this.editableTranscript; 
+          this.disableEditor();          
+          this.saveText({text: text});
+        };        
 
         scope.updateText = function (text) {
           text.text = this.editableTranscript; 
