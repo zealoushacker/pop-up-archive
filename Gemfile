@@ -102,6 +102,8 @@ gem 'dbpedia'
 
 gem 'text-table'
 
+gem 'mixpanel-ruby'
+
 group :assets do
   gem 'sprockets'
   gem 'sass-rails', '~> 3.2'

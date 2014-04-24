@@ -1,6 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
 
   before_filter :update_sign_up_filter
+  require 'mixpanel-ruby'
 
   def create
     build_resource(sign_up_params)
@@ -10,6 +11,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         sign_up(resource_name, resource)
         notify_user
+        send_to_mixpanel
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
         expire_data_after_sign_in!
@@ -104,6 +106,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   def notify_user
     TranscriptCompleteMailer.new_user_email(@user).deliver
+  end
+  
+  def send_to_mixpanel
+    if @user.plan_id == "2-0d13366cfde5e360"
+      plan="Community"
+    else
+      plan= @user.plan_id
+    end
+    tracker = Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT'])
+    mpjson=JSON.parse(cookies["mp_" + ENV['MIXPANEL_PROJECT'] + "_mixpanel"])
+    tracker.alias(@user.email, mpjson["distinct_id"])
+    tracker.people.set(@user.email, {
+      '$name' => @user.name,
+      '$email' => @user.email,
+      '$plan' => plan,
+    })
+    tracker.track(@user.email,  'Registered')
   end
   
 end

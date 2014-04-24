@@ -19,6 +19,7 @@ angular.module('Directory.user', ['Directory.loader', 'Directory.users.models'])
     var argsArray = Array.prototype.slice.call(arguments);
     if (currentUser) {
       currentUser.authenticated.apply(currentUser, argsArray);
+      mixpanel.identify(currentUser.email);
     } else {
       authenticatedParams.push(argsArray);
     }

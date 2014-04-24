@@ -262,6 +262,7 @@ GEM
       oauth
     method_source (0.8.2)
     mime-types (1.25.1)
+    mixpanel-ruby (1.4.0)
     multi_json (1.5.1)
     multi_xml (0.5.4)
     multipart-post (1.2.0)
@@ -553,6 +554,7 @@ DEPENDENCIES
   listen
   media_monster_client
   mini_magick!
+  mixpanel-ruby
   multi_json (~> 1.5.0)
   newrelic_rpm
   ng_player_hater-rails (~> 0.0.4)
