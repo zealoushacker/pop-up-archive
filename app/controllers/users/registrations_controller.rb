@@ -115,8 +115,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       plan= @user.plan_id
     end
     tracker = Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT'])
-    mpjson=JSON.parse(cookies["mp_" + ENV['MIXPANEL_PROJECT'] + "_mixpanel"])
-    tracker.alias(@user.email, mpjson["distinct_id"])
     tracker.people.set(@user.email, {
       '$name' => @user.name,
       '$email' => @user.email,
