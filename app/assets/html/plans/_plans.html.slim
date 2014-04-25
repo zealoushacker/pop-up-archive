@@ -13,8 +13,17 @@
             th
             th ng-class="{current: isCurrentPlan(community)}" 
               h2 Free
-            th ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"  
-              h2 ${{plan.amount/100}}/{{plan.interval|shortInterval}}
+            th 
+              h2.category Dabbler
+              span.dollar_per_month $15/mo
+            th 
+              h2.category Enthusiast
+              span.dollar_per_month $25/mo
+            th
+              h2.category Professional  
+              span.dollar_per_month $50/mo
+            // th ng-repeat="plan in plans | filter: isPaidPlan | filter: {'interval': interval} | orderBy:'amount' | limitTo: 3" ng-class="{current: isCurrentPlan(plan)}"  
+            //   h2 ${{plan.amount/100}}/{{plan.interval|shortInterval}}
         tbody
           tr
             td Public or Private Audio Storage
