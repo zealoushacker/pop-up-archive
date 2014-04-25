@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :image_file do 
     association :item, factory: :item
     file 'test.jpg'
-    is_uploaded false
+    is_uploaded true
     upload_id 1 
 
 

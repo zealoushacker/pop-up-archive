@@ -25,10 +25,10 @@ describe ImageFile do
       @image_file.file.thumb.should_not be_nil
     end
 
-    # it "should know that it is uploaded" do
-    #   @image_file.file_uploaded(@image_file.file)
-    #   @image_file.is_uploaded.should be true
-    # end
+    it "should know that it is uploaded" do
+      ImageFile.any_instance.stub(:file_uploaded).and_return(true)
+      @image_file.is_uploaded.should be true
+    end
 
   end
 end
