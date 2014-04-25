@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         sign_up(resource_name, resource)
         notify_user
         send_to_mixpanel
-        respond_with resource, :location => after_sign_up_path_for(resource)
+        respond_with resource, :location => '/collections'
       else
         expire_data_after_sign_in!
         respond_with resource, :location => after_inactive_sign_up_path_for(resource)
