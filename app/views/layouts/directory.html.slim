@@ -9,6 +9,10 @@ html lang='en' ng-app='Directory' ng-controller='DirectoryCtrl'
     = javascript_include_tag 'directory/application'
     = javascript_include_tag 'https://js.stripe.com/v2/'
     = csrf_meta_tags
+    
+    //mixpanel
+    
+    script(type="text/javascript")(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" "); for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]); mixpanel.init("6f045418d9bac1c8285f35534741ac45");
 
   body ng-controller="FilesCtrl" file-dropzone="files"
     header= render('header')
@@ -19,6 +23,7 @@ html lang='en' ng-app='Directory' ng-controller='DirectoryCtrl'
           div.loading-indicator
             i.icon-cog.icon-spin
             |  Loading
+            
     footer= render('footer')
     #persistent-player.player.hidden ng-controller="PersistentPlayerCtrl" ng-class="{hidden:!player.nowPlaying(),collapsed:collapsed}" ng-cloak="" ng-click="collapse()"
       img ng-src="{{player.albumArt()}}"
@@ -48,7 +53,7 @@ html lang='en' ng-app='Directory' ng-controller='DirectoryCtrl'
     script(type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js")
     script(type="text/javascript") if (typeof(Zenbox) !== "undefined") {Zenbox.init({dropboxID: "20099365", url: "https://popuparchiveorg.zendesk.com",tabTooltip: "Help", tabImageURL: "https://assets.zendesk.com/external/zenbox/images/tab_support.png", tabColor: "black", tabPosition: "Left"});}
     
-    //mixpanel
-    
-    script(type="text/javascript")(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" "); for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]); mixpanel.init("6f045418d9bac1c8285f35534741ac45");
+    //adroll
+
+    script(type="text/javascript") adroll_adv_id = "KB4WEJ3XLJDWDGUTHEVDB3"; adroll_pix_id = "TBEINXXRANF5FLD4H3QKCW"; (function () {var oldonload = window.onload; window.onload = function(){ __adroll_loaded=true; var scr = document.createElement("script"); var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com"); scr.setAttribute('async', 'true'); scr.type = "text/javascript"; scr.src = host + "/j/roundtrip.js"; ((document.getElementsByTagName('head') || [null])[0] || document.getElementsByTagName('script')[0].parentNode).appendChild(scr); if(oldonload){oldonload()}};}());
     
