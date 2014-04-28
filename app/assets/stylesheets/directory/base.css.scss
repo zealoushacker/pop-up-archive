@@ -1179,6 +1179,15 @@ form.with-tags {
   }
 }
 
+.dollar_per_month {
+  font-family: "freight-text-pro"; 
+  font-size: 1.25em;
+  font-weight: lighter;
+}
+.category {
+  margin-bottom: -12px;
+}
+
 *[ng-click], a[bs-dropdown] {
   cursor: pointer;
 }
