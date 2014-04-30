@@ -35,6 +35,9 @@ PopUpArchive::Application.routes.draw do
   post 'fixer_callback/files/:model_name/:id', controller: 'callbacks', action: 'fixer', as: 'fixer_callback'
 
   post 'amara_callback', controller: 'callbacks', action: 'amara', as: 'amara_callback'
+  
+  get 'sitemap.xml', :to => 'sitemap#sitemap', as: 'sitemap', defaults: { format: 'xml' }
+    
 
   namespace :api, defaults: { format: 'json' }, path: 'api' do
     scope module: :v1, constraints: ApiVersionConstraint.new(version: 1, default: true) do
