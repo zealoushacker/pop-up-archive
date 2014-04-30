@@ -191,6 +191,10 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       templateUrl: "<%= asset_path 'dashboard/terms_of_use.html' %>",
       title: "Terms of Use"
     })
+    .when('/user_stories', {
+      templateUrl: "<%= asset_path 'dashboard/user_stories.html' %>",
+      title: "User Stories"
+    })
     .otherwise({
       template: "<h1>404 - not found</h1>"
     });
