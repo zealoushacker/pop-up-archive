@@ -12,8 +12,8 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
     $scope.uploadModal = $modal({template: '/assets/items/form.html', persist: true, show: false, backdrop: 'static', scope: $scope, modalClass: 'item-modal'});
 
     // for exit survey
-    $scope.shouldShowExitSurvey = null;
-    $scope.exitSurveyModal = $modal({template: '/assets/dashboard/exit_survey.html', persist: true, show: false, backdrop: 'static', scope: $scope});
+    // $scope.shouldShowExitSurvey = null;
+    // $scope.exitSurveyModal = $modal({template: '/assets/dashboard/exit_survey.html', persist: true, show: false, backdrop: 'static', scope: $scope});
 
     $scope.showDetails = false;
 
@@ -28,15 +28,15 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
         }
       });
 
-      var show = $cookies.exitSurvey;
+      // var show = $cookies.exitSurvey;
 
-      if (!warn && (!show || (show != 't'))) {
-        warn = "Before you go, will you please stay long enough to answer a couple of questions?";
-        e.returnValue = warn;
-        $scope.shouldShowExitSurvey = $timeout(function() {
-          $scope.showExitSurvey();
-        }, 1000);
-      }
+      // if (!warn && (!show || (show != 't'))) {
+      //   warn = "Before you go, will you please stay long enough to answer a couple of questions?";
+      //   e.returnValue = warn;
+      //   $scope.shouldShowExitSurvey = $timeout(function() {
+      //     $scope.showExitSurvey();
+      //   }, 1000);
+      // }
 
       return warn;
     };
@@ -45,20 +45,20 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
       $timeout.cancel($scope.shouldShowExitSurvey);
     };
 
-    $scope.showExitSurvey = function () {
-      // Retrieving a cookie
-      var show = $cookies.exitSurvey;
-
-      if(show && show == 't') {
-        console.log('Already seen the survey');
-      } else {
-
-        $q.when($scope.exitSurveyModal).then( function (modalEl) {
-          modalEl.modal('show');
-        });
-        $cookies.exitSurvey = 't';
-      }
-    };
+    // $scope.showExitSurvey = function () {
+    //   // Retrieving a cookie
+    //   var show = $cookies.exitSurvey;
+    // 
+    //   if(show && show == 't') {
+    //     console.log('Already seen the survey');
+    //   } else {
+    // 
+    //     $q.when($scope.exitSurveyModal).then( function (modalEl) {
+    //       modalEl.modal('show');
+    //     });
+    //     $cookies.exitSurvey = 't';
+    //   }
+    // };
 
     $scope.uploadFile = function () {
       $scope.initializeItem(true);
