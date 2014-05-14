@@ -110,6 +110,11 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
     $scope.newCollection = function () {
       $modal({template: "/assets/collections/form.html", persist: false, show: true, scope: $scope});
     };
+    
+    $scope.batchUpload = {
+        "title": "Contact Us",
+        "content": "We can help you add lots of audio and metadata fast. Drop us a line at <a href='mailto:edison@popuparchive.com?subject=Pop%20Up%20Archive%20Batch%20Upload&body=I&#39;m%20interested%20in%20an%20easier%20way%20to%20upload%20my%20audio%20and%20metadata%20to%20Pop%20Up%20Archive&#46;' target='_blank'>edison@popuparchive.com</a>",
+    };
 
   });
 }])
@@ -383,4 +388,5 @@ angular.module('Directory.collections.controllers', ['Directory.loader', 'Direct
       $scope.selectedItems.length = 0;
     }
   };
+  
 }]);

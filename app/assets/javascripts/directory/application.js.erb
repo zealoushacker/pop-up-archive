@@ -141,10 +141,6 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
       controller:  "ItemCtrl",
       title: "Search &raquo; {{collection.title}} &raquo; {{item.getTitle()}}"
     })
-    .when('/contact', {
-      templateUrl: "<%= asset_path 'dashboard/contact.html' %>",
-      title: "Contact"
-    })
     .when('/contributors/:contributorName', {
       templateUrl: "<%= asset_path 'search/index.html' %>",
       controller: "SearchCtrl"
@@ -279,10 +275,10 @@ if(window.location.hash=="#_=_"){window.location.hash = ""}
             text: 'my account',
             href: '/account'
           },
-          {
-            text: 'my uploads',
-            href: '/imports'
-          },
+          // {
+          //   text: 'my uploads',
+          //   href: '/imports'
+          // },
           {
             text: 'log out',
             href: '/users/sign_out',
