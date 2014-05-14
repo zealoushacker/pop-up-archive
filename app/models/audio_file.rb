@@ -53,17 +53,9 @@ class AudioFile < ActiveRecord::Base
     fn
   end
   
-  def file_name(version=nil)
-    fn = if has_file?
-      f = version ? file.send(version) : file
-      File.basename(f.path)
-    elsif !original_file_url.blank?
-      f = URI.parse(original_file_url).path || ''
-      x = File.extname(f)
-      v = !version.blank? ? ".#{version}" : nil
-      File.basename(f, x) + (v || x)
-    end || ''
-    fn
+  def remote_file_url=(url)
+    self.original_file_url = url
+    self.should_trigger_fixer_copy = !!url
   end
 
   def url(*args)
