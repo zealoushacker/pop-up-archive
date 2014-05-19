@@ -109,16 +109,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
   
   def send_to_mixpanel
-    if @user.plan_id == "2-0d13366cfde5e360"
-      plan="Community"
-    else
-      plan= @user.plan_id
-    end
     tracker = Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT'])
+    mp_cookie = cookies["mp_"+ENV['MIXPANEL_PROJECT']+"_mixpanel"]
+    tracker.alias(@user.email, mp_cookie["distinct_id"])    
     tracker.people.set(@user.email, {
       '$name' => @user.name,
       '$email' => @user.email,
-      '$plan' => plan,
+      '$plan' => @user.plan_id,
     })
     tracker.track(@user.email,  'Registered')
   end
