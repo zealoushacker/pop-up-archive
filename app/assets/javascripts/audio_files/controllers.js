@@ -69,14 +69,6 @@ angular.module("Directory.audioFiles.controllers", ['ngPlayer'])
         href: $scope.item.imageFiles[0].file.file.url
       });
     }
-
-    if (me.canEdit($scope.item) && $scope.item.imageFiles[0].file.file.url) {
-      $scope.downloadLinks.unshift({
-        text: 'Image File',
-        target: '_self',
-        href: $scope.item.imageFiles[0].file.file.url
-      });
-    }
     
     if (me.canEdit($scope.item)) {
       $scope.downloadLinks.unshift({
