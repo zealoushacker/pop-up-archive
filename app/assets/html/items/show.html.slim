@@ -22,7 +22,7 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
         |  &raquo; 
         a ng-href="/collections/{{collection.id}}" {{collection.title}}
       .thumb-and-title 
-        img ng-src="{{item.imageFiles[0].file.file.thumb.url}}"
+        img ng-show="item.imageFiles" ng-src="{{item.imageFiles[0].file.file.thumb.url}}"
         h1 {{item.title}} 
         .clear
       p ng-show="item.description" ng-bind-html-unsafe="item.description"
