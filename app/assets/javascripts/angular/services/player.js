@@ -394,41 +394,29 @@
         };
 
         scope.enableEditor = function() {
+          var index = this.$index;
           this.editorEnabled = true;
           this.editableTranscript = this.text.text;
           $timeout(function() {
-            var inp = el.find('input')[0];
+            var inp = el.find('input')[index];
+            inp.setSelectionRange(0, 0);
             inp.focus(); 
-          // *********************
-          // commenting this out for now ->. This code will set the cursor to the beginning of the input element but the input in enableEditorNextField is an array.  
-          // enableEditorNextField  will put the cursor at the beginning of the input if  "var inp = el.find('input');" is called like this "var inp = el.find('input')[1];"
-          // Trying to iterate the indexes and pass them from function to function proved to be more trouble than was worth it at the time. - L C
-          // *********************                           
-            // if (inp.createTextRange) {
-            //     var part = inp.createTextRange();
-            //     part.move("character", 0);
-            //     part.select();
-            // }else if (inp.setSelectionRange){
-            //     inp.setSelectionRange(0, 0);}   
           });         
         };        
 
         scope.enableEditorNextField = function (nextField) { 
+          var index = this.$index + 1;
           nextField.editorEnabled = true;
           nextField.editableTranscript = nextField.text.text; 
           $timeout(function() {
-            var inp = el.find('input');
-            // if (inp.createTextRange) {
-            //     var part = inp.createTextRange();
-            //     part.move("character", 0);
-            //     part.select();
-            // }else if (inp.setSelectionRange){
-            //     inp.setSelectionRange(0, 0);}
-             inp.focus();           
+            var inp = el.find('input')[index];
+            inp.setSelectionRange(0, 0);
+            inp.focus();           
           });
         };  
 
         scope.enableEditorPreviousField = function(text) {
+          var index = this.$index - 1;
           text.text = this.editableTranscript; 
           this.disableEditor();          
           this.saveText({text: text});
@@ -436,10 +424,12 @@
           prevField.editorEnabled = true;
           prevField.editableTranscript = prevField.text.text;
           $timeout(function() {
-            var inp = el.find('input');
+            var inp = el.find('input')[index];
+            inp.setSelectionRange(0, 0);
             inp.focus();                      
           });           
         }
+        
         scope.playerPausePlay = function() {
           if (scope.player.paused()){
             scope.player.play();
