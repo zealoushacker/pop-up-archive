@@ -1,61 +1,51 @@
-#home
+#home      
+  #feature-image
+    h2 Search your sound.
+    p Pop Up Archive uses cutting edge speech-to-text technology <br> to make your sound searchable.
+    / #buttons-background
+    button#featurebtn ng-click="subscribe()" ng-hide="currentUser.authenticated()" 
+      | Get started now.
+    a#featurebtn href='/explore' ng-hide="!currentUser.authenticated()"
+      | Explore the archive. 
+    h3 Got lots of audio?
+    a href="/enterprise" We process thousands of hours <br> of sound for major enterprises.
+  #how 
+    .row
+      .span12
+          h2 How it works
+    .row
+      .span12
+          
+        table
+          tr
+            th.number
+            th.icon
+            th.text
+          tr
+            td 
+              img src="#{asset_path('home/1.png')}"
+            td 
+              img src="#{asset_path('home/soundwave.svg')}"
+            td
+              h4 You add any audio file.
+              p#files File types: aac aif aiff alac flac m4a m4p mp2 <br> mp3 mp4 ogg raw spx wav wma
+
+          tr
+            td
+              img src="#{asset_path('home/2.png')}"
+            td 
+              img src="#{asset_path('home/tag.svg')}"
+            td
+              h4 We tag, index & transcribe it automatically.
+
+          tr
+            td
+              img src="#{asset_path('home/3.png')}"
+            td 
+              img src="#{asset_path('home/stopwatch.svg')}"
+            td
+              h4 Your sound, in one place, searchable to the second.
       
-  .row
-    .span12
-      #buttons-background
-        h2 Simple tools to manage sound. 
-        a.featurebtn href='/pricing' ng-hide="currentUser.authenticated()"
-          |Sign Up
-        a.featurebtn href='/collections' ng-hide="!currentUser.authenticated()"
-          |Upload Sound
-        a.featurebtn href='/explore' ng-hide="!currentUser.authenticated()"
-          |Listen
-          
-  .row
-    .span12#static-div
-      .background
-        img.blur src="#{asset_path('about/static3.gif')}"
-        .layer  
-      #content
-        p.pop Pop Up Archive organizes sound so it can be found and reused.
-        ul 
-          li 
-            i.icon-star-empty 
-            |Search your sound to the second
-            i.icon-star-empty 
-          li
-            i.icon-star-empty 
-            |Transcribe and tag automatically
-            i.icon-star-empty
-          li
-            i.icon-star-empty 
-            |Explore the public archive and rediscover lost voices
-            i.icon-star-empty
-      
-  .row
-    .span12
-      .featured-collection
-        a href='/collections/938'
-          img src="#{asset_path('terkel.jpg')}"
-          h5 Studs Terkel Archive
-      .featured-collection
-        a href='/collections/925'
-          img src="#{asset_path('pacifica.jpg')}"
-          h5 Pacifica Radio Archives
-      .featured-collection
-        a href='/collections/583' 
-          img src="#{asset_path('WILL.jpg')}"
-          h5 Illinois Public Media
-          
-          
-  // .row
-  //   .span12#banner
-  //     p 
-  //       |Help us transcribe the 
-  //       a href='http://www.amara.org/en/teams/studs-terkel-archive' target='_blank\' Studs Terkel Archive  
-  //       | and the 
-  //       a href='http://www.amara.org/en/teams/pacifica-radio-archive/' target='_blank\' Pacifica Radio Archive 
-  //       | with our partners at Amara.
         
   // .row
   //   .span12

@@ -28,7 +28,11 @@ angular.module('Directory.dashboard.controllers', ['Directory.loader', 'Director
 
     $scope.nextSlide = function (slides) {
       $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : slides.length - 1;
-    };      
+    };  
+    
+    $scope.subscribe = function () {
+      window.location = "/users/sign_up?plan_id=community";
+    }    
 }])
 
 // .animation('.slide-animation', function () {

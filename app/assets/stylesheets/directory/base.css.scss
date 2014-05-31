@@ -1763,94 +1763,84 @@ form.with-tags {
 //Home Page
 
 #home{
-  font-family: 'soleil', helvetica, sans-serif;
-  text-align: center;
-  position: relative;
+  #feature-image {
+    overflow: hidden;
+    text-align: center;
+    margin: 0 -18em;
+    background-image: url(/assets/home/ike_homepage.jpg);
+    background-size: cover;
+    padding: 4em 0;
+  }
+  
+  #featurebtn {
+    font-family: soleil;
+    font-size: 1.4em;
+    background-color: #85D0F1;
+    opacity: .9;
+    color: white;
+    text-decoration: none;
+    
+    display: inline-block;
+    border-radius: 1em;
+    border: none;
+    padding: 1em;
+    margin: 1em;
+  }
+  
   h2 {
     color: #fff;
-    margin: 10px 0 0 0;
-    padding-top: 10px;
+    font-size: 2em;
+    padding: .5em 0 0; 
   }
-  a {
-    text-decoration: none;
-    color: #fff;
+  h3 {
+    color: #c9b936;
+    font-size: 1.5em;
+    margin: 0;
   }
-  p {
-    text-align: left;
-    padding: 20px 40px 0 40px;
-    font-size: 24px;
-    color: #fff;
-    line-height: 36px;
-    font-weight: 500;
-  } 
-  ul{
+  p, a {
     font-family: 'freight-text-pro', serif;
-    width: 940px;
-    font-size: 24px;
-    color: white;
-    list-style-type: none;
-  }
-  li {
-    padding-top: 17px;
-  }
-  iframe{
-    position: relative;
-    top:0;
-    left:0;
+    font-size: 1.5em;
+    line-height: 1.3em;
   }
   
-  #feature-image {
-    background: #fff image-url("mlk_speech_women.jpg") no-repeat;
-    width: 940px;
-    height: 400px;
-    text-align: center;
-    position: relative;
-    h1 {
-      color: #fff;
-      padding-top: 125px;
-    }
-  }
-  #buttons-background{
-    margin: 10px 0;
-    background: white url(/assets/art-texture.jpg) no-repeat;
-    width: 940px;
-    height: 150px;
-  }
-  #static-div {
-    margin: 10px 0px 10px 20px;
-    background: image-url("about/static3.gif") no-repeat;
-    position: relative;
-    i {
-      padding: 5px;
-    }
-    #content {
-      height: 100%;
-      z-index: 10;
-      position: absolute;
-      top: 0; 
-      left: 0;
-    }
+  p {
+   color: #fff;
   }
   
-  .content{
-    position: absolute;
-    top: 0;
-    z-index: 10; 
+  a {
+    color: #8af1dc;
+    text-decoration: underline;
   }
-  .pop {
-    color: #8BF1DB;
-    font-size: 28px;
-    font-weight: 800;
-    padding-top: 70px;
-  }
-  .callout {
-    background-color: #8581a1;
-    font-family: "freight-text", serif;
-    font-size: 18px;
-    padding: 10px 25px;
-    line-height: 26px;
-    a {
-      
+  
+  #how {
+    
+    h2 {
+      color: #997067;
+      text-align: center;
+      height: auto;
+    }
+    img {
+      width: 65%;
+      height: auto;
+    }
+    table {
+      width: 85%;
+      margin: auto;
+    }
+    th.number{
+      width: 10%;
+    }
+    th.icon{
+      width: 25%;
+    }
+    th.text{
+      width: 65%;
+    }
+    td:first-child, td:nth-child(2){
+     text-align:center; 
+    };
+    #files {
+      color: #999;
     }
   }
 }
@@ -1858,26 +1848,6 @@ form.with-tags {
 	background-color: rgba(255,255,255,.5);
 	padding: 15px 0;
 }
-
-a.featurebtn {
-  font-size: 20px;
-  display: inline-block;
-  border-radius: 40px;
-  border: none;
-  width: 155px;
-  font-family: soleil;
-  padding: 15px;
-  background-color: #85D0F1;
-  margin: 15px;
-  opacity: .9;
-}
-a.featurebtn:nth-child(2){
-  background-color:#8581A1;
-}
-
-a.featurebtn:nth-child(3){
-  background-color:#E0D90E;
-};
 
 .featured-collection {
   float: left;
