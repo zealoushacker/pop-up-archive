@@ -110,13 +110,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   def send_to_mixpanel
     tracker = Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT'])
-    mp_cookie = cookies["mp_"+ENV['MIXPANEL_PROJECT']+"_mixpanel"]
+    mp_cookie = JSON.parse(cookies["mp_"+ENV['MIXPANEL_PROJECT']+"_mixpanel"])
+    # logger.debug("mixpanel cookie" + mp_cookie['distinct_id'])
     tracker.alias(@user.email, mp_cookie["distinct_id"])    
     tracker.people.set(@user.email, {
       '$name' => @user.name,
       '$email' => @user.email,
       '$plan' => @user.plan_id,
-    })
+    }, ip=request.remote_ip)
     tracker.track(@user.email,  'Registered')
   end
   
