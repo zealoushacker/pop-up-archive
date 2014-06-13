@@ -69,6 +69,27 @@ If you receive a Postges connection error or role error, you may need to create 
 
 The site should now be running. If you need to use sidekiq, or elasticsearch, you may need to start other services manually.
 
+#### Loading a database dump
+
+If you want to debug production issues on your development machine, grab a dump from heroku, or have someone with the necessary access rights do that for you, by running:
+
+```
+$ heroku pgbackups:capture
+$ curl -o latest.dump `heroku pgbackups:url`
+```
+
+#### Rebuilding elasticsearch index
+
+After loading new data from a db dump or performing a similar operation, you will need to rebuild the elasticsearch index. 
+
+To do this run:
+
+```
+$ rake search:index
+```
+
+That will invoke the rake task in `lib/tasks/search.rake`.
+
 ### Testing
 
 All that should be required is running `guard` in the project root. You can also just run `rake`.
