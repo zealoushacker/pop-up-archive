@@ -62,6 +62,13 @@ class AudioFile < ActiveRecord::Base
     has_file? ? file.try(:url, *args) : original_file_url
   end
 
+  def ia_url *args
+    "http://cdn.popuparchive.com/" \
+    "#{item.collection.creator_id}/items/" \
+    "#{destination_directory}/" \
+    "#{File.basename(filename,'.wav')}.#{args ? args.first : 'mp3'}"
+  end
+
   def transcoded?
     !transcoded_at.nil?
   end

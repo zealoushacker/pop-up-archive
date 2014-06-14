@@ -30,12 +30,9 @@ class AudioFileUploader < CarrierWave::Uploader::Base
     end
   end
 
-  def url options={}
+  def url *args 
     if provider == "InternetArchive"
-      "http://cdn.popuparchive.com/" \
-      "#{model.item.collection.creator_id}/items/" \
-      "#{model.destination_directory}/" \
-      "#{File.basename(model.filename,'.wav')}.#{options ? options : mp3}"
+      model.ia_url *args
     else
       super options
     end

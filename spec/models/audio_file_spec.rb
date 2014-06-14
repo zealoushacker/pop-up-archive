@@ -12,6 +12,9 @@ describe AudioFile do
 
     before(:each) {
       @audio_file = FactoryGirl.create :audio_file
+      @audio_file.stub(:ia_url) { "http://archive.org/location/test.mp3" }
+      @audio_file.stub(:ia_url).with(:ogg) { "http://archive.org/location/test.ogg" }
+      @audio_file.stub(:ia_url).with(:mp3) { "http://archive.org/location/test.mp3" }
     }
 
     it "should provide filename" do
@@ -35,11 +38,15 @@ describe AudioFile do
     end
 
     it "should provide a url" do
-      @audio_file.url.should eq '/test.mp3'
+      @audio_file.url.should eq 'http://archive.org/location/test.mp3'
     end
 
-    it "should provide a url for a version" do
-      @audio_file.url(:ogg).should eq '/test.ogg'
+    it "should provide a url for an ogg" do
+      @audio_file.url(:ogg).should eq 'http://archive.org/location/test.ogg'
+    end
+
+    it "should provide a url for an mp3" do
+      @audio_file.url(:ogg).should eq 'http://archive.org/location/test.mp3'
     end
 
     it "should provide a list of urls when transcoded" do
@@ -143,7 +150,8 @@ describe AudioFile do
 
     it "should use http for public item in copy_media=true collection" do
       audio_file = FactoryGirl.create :audio_file
-      audio_file.process_file_url.should eq '/test.mp3'
+      audio_file.stub(:ia_url) { "http://archive.org/location/test.mp3" }
+      audio_file.process_file_url.should eq "http://archive.org/location/test.mp3"
     end
 
     it "should use original url for item in copy_media=false collection" do
