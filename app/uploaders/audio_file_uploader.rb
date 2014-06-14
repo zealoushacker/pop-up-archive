@@ -34,7 +34,7 @@ class AudioFileUploader < CarrierWave::Uploader::Base
     if provider == "InternetArchive"
       model.ia_url *args
     else
-      super options
+      super *args
     end
   end
 

@@ -13,8 +13,6 @@ describe AudioFile do
     before(:each) {
       @audio_file = FactoryGirl.create :audio_file
       @audio_file.stub(:ia_url) { "http://archive.org/location/test.mp3" }
-      @audio_file.stub(:ia_url).with(:ogg) { "http://archive.org/location/test.ogg" }
-      @audio_file.stub(:ia_url).with(:mp3) { "http://archive.org/location/test.mp3" }
     }
 
     it "should provide filename" do
@@ -46,11 +44,18 @@ describe AudioFile do
     end
 
     it "should provide a url for an mp3" do
-      @audio_file.url(:ogg).should eq 'http://archive.org/location/test.mp3'
+      @audio_file.url(:mp3).should eq 'http://archive.org/location/test.mp3'
     end
 
     it "should provide a list of urls when transcoded" do
       @audio_file.transcoded_at = Time.now
+      @audio_file.stub(:ia_url) do |options|
+        if options == :mp3
+          "http://archive.org/location/test.mp3"
+        elsif options == :ogg
+          "http://archive.org/location/test.ogg"
+        end
+      end 
       @audio_file.urls.sort.should eq [@audio_file.url(:mp3), @audio_file.url(:ogg)]
     end
 
