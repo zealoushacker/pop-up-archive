@@ -63,7 +63,7 @@ class AudioFile < ActiveRecord::Base
   end
 
   def ia_url *args
-    "http://cdn.popuparchive.com/" \
+    ENV['CDN_IA_ROOT_URL'] \
     "#{item.collection.creator_id}/items/" \
     "#{destination_directory}/" \
     "#{File.basename(filename,'.wav')}.#{args ? args.first : 'mp3'}"

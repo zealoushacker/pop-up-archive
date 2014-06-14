@@ -1,7 +1,7 @@
 language: ruby
 rvm:
   - "2.0.0" 
-env: TEST_DATABASE_URL=postgres://postgres@locahost/travispopup RAILS_ENV=test AWS_ACCESS_KEY_ID=fake AWS_SECRET_ACCESS_KEY=fake AWS_BUCKET=fake IA_ACCESS_KEY_ID=fake IA_SECRET_ACCESS_KEY=fake SECRET_TOKEN=fakefakefakefakefakefakefakefakefakefakefakefakefakefakefakefake STRIPE_SECRET_KEY=sk_test_pjQFSi9ApHpFJDKL4HJxpNs1 STRIPE_PUBLISHABLE_KEY=pk_test_0yoHlnoW9MPTutDZAlnO1jFn EMAIL_USERNAME=edison@popuparchive.org
+env: TEST_DATABASE_URL=postgres://postgres@locahost/travispopup RAILS_ENV=test AWS_ACCESS_KEY_ID=fake AWS_SECRET_ACCESS_KEY=fake AWS_BUCKET=fake CDN_IA_ROOT_URL=http://cdn.popuparchive.com/ IA_ACCESS_KEY_ID=fake IA_SECRET_ACCESS_KEY=fake SECRET_TOKEN=fakefakefakefakefakefakefakefakefakefakefakefakefakefakefakefake STRIPE_SECRET_KEY=sk_test_pjQFSi9ApHpFJDKL4HJxpNs1 STRIPE_PUBLISHABLE_KEY=pk_test_0yoHlnoW9MPTutDZAlnO1jFn EMAIL_USERNAME=edison@popuparchive.org
 before_script:
   - bundle exec rake db:create db:migrate
 bundler_args: --without development assets
