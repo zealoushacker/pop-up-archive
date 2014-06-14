@@ -12,7 +12,13 @@ describe AudioFile do
 
     before(:each) {
       @audio_file = FactoryGirl.create :audio_file
-      @audio_file.stub(:ia_url) { "http://archive.org/location/test.mp3" }
+      @audio_file.stub(:ia_url) do |args|
+        if args == :mp3
+          "http://archive.org/location/test.mp3"
+        elsif args == :ogg
+          "http://archive.org/location/test.ogg"
+        end
+      end 
     }
 
     it "should provide filename" do
@@ -49,13 +55,6 @@ describe AudioFile do
 
     it "should provide a list of urls when transcoded" do
       @audio_file.transcoded_at = Time.now
-      @audio_file.stub(:ia_url) do |options|
-        if options == :mp3
-          "http://archive.org/location/test.mp3"
-        elsif options == :ogg
-          "http://archive.org/location/test.ogg"
-        end
-      end 
       @audio_file.urls.sort.should eq [@audio_file.url(:mp3), @audio_file.url(:ogg)]
     end
 
@@ -95,8 +94,8 @@ describe AudioFile do
 
     it "should use the version label as the extension" do
       audio_file = FactoryGirl.create :audio_file
-      File.basename(audio_file.file.mp3.url).should eq "test.mp3"
-      File.basename(audio_file.file.ogg.url).should eq "test.ogg"
+      File.basename(audio_file.file.mp3.url).should eq "test.mp3."
+      File.basename(audio_file.file.ogg.url).should eq "test.ogg."
     end
 
     it "should know versions to look for" do
