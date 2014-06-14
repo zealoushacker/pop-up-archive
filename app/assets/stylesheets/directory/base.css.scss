@@ -1073,6 +1073,8 @@ form.with-tags {
 .item-modal {
   width: 660px;
   margin-left: -330px;
+  max-height: 80%;
+  overflow-y: scroll;
 }
 
 .item-form {
