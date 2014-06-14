@@ -5,6 +5,14 @@ describe AudioFile do
   before {
     SubscriptionPlan.reset_cache
     StripeMock.start
+    AudioFile.any_instance.stub(:ia_url) do |extension|
+      extension = extension.to_s
+      if extension == 'mp3' || extension == '' || extension.nil?
+        "http://archive.org/location/test.mp3"
+      elsif extension == 'ogg'
+        "http://archive.org/location/test.ogg"
+      end
+    end 
   }
   after { StripeMock.stop }
 
@@ -12,13 +20,6 @@ describe AudioFile do
 
     before(:each) {
       @audio_file = FactoryGirl.create :audio_file
-      @audio_file.stub(:ia_url) do |args|
-        if args == :mp3
-          "http://archive.org/location/test.mp3"
-        elsif args == :ogg
-          "http://archive.org/location/test.ogg"
-        end
-      end 
     }
 
     it "should provide filename" do
@@ -64,7 +65,7 @@ describe AudioFile do
 
     it "should provide url for private file" do
       audio_file = FactoryGirl.create :audio_file_private
-      audio_file.url(nil).should end_with('.popuparchive.org/test.mp3')
+
       audio_file.url.should end_with('.popuparchive.org/test.mp3')
       audio_file.url(:ogg).should end_with('.popuparchive.org/test.ogg')
     end
@@ -92,10 +93,9 @@ describe AudioFile do
       audio_file.process_file_url.should end_with('.popuparchive.org/test.mp3')
     end
 
-    it "should use the version label as the extension" do
+    it "should use the version label mp3 as the extension" do
       audio_file = FactoryGirl.create :audio_file
-      File.basename(audio_file.file.mp3.url).should eq "test.mp3."
-      File.basename(audio_file.file.ogg.url).should eq "test.ogg."
+      File.basename(audio_file.file.mp3.url).should eq "test.mp3"
     end
 
     it "should know versions to look for" do
