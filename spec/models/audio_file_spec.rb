@@ -5,6 +5,14 @@ describe AudioFile do
   before {
     SubscriptionPlan.reset_cache
     StripeMock.start
+    AudioFile.any_instance.stub(:ia_url) do |extension|
+      extension = extension.to_s
+      if extension == 'mp3' || extension == '' || extension.nil?
+        "http://archive.org/location/test.mp3"
+      elsif extension == 'ogg'
+        "http://archive.org/location/test.ogg"
+      end
+    end 
   }
   after { StripeMock.stop }
 
@@ -35,11 +43,15 @@ describe AudioFile do
     end
 
     it "should provide a url" do
-      @audio_file.url.should eq '/test.mp3'
+      @audio_file.url.should eq 'http://archive.org/location/test.mp3'
     end
 
-    it "should provide a url for a version" do
-      @audio_file.url(:ogg).should eq '/test.ogg'
+    it "should provide a url for an ogg" do
+      @audio_file.url(:ogg).should eq 'http://archive.org/location/test.ogg'
+    end
+
+    it "should provide a url for an mp3" do
+      @audio_file.url(:mp3).should eq 'http://archive.org/location/test.mp3'
     end
 
     it "should provide a list of urls when transcoded" do
@@ -53,7 +65,7 @@ describe AudioFile do
 
     it "should provide url for private file" do
       audio_file = FactoryGirl.create :audio_file_private
-      audio_file.url(nil).should end_with('.popuparchive.org/test.mp3')
+
       audio_file.url.should end_with('.popuparchive.org/test.mp3')
       audio_file.url(:ogg).should end_with('.popuparchive.org/test.ogg')
     end
@@ -81,10 +93,9 @@ describe AudioFile do
       audio_file.process_file_url.should end_with('.popuparchive.org/test.mp3')
     end
 
-    it "should use the version label as the extension" do
+    it "should use the version label mp3 as the extension" do
       audio_file = FactoryGirl.create :audio_file
       File.basename(audio_file.file.mp3.url).should eq "test.mp3"
-      File.basename(audio_file.file.ogg.url).should eq "test.ogg"
     end
 
     it "should know versions to look for" do
@@ -143,7 +154,8 @@ describe AudioFile do
 
     it "should use http for public item in copy_media=true collection" do
       audio_file = FactoryGirl.create :audio_file
-      audio_file.process_file_url.should eq '/test.mp3'
+      audio_file.stub(:ia_url) { "http://archive.org/location/test.mp3" }
+      audio_file.process_file_url.should eq "http://archive.org/location/test.mp3"
     end
 
     it "should use original url for item in copy_media=false collection" do

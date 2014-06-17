@@ -62,6 +62,13 @@ class AudioFile < ActiveRecord::Base
     has_file? ? file.try(:url, *args) : original_file_url
   end
 
+  def ia_url extension
+    "#{ENV['CDN_IA_ROOT_URL']}" \
+    "#{item.collection.creator_id}/items/" \
+    "#{destination_directory}/" \
+    "#{File.basename(filename,'.wav')}.#{extension ? extension : 'mp3'}"
+  end
+
   def transcoded?
     !transcoded_at.nil?
   end
