@@ -2,18 +2,11 @@ require 'spec_helper'
 
 describe AudioFile do
 
-  before {
+  before do 
     SubscriptionPlan.reset_cache
     StripeMock.start
-    AudioFile.any_instance.stub(:ia_url) do |extension|
-      extension = extension.to_s
-      if extension == 'mp3' || extension == '' || extension.nil?
-        "http://archive.org/location/test.mp3"
-      elsif extension == 'ogg'
-        "http://archive.org/location/test.ogg"
-      end
-    end 
-  }
+  end 
+
   after { StripeMock.stop }
 
   context "basics" do
@@ -43,15 +36,15 @@ describe AudioFile do
     end
 
     it "should provide a url" do
-      @audio_file.url.should eq 'http://archive.org/location/test.mp3'
+      @audio_file.url.should match /^http:\/\/cdn\.popuparchive\.com\/\d+\/items\/\w+\.\w+\.\w+\.\w+\/test\.mp3$/
     end
 
     it "should provide a url for an ogg" do
-      @audio_file.url(:ogg).should eq 'http://archive.org/location/test.ogg'
+      @audio_file.url(:ogg).should match /^http:\/\/cdn\.popuparchive\.com\/\d+\/items\/\w+\.\w+\.\w+\.\w+\/test\.ogg$/
     end
 
     it "should provide a url for an mp3" do
-      @audio_file.url(:mp3).should eq 'http://archive.org/location/test.mp3'
+      @audio_file.url(:mp3).should match /^http:\/\/cdn\.popuparchive\.com\/\d+\/items\/\w+\.\w+\.\w+\.\w+\/test\.mp3$/ 
     end
 
     it "should provide a list of urls when transcoded" do
