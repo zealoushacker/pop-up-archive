@@ -238,10 +238,28 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
           var msg = '"' + file.name + '" upload completed.';
           if (item.collectionId == $scope.currentUser.uploadsCollectionId && $route.current.controller == 'CollectionsCtrl') {
             msg = msg + ' To see transcripts and tags, move the item from My Uploads to a collection.';
+            mixpanel.track(
+              "Audio Upload Complete",{
+                "Collection": "My Uploads",
+                "Storage": "Temporary",
+                "User": $scope.currentUser.name + ' ' + $scope.currentUser.email}
+          );
           } else if (item.collectionId == $scope.currentUser.uploadsCollectionId && $route.current.controller != 'CollectionsCtrl'){
             msg = msg + ' To see transcripts and tags, move the item from My Uploads to a collection. <a href="/collections">Click here to get back to My Collections.</a>';
+            mixpanel.track(
+              "Audio Upload Complete", {
+                "Collection": "My Uploads",
+                "Storage": "Temporary",
+                "User": $scope.currentUser.name + ' ' + $scope.currentUser.email}
+            );
           } else {
             msg = msg + '<a data-dismiss="alert" data-target=":parent" ng-href="' + item.link() + '"> View and edit the item!</a>';
+            mixpanel.track(
+              "Audio Upload Complete", {
+                "Collection": item.collectionId + ' ' +item.collectionTitle,
+                "Storage": item.storage,
+                "User": $scope.currentUser.name + ' ' + $scope.currentUser.email}
+            );
           }
 
           $scope.addMessage({
@@ -266,6 +284,10 @@ angular.module('Directory.files.controllers', ['fileDropzone', 'Directory.alerts
 
           alert.progress = 100;
           alert.status   = "Error";
+          mixpanel.track(
+            "Audio Upload Failed", {
+              "User": $scope.currentUser.name + ' ' + $scope.currentUser.email}
+          );
         },
         onProgress: function (progress) {
           console.log('uploadAudioFiles: onProgress', progress);

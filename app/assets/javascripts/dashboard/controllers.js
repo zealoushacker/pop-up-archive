@@ -2,6 +2,12 @@ angular.module('Directory.dashboard.controllers', ['Directory.loader', 'Director
 .controller('DashboardCtrl', [ '$scope', 'Item', 'Loader', 'Me', '$timeout', function ItemsCtrl($scope, Item, Loader, Me, $timeout) {
   Me.authenticated(function (data) {
   });
+
+  if (window.location.pathname == "/"){
+    mixpanel.track(
+      "Home Page"
+    );
+  };
     
     $scope.about_slides = [
       {image: null, description: 'Image 00', headline: 'The web is getting noisier', text: null, video: '//player.vimeo.com/video/74795063?api=1', teaser: null},
@@ -32,6 +38,9 @@ angular.module('Directory.dashboard.controllers', ['Directory.loader', 'Director
     
     $scope.subscribe = function () {
       window.location = "/users/sign_up?plan_id=community";
+      mixpanel.track(
+        "Clicked Get Started"
+      );
     }    
 }])
 
