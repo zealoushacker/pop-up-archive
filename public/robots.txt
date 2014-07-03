@@ -1,9 +1,9 @@
 # See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
 #
 User-Agent: *
-Disallow: /api/
-Disallow: https://www.popuparchive.com%2Fassets%2FJplayer-2949a3eb859389ab0030617e229a2431.swf&ei=34SrU-_8KtPgoATrrIGABw&usg=AFQjCNHMUj3_r_i_2xsvqrqpv2nAq0a8Mw&sig2=FR8ikl9v9LzMlHYy3nJIWQ&bvm=bv.69837884,d.cGU
 Disallow: /users/
 Disallow: /play/
 Disallow: /video/
 Disallow: /embed_player/ 
+Disallow: /assets/Jplayer-2949a3eb859389ab0030617e229a2431.swf
+
