@@ -30,14 +30,6 @@ class AudioFileUploader < CarrierWave::Uploader::Base
     end
   end
 
-  def url *args 
-    if provider == "InternetArchive"
-      model.ia_url *args
-    else
-      super *args
-    end
-  end
-
   def store_dir
     model.store_dir
   end
