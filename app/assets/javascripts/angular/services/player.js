@@ -109,7 +109,7 @@
     }
 
     function ss(seconds) {
-      return seconds % 3600 % 60;
+      return Math.floor(seconds % 3600 % 60);
     }
 
     return function (seconds, style) {

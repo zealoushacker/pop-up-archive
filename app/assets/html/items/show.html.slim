@@ -44,9 +44,9 @@ ul.pager ng-show="nextItem || previousItem || searchResults.query"
             i.icon-pause
           .scrubber
             .bar ng-show="isLoaded()" ng-style="{width:player.time*100/player.duration+'%'}"
-          .timecodes ng-show="isLoaded()" 
-            span {{player.time | number:0 | timeCode}} 
-            span ng-show="item.duration" &#47; {{item.duration | number:0 | timeCode}}
+          .timecodes ng-show="player.time" 
+            span {{player.time | timeCode}} 
+            span ng-show="item.duration" &#47; {{item.getDurationString()}}
           .clearfix
 
 
