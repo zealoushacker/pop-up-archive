@@ -6,6 +6,7 @@ Disallow: /play/
 Disallow: /video/
 Disallow: /embed_player/ 
 Disallow: /assets/Jplayer-2949a3eb859389ab0030617e229a2431.swf
+Disallow: /api/
 Disallow: /account/plan/prx
 Disallow: /pricing/prx
 
