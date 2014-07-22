@@ -1,12 +1,12 @@
 #home      
   #feature-image
     h2 Search your sound.
-    p Pop Up Archive uses cutting edge speech-to-text technology <br> to make your sound searchable.
+    p Pop Up Archive makes sound searchable <br> using cutting edge speech-to-text technology.
     / #buttons-background
     button#featurebtn ng-click="subscribe()"
-      | Get started now.
-    h3 Got lots of audio?
-    a href="/enterprise" We process thousands of hours <br> of sound for major enterprises.
+      | Get started for free.
+    a#featurebtn2 href="/enterprise"
+      | Learn about enterprise plans.
   #how 
     .row
       .span12
@@ -43,7 +43,125 @@
               img src="#{asset_path('home/stopwatch.svg')}"
             td
               h4 Your sound, in one place, searchable to the second.
-      
+
+
+  #user_stories
+    .row
+    .span12
+      img src="#{asset_path('user_stories/logos.png')}"
+    .row
+      .span12
+        h2 User Stories
+    .story
+      .row
+        .span12
+          h3 Kenny Malone 
+          h3.accent in-depth radio reporting
+      .row
+        .span9
+          p Kenny Malone is a reporter for WLRN-Miami Herald News. His award winning radio pieces, which have been played on NPR and American Public Media, require extensive research, with hours of interviews to process.  
+          p 
+            | "Because of Pop Up, 
+            span.highlight I essentially don't log tape anymore; 
+            | I just dump hours upon hours of interviews into the system and use the 
+            span.highlight automated transcription 
+            | as a kind of low-rez map of my tape. I would not want to imagine a world in which I don't use Pop Up Archive. The night before a short-turnaround feature story is due, I dump my interviews in. The next morning, my logged tape is waiting for me. It's really incredible. In the past, I would have spent seven hours logging that tape."
+          p.bold -Kenny Malone, Reporter at WLRN-Miami Herald News
+        .span3
+          img src="#{asset_path('user_stories/kenny.png')}"
+
+    .story
+      .row
+        .span2
+          img src="#{asset_path('user_stories/laura.png')}"
+        .span10
+          p.quote “Pop Up Archive are groundbreakers;  they are creative, entrepreneurial and fearless digital professionals setting new standards of competence and originality.”
+          p.bold -Laura Soto-Barra, Chief Librarian, NPR
+
+    .story
+      .row
+        .span12
+          h3 Illinois Public Media
+          h3.accent search engine optimization
+      .row
+        .span3
+          img src="#{asset_path('user_stories/jack.png')}"
+        .span9
+          p 
+            | Illinois Public Media wanted a way to find and reuse evergreen content, and drive more traffic through search engine optimization from transcripts and keywords. They use Pop Up Archive to make their content searchable the same day it is broadcast — both on their website and internally for staff. Pop Up Archive automatically processes their audio, preserves it securely at the Internet Archive, and 
+            span.highlight automatically makes media findable and easily reusable
+            |.
+          p 
+            |“Pop Up Archive is creating a new kind of service to vastly 
+            span.highlight improve the usability and persistence of audio productions and sound archives
+            | . Improving the accessibility and searchability of audio is extremely important for many reasons, and the connection with the Internet Archive, and the Pop Up Archive API, are killer app features.”
+          p.bold - Jack Brighton, Director of New Media & Innovation, Illinois Public Media
+    .story
+      .row
+        .span12
+          h3 Studs Terkel Digital Archive, WFMT Chicago, Chicago History Museum: 
+          h3.accent data for web development, researchers, and media
+      .row
+        .span9
+          p 
+            | Historian Studs Terkel was on the radio every day, five days a week, for 40 years. He talked to everyone: Janis Joplin, Buster Keaton, Martin Luther King Jr., Shel Silverstein. The Library of Congress is digitizing nearly 10,000 hours of Studs Terkel's broadcast interviews, and together with the Chicago History Museum, WFMT is 
+            span.highlight building a complete digital Studs Terkel archive 
+            | — but they have no building blocks to use for creating their vision. Pop Up Archive solves that problem quickly and automatically.
+          p 
+            | “Creating an accessible archive of Studs Terkel's complete radio work was a thrilling but daunting task for us at the WFMT Radio Network - we'd never tackled anything remotely like it before. Pop Up Archive helped us develop an overall strategy from the get-go, they understood what made this project unique and applied new technology in smart, customized manner that gave people 
+            span.highlight tools to navigate this labyrinth of 5,000+ programs 
+            | in a way that made it much more inviting and fun to explore.”
+          p.bold -Tony Macaluso,  Director of Network Marketing and Syndication, 98.7 WFMT Chicago
+        .span3
+          img src="#{asset_path('user_stories/tony.png')}"
+    .story
+      .row
+        .span12
+          h3 FIXT POINT 
+          h3.accent transmedia storytelling experience
+      .row
+        .span9
+          p 
+            | The team at FIXT POINT production depends on Pop Up Archive to produce its podcast, A Tale of Towns. They upload all their audio to the site, 
+            span.highlight swiftly clean up their transcripts
+            | , and use that text to piece together an intricate, layered storytelling experience. Ketchabaw says he's often asked how the team puts together such complex shows, and he says he likes to pretend it's his "secret."
+          p 
+            | “Pop Up Archive has 
+            span.highlight saved us a lot of time
+            | . It's enabled us to be able to create the plays, oral histories, and podcasts that we do." 
+          p.bold -Charles Ketchabaw, Artistic Producer, FIXT POINT
+        .span3
+          img src="#{asset_path('user_stories/charles.png')}"
+    .story
+      .row
+        .span12
+          h3 KALW Local Public Radio, 91.7FM San Francisco
+          h3.accent find and reuse content
+      .row
+        .span3 
+          img src="#{asset_path('user_stories/ashleyanne.png')}"
+        .span9
+          p 
+            |"We were excited to work with Pop Up Archive, not just because of their familiarity with the archival needs of a public radio station, but also their enthusiasm for solving database issues. The archive they have built for us will streamline our newsroom operations moving forward by enabling us to 
+            span.highlight organize, track, and reuse our valuable content
+            | ."
+          p.bold -Ashleyanne Krigbaum, Producer / Reporter / All-around heroine, KALW
+    .story
+      .row
+        .span12
+          h3 KCRW, Los Angeles, CA
+          h3.accent excavating evergreen stories and content
+      .row
+        .span9
+          p 
+            | As they redesigned their website, KCRW needed a better way to leverage evergreen content from LA-centric shows produced over the past two decades. They give Pop Up Archive CSV spreadsheets of past content, which is 
+            span.highlight automatically transcribed with timestamps and tags
+            |, and can easily be 
+            span.highlight found, searched, and reused 
+            | by KCRW staff as they build out new components of their site.
+        .span3
+          img src="#{asset_path('user_stories/kcrw.png')}"
+
         
   // .row
   //   .span12

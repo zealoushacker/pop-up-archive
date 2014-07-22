@@ -13,6 +13,10 @@ p {
   word-wrap: break-word;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 xmp { white-space: pre-wrap }
 
 .scrubbing {
@@ -1788,6 +1792,11 @@ form.with-tags {
     padding: 1em;
     margin: 1em;
   }
+
+  #featurebtn2 {
+    @extend #featurebtn;
+    background-color: #f25a4c;
+  }
   
   h2 {
     color: #fff;
@@ -1846,6 +1855,45 @@ form.with-tags {
     }
   }
 }
+
+#user_stories {
+  h2 {
+    text-align: center;
+    color: #5970b1;
+    padding-top: 2%;
+  }
+  h3 {
+    color: #362f2d;
+    font-size: 1.3em;
+    line-height: 1.5em;
+  }
+  p {
+    color: #362f2d;
+    font-size: 1.2em;
+    line-height: 1.4em;
+    display: inline-block !important;
+    vertical-align: middle !important;
+  }
+  .story {
+    padding: 4% 0;
+  }
+  .highlight {
+    font-family: "freight-text-pro",sans-serif;
+    font-weight: 900;
+    color: #2c677f;
+  }
+  .quote {
+    @extend .highlight;
+    font-size: 1.6em;
+  }
+  .accent {
+    font-size: 1.2em;
+    color: #444;
+    padding-bottom: 1%;
+  }
+
+}
+
 .background-container {
 	background-color: rgba(255,255,255,.5);
 	padding: 15px 0;
@@ -2146,84 +2194,6 @@ ul.great-list {
       content: ' ◦ '
     }
   }
-}
-
-//user stories
-.story {
-  p {
-    width: 45%;
-    float: left;
-  }
-  img {
-    width: 20%;
-    float: left;
-    padding: 0 20px;
-  }
-  ul {
-    width: 23%;
-    float: left;
-    margin: 0 20px 0 0;
-    background: #aa027b;
-    color: #FFF;
-    padding: 10px;
-  }
-}
-
-.idea {
-  background: #2c677f !important;
-  color: #fff;
-  p{
-    font-family: "soleil", sans-serif !important;
-    font-size: 1.2em;
-    line-height: 1.5em;
-  }
-  ul {
-    color: #5970B1;
-  }
-  
-  img{
-    padding-bottom: 20px;
-  }
-  
-}
-
-.story, .idea {
-  background: #fff;
-  p, li {
-    font-family: "freight-text-pro", serif;
-    font-size: 1.2em;
-  }
-  li {
-    list-style: none;
-    padding-bottom: 10px;
-    font-weight: 800;
-  }
-  display: block;
-  h2 {
-    color: #f25a4c;
-    font-size: 1.5em;
-    line-height: 25px;
-    margin-bottom: 0;
-  }
-  h3 {
-    font-size: 1.2em;
-    line-height: 1.2em;
-    margin-top: 0;
-    color: #3d3d3e;
-  }
-  
-  .strong {
-    font-weight: 600;
-  }
-  
-}
-
-.story:after, .idea:after{
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
 }
 
 
