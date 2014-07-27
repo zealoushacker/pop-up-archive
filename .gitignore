@@ -21,3 +21,4 @@ db/seed/*
 .idea
 /doc/notes.txt
 .powder
+dump.rdb
