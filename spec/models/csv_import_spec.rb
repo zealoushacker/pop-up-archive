@@ -139,7 +139,8 @@ describe CsvImport do
       import.collection_id = -2
       collection = import.collection_with_build
       collection.should be_valid
-      collection.default_storage.provider.should eq 'InternetArchive'
+      # This would account for changes in app/models/collection.rb:41
+      collection.default_storage.provider.should eq 'AWS'
       collection.items_visible_by_default.should eq true
 
       import = FactoryGirl.create :csv_import
