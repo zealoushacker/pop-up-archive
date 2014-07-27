@@ -36,7 +36,9 @@ class Collection < ActiveRecord::Base
 
   def storage=(provider)
     if (provider == 'InternetArchive') && (!default_storage || (default_storage.provider != 'InternetArchive'))
-      self.default_storage = StorageConfiguration.archive_storage
+      # TODO: Hackish, but setting storage configuration to popup_storage for 
+      # all cases, should remove archive_storage for now
+      self.default_storage = StorageConfiguration.popup_storage
     end
     set_storage
   end

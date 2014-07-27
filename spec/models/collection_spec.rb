@@ -19,12 +19,16 @@ describe Collection do
       @collection.default_storage.provider.should eq 'AWS'
     end
 
-    it "should assign storage configuration based on provider" do
+    it "should assign storage configuration to AWS, regardless of provider setting" do
+      # TODO: THIS SEEMS A BIT HACKISH, BUT IT OUGHT TO RESOLVE 
+      # THE IMMEDIATE NEED OF SETTING STORAGE TO AWS IN ALL CASES
       @collection.storage = 'AWS'
       @collection.default_storage.provider.should eq 'AWS'
 
+      # ATTEMPT TO FORCE 'InternetArchive'
       @collection.storage = 'InternetArchive'
-      @collection.default_storage.provider.should eq 'InternetArchive'
+      # Storage should still be AWS
+      @collection.default_storage.provider.should eq 'AWS'
     end
 
   end
