@@ -3,6 +3,8 @@ class StorageConfiguration < ActiveRecord::Base
 
   validates_presence_of :key, :secret, :provider
 
+  before_create :override_provider
+
   def ==(acoll)
     return false unless (acoll && acoll.is_a?(StorageConfiguration))
     [:bucket, :key, :provider, :secret, :is_public].inject(true){|equal, a| equal && (self.send(a) == acoll.send(a))}
@@ -71,6 +73,11 @@ class StorageConfiguration < ActiveRecord::Base
       bucket:    ENV['AWS_BUCKET'],
       is_public: false
     })
+  end
+
+  def override_provider
+    # Set the provider to AWS
+    self.provider = 'AWS'
   end
 
 end
